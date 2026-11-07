@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Observability — Руководство по мониторингу</title>
+<style>
+  :root {
+    --bg: #0f1117; --panel: #1a1d27; --panel-2: #222633;
+    --text: #e6e8ee; --muted: #9aa3b2; --accent: #6ea8fe;
+    --green: #4ade80; --yellow: #fbbf24; --red: #f87171;
+    --purple: #c084fc; --border: #2e3440;
+    --mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; padding: 0; background: var(--bg); color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.65;
+  }
+  .layout { display: flex; max-width: 1300px; margin: 0 auto; }
+  .toc {
+    position: sticky; top: 0; align-self: flex-start;
+    width: 260px; min-width: 260px; height: 100vh; overflow-y: auto;
+    padding: 24px 16px; border-right: 1px solid var(--border); background: var(--panel);
+  }
+  .toc h3 { font-size: 0.8rem; color: var(--muted); margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; }
+  .toc a { display: block; color: var(--muted); text-decoration: none; font-size: 0.82rem; padding: 6px 10px; border-radius: 6px; margin-bottom: 2px; }
+  .toc a:hover { background: var(--panel-2); color: var(--text); }
+  .content { flex: 1; padding: 32px 40px; max-width: 1000px; }
+  h1 { font-size: 1.9rem; margin: 0 0 6px; }
+  h2 { font-size: 1.35rem; margin: 44px 0 14px; color: var(--accent); border-bottom: 2px solid var(--border); padding-bottom: 10px; }
+  h3 { font-size: 1.05rem; margin: 26px 0 10px; color: var(--text); }
+  .sub { color: var(--muted); margin-bottom: 32px; font-size: 0.92rem; }
+
+  table { width: 100%; border-collapse: collapse; margin: 14px 0 22px; font-size: 0.84rem; }
+  th, td { border: 1px solid var(--border); padding: 10px 12px; text-align: left; vertical-align: top; }
+  th { background: var(--panel-2); color: var(--text); font-weight: 600; }
+  td { color: var(--muted); }
+  td code, th code { background: var(--panel-2); padding: 2px 6px; border-radius: 4px; font-family: var(--mono); font-size: 0.77rem; color: var(--text); }
+
+  .ok { background: rgba(74,222,128,.08); border-left: 4px solid var(--green); padding: 14px 18px; border-radius: 8px; margin: 16px 0; font-size: 0.88rem; }
+  .warn { background: rgba(251,191,36,.08); border-left: 4px solid var(--yellow); padding: 14px 18px; border-radius: 8px; margin: 16px 0; font-size: 0.88rem; }
+  .bad { background: rgba(248,113,113,.08); border-left: 4px solid var(--red); padding: 14px 18px; border-radius: 8px; margin: 16px 0; font-size: 0.88rem; }
+  .info { background: rgba(110,168,254,.08); border-left: 4px solid var(--accent); padding: 14px 18px; border-radius: 8px; margin: 16px 0; font-size: 0.88rem; }
+
+  pre { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 16px 18px; overflow-x: auto; font-family: var(--mono); font-size: 0.82rem; color: var(--text); margin: 12px 0; line-height: 1.6; }
+  pre .c { color: var(--muted); } pre .g { color: var(--green); } pre .y { color: var(--yellow); } pre .a { color: var(--accent); }
+
+  ul, ol { padding-left: 24px; margin: 10px 0; }
+  li { margin-bottom: 6px; }
+
+  .badge { display: inline-block; padding: 2px 9px; border-radius: 10px; font-size: 0.72rem; font-weight: 600; }
+  .badge.ok { background: rgba(74,222,128,.15); color: var(--green); }
+  .badge.warn { background: rgba(251,191,36,.15); color: var(--yellow); }
+  .badge.bad { background: rgba(248,113,113,.15); color: var(--red); }
+
+  .steps { counter-reset: step; margin: 20px 0; }
+  .step-item { position: relative; padding: 16px 18px 16px 64px; background: var(--panel); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 10px; }
+  .step-item::before { counter-increment: step; content: counter(step); position: absolute; left: 18px; top: 16px; width: 32px; height: 32px; border-radius: 50%; background: var(--accent); color: #0f1117; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem; }
+  .step-item .st { font-weight: 700; font-size: 0.95rem; margin-bottom: 4px; }
+  .step-item .sd { font-size: 0.85rem; color: var(--muted); }
+
+  .diagram-box { background: var(--panel); border: 1px solid var(--border); border-radius: 14px; padding: 28px 20px; margin: 20px 0; overflow-x: auto; }
+  .diagram-flow { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+  .node { background: var(--panel-2); border: 2px solid var(--border); border-radius: 12px; padding: 14px 16px; text-align: center; min-width: 120px; position: relative; }
+  .node .icon { font-size: 1.4rem; display: block; margin-bottom: 4px; }
+  .node .t { font-weight: 700; font-size: 0.85rem; color: var(--text); }
+  .node .s { font-size: 0.7rem; color: var(--muted); margin-top: 3px; line-height: 1.35; }
+  .node.fastapi { border-color: var(--green); } .node.pg { border-color: var(--accent); }
+  .node.redis { border-color: var(--red); } .node.worker { border-color: var(--yellow); }
+  .node.b24 { border-color: var(--purple); } .node.otel { border-color: var(--accent); }
+  .node.grafana { border-color: var(--yellow); } .node.tempo { border-color: var(--purple); }
+  .arrow { display: flex; flex-direction: column; align-items: center; color: var(--muted); font-size: 1.1rem; min-width: 40px; }
+  .arrow .lbl { font-size: 0.62rem; color: var(--muted); margin-top: 2px; text-align: center; line-height: 1.2; }
+
+  @media (max-width: 900px) {
+    .toc { display: none; }
+    .content { padding: 24px 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <nav class="toc">
+    <h3>Оглавление</h3>
+    <a href="#intro">1. Что это и зачем</a>
+    <a href="#arch">2. Архитектура (схема)</a>
+    <a href="#components">3. Компоненты</a>
+    <a href="#howto">4. Как пользоваться</a>
+    <a href="#dashboards">5. Дашборды и трассы</a>
+    <a href="#logs">6. Отчёт по логам</a>
+    <a href="#tests">7. Нагрузочные тесты (k6)</a>
+    <a href="#reports">8. Отчёты Prometheus</a>
+    <a href="#settings">9. Настройка лимитов (клиенты)</a>
+    <a href="#multi">10. Масштабирование (50 клиентов)</a>
+    <a href="#troubleshooting">11. Если что-то не работает</a>
+    <a href="#cheatsheet">12. Шпаргалка команд</a>
+  </nav>
+
+  <main class="content">
+
+    <h1>📊 Observability — Руководство по мониторингу</h1>
+    <div class="sub">
+      Система мониторинга для проекта FastAPI + ARQ + Redis + PostgreSQL.<br>
+      <b>Сквозная трассировка + метрики + дашборды.</b>
+    </div>
+
+    <!-- ================= 1. ЧТО ЭТО ================= -->
+    <h2 id="intro">1. Что это и зачем</h2>
+    <p>
+      <b>Observability (наблюдаемость)</b> — это способность видеть, что происходит внутри системы, не заглядывая в код. Вы открываете Grafana и видите:
+    </p>
+    <ul>
+      <li>Сколько задач в очереди (<code>pending</code>, <code>done</code>, <code>failed</code>).</li>
+      <li>Сколько запросов в секунду приходит в FastAPI (RPS).</li>
+      <li>Какое время ответа (p95 latency).</li>
+      <li>Есть ли ошибки 5xx.</li>
+      <li><b>Полный путь запроса</b> — от вебхука Битрикс24 до выполнения в Worker (через трассы).</li>
+    </ul>
+    <div class="info">
+      <b>Для 50 клиентов:</b> каждый клиент помечается атрибутом <code>tenant_id</code>. В Grafana можно фильтровать по клиенту и видеть только его данные.
+    </div>
+
+    <!-- ================= 2. АРХИТЕКТУРА ================= -->
+    <h2 id="arch">2. Архитектура (схема)</h2>
+    <div class="diagram-box">
+      <div class="diagram-flow">
+        <div class="node fastapi"><span class="icon">⚡</span><div class="t">FastAPI</div><div class="s">приём запросов</div></div>
+        <div class="arrow">→<div class="lbl">OTLP</div></div>
+        <div class="node otel"><span class="icon">📡</span><div class="t">OTel Collector</div><div class="s">приём телеметрии</div></div>
+        <div class="arrow">→<div class="lbl">метрики</div></div>
+        <div class="node pg"><span class="icon">🗄️</span><div class="t">Prometheus</div><div class="s">хранение метрик</div></div>
+      </div>
+      <div class="diagram-flow">
+        <div class="node worker"><span class="icon">⚙️</span><div class="t">ARQ Worker</div><div class="s">обработка задач</div></div>
+        <div class="arrow">→<div class="lbl">OTLP</div></div>
+        <div class="node otel"><span class="icon">📡</span><div class="t">OTel Collector</div><div class="s">приём телеметрии</div></div>
+        <div class="arrow">→<div class="lbl">трассы</div></div>
+        <div class="node tempo"><span class="icon">🔍</span><div class="t">Tempo</div><div class="s">хранение трасс</div></div>
+      </div>
+      <div class="diagram-flow" style="margin-top: 16px;">
+        <div class="node grafana"><span class="icon">📈</span><div class="t">Grafana</div><div class="s">дашборды и визуализация</div></div>
+        <div class="arrow">←<div class="lbl">запросы</div></div>
+        <div class="node pg"><span class="icon">🗄️</span><div class="t">Prometheus</div><div class="s">метрики</div></div>
+        <div class="arrow">←<div class="lbl">трассы</div></div>
+        <div class="node tempo"><span class="icon">🔍</span><div class="t">Tempo</div><div class="s">трассы</div></div>
+      </div>
+    </div>
+    <div class="ok">
+      <b>Как это работает:</b> FastAPI и Worker отправляют телеметрию в Collector (OTLP). Collector маршрутизирует метрики в Prometheus, а трассы — в Tempo. Grafana подключается к Prometheus и Tempo и показывает всё в одном дашборде.
+    </div>
+
+    <!-- ================= 3. КОМПОНЕНТЫ ================= -->
+    <h2 id="components">3. Компоненты (что за что отвечает)</h2>
+    <table>
+      <thead><tr><th>Компонент</th><th>Где живёт</th><th>Что делает</th><th>Порт</th></tr></thead>
+      <tbody>
+        <tr><td><b>OpenTelemetry SDK</b></td><td><code>app/telemetry.py</code>, <code>worker/settings.py</code></td><td>Создаёт спаны и метрики, отправляет в Collector.</td><td>—</td></tr>
+        <tr><td><b>OTel Collector</b></td><td><code>observability/otel-collector-config.yml</code></td><td>Принимает телеметрию, маршрутизирует в Prometheus и Tempo.</td><td>4317 (gRPC), 4318 (HTTP)</td></tr>
+        <tr><td><b>Prometheus</b></td><td><code>observability/prometheus.yml</code></td><td>Собирает метрики (<code>/metrics</code>, <code>/metrics/queue</code>), хранит их.</td><td>9090</td></tr>
+        <tr><td><b>Tempo</b></td><td><code>observability/tempo.yml</code></td><td>Хранит трассы (спаны) от FastAPI и Worker.</td><td>3200</td></tr>
+        <tr><td><b>Grafana</b></td><td><code>observability/docker-compose.yml</code></td><td>Визуализация: дашборды, трассы, алерты.</td><td>3000</td></tr>
+      </tbody>
+    </table>
+
+    <!-- ================= 4. КАК ПОЛЬЗОВАТЬСЯ ================= -->
+    <h2 id="howto">4. Как пользоваться</h2>
+
+    <h3>4.1. Запуск</h3>
+    <div class="steps">
+      <div class="step-item"><div class="st">Запустить инфраструктуру</div><div class="sd"><code>cd ~/Sergey_doc/fastapi_project/observability && podman-compose up -d</code></div></div>
+      <div class="step-item"><div class="st">Запустить FastAPI</div><div class="sd"><code>cd ~/Sergey_doc/fastapi_project && source venv/bin/activate && uvicorn app.main:app --host 0.0.0.0 --port 8000</code></div></div>
+      <div class="step-item"><div class="st">Запустить Worker</div><div class="sd"><code>arq worker.settings.WorkerSettings</code></div></div>
+      <div class="step-item"><div class="st">Открыть Grafana</div><div class="sd"><code>http://127.0.0.1:3000</code> (admin/admin)</div></div>
+    </div>
+
+    <h3>4.2. Что смотреть</h3>
+    <table>
+      <thead><tr><th>Что</th><th>Где</th><th>Что означает</th></tr></thead>
+      <tbody>
+        <tr><td>Очередь задач</td><td>Grafana → дашборд <code>fastapi_project</code> → панель «Очередь задач»</td><td>Сколько задач в <code>pending</code>, <code>done</code>, <code>failed</code>.</td></tr>
+        <tr><td>RPS</td><td>Панель «RPS»</td><td>Сколько запросов в секунду приходит в FastAPI.</td></tr>
+        <tr><td>Latency (p95)</td><td>Панель «p95 Latency»</td><td>95% запросов выполняются быстрее этого времени.</td></tr>
+        <tr><td>Ошибки 5xx</td><td>Панель «Ошибки 5xx»</td><td>Если пусто — ошибок нет. Если есть — смотрите трассы.</td></tr>
+        <tr><td>Трассы</td><td>Grafana → Explore → Tempo</td><td>Полный путь запроса: FastAPI → Worker.</td></tr>
+      </tbody>
+    </table>
+
+    <!-- ================= 5. ДАШБОРДЫ И ТРАССЫ ================= -->
+    <h2 id="dashboards">5. Дашборды и трассы</h2>
+
+    <h3>5.1. Как найти трассу</h3>
+    <ol>
+      <li>Откройте Grafana → <b>Explore</b> → выберите <b>Tempo</b>.</li>
+      <li>Вкладка <b>TraceQL</b>.</li>
+      <li>Вставьте <code>trace_id</code> (из БД: <code>SELECT trace_id FROM tasks_outbox ORDER BY created_at DESC LIMIT 1;</code>).</li>
+      <li>Нажмите <b>Run query</b>.</li>
+    </ol>
+    <div class="ok">
+      <b>Что вы увидите:</b> два сервиса в одной трассе — <code>fastapi-project</code> (корень) и <code>fastapi-worker</code> (дочерний спан). Это и есть сквозная трассировка.
+    </div>
+
+    <h3>5.2. Как найти все трассы за период</h3>
+    <pre><span class="c"># В Grafana → Explore → Tempo → TraceQL:</span>
+{}  <span class="c"># покажет все трассы за выбранный период</span>
+
+<span class="c"># Или по сервису:</span>
+{ resource.service.name = "fastapi-project" }</pre>
+
+    <!-- ================= 6. ОТЧЁТ ПО ЛОГАМ ================= -->
+    <h2 id="logs">6. Отчёт по логам (скрипт)</h2>
+    <p>Если нужно быстро получить сводку по задачам (без Grafana), используйте скрипт:</p>
+
+    <pre><span class="c"># scripts/report.py</span>
+import asyncio
+from app.db import SessionLocal
+from sqlalchemy import text
+
+async def report():
+    async with SessionLocal() as session:
+        result = await session.execute(text("""
+            SELECT status, COUNT(*), 
+                   AVG(EXTRACT(EPOCH FROM (updated_at - created_at))) as avg_seconds
+            FROM tasks_outbox 
+            WHERE created_at > NOW() - INTERVAL '1 hour'
+            GROUP BY status
+        """))
+        print("=== Отчёт за последний час ===")
+        for row in result:
+            print(f"{row[0]}: {row[1]} задач, среднее время: {row[2]:.2f} сек")
+
+asyncio.run(report())</pre>
+
+    <p><b>Запуск:</b></p>
+    <pre>cd ~/Sergey_doc/fastapi_project
+source venv/bin/activate
+python scripts/report.py</pre>
+
+    <!-- ================= 7. НАГРУЗОЧНЫЕ ТЕСТЫ (K6) ================= -->
+    <h2 id="tests">7. Нагрузочные тесты (k6)</h2>
+    <div class="info">
+      <b>Зачем:</b> Проверить, как система ведёт себя под нагрузкой (RPS, latency, очередь), и найти узкие места <b>до</b> того, как они проявятся у клиента.
+    </div>
+
+    <h3>7.1. Как запустить тест</h3>
+    <div class="steps">
+      <div class="step-item"><div class="st">Убедитесь, что всё запущено</div><div class="sd">FastAPI, Worker, Redis, PostgreSQL, Grafana (дашборд <code>fastapi_project</code>).</div></div>
+      <div class="step-item"><div class="st">Запустите k6</div><div class="sd"><code>cd ~/Sergey_doc/fastapi_project && k6 run load_test.js</code></div></div>
+      <div class="step-item"><div class="st">Смотрите в Grafana</div><div class="sd">RPS, Latency, Очередь, Ошибки 5xx — в реальном времени.</div></div>
+      <div class="step-item"><div class="st">Дождитесь завершения</div><div class="sd">k6 выведет итоговые цифры (p95, RPS, ошибки).</div></div>
+    </div>
+
+    <h3>7.2. Что означают цифры k6</h3>
+    <table>
+      <thead><tr><th>Метрика</th><th>Что означает</th><th>Хорошо</th><th>Плохо</th></tr></thead>
+      <tbody>
+        <tr><td><code>http_req_duration p(95)</code></td><td>95% запросов быстрее этого времени.</td><td>&lt; 1 сек</td><td>&gt; 2 сек</td></tr>
+        <tr><td><code>http_req_failed</code></td><td>Процент ошибок (5xx).</td><td>0%</td><td>&gt; 0%</td></tr>
+        <tr><td><code>http_reqs</code></td><td>Сколько запросов в секунду (RPS).</td><td>Стабильно</td><td>Падает</td></tr>
+        <tr><td><code>iterations</code></td><td>Сколько итераций сделали VUs.</td><td>—</td><td>—</td></tr>
+      </tbody>
+    </table>
+
+    <h3>7.3. Где смотреть результаты теста</h3>
+    <ul>
+      <li><b>Терминал k6</b> — итоговые цифры (p95, RPS, ошибки).</li>
+      <li><b>Grafana (дашборд)</b> — графики очереди, RPS, latency, ошибок.</li>
+      <li><b>Grafana (Tempo)</b> — трассы самых медленных запросов (<code>{ duration > 2s }</code>).</li>
+      <li><b>БД</b> — статусы задач (<code>pending</code>, <code>done</code>, <code>failed</code>).</li>
+    </ul>
+
+    <h3>7.4. Как снять отчёт после теста</h3>
+    <pre><span class="c"># 1. Узнайте время окончания теста (последняя задача в БД)</span>
+podman exec fastapi_project_postgres_1 psql -U fastapi -d fastapi_db \
+  -c "SELECT created_at FROM tasks_outbox ORDER BY created_at DESC LIMIT 1;"
+
+<span class="c"># 2. Запросите p95 из Prometheus за этот интервал</span>
+START=$(date -u -d '2026-11-07 17:16:00' +%s)
+END=$(date -u -d '2026-11-07 17:21:00' +%s)
+curl -G 'http://127.0.0.1:9090/api/v1/query_range' \
+  --data-urlencode 'query=histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[1m]))' \
+  --data-urlencode "start=$START" \
+  --data-urlencode "end=$END" \
+  --data-urlencode 'step=15' | python3 -m json.tool > ~/Sergey_doc/backups/latency_peak.json
+
+<span class="c"># 3. Посмотрите пик p95</span>
+python3 -c "
+import json
+data=json.load(open('/home/sergeykushnirov/Sergey_doc/backups/latency_peak.json'))
+for r in data['data']['result']:
+    h=r['metric'].get('handler','all')
+    v=[float(x) for _,x in r['values'] if x!='NaN']
+    if v: print(f'{h}: пик p95 = {max(v):.3f} сек')
+"</pre>
+
+    <!-- ================= 8. ОТЧЁТЫ PROMETHEUS ================= -->
+    <h2 id="reports">8. Отчёты Prometheus (как выгружать данные)</h2>
+    <p>Prometheus хранит все метрики. Вы можете выгрузить их в JSON для анализа (например, в Excel или Python).</p>
+
+    <h3>8.1. Мгновенный снимок (текущее значение)</h3>
+    <pre><span class="c"># Метрики очереди</span>
+curl -s "http://127.0.0.1:9090/api/v1/query?query=tasks_outbox_count" | python3 -m json.tool
+
+<span class="c"># RPS</span>
+curl -s "http://127.0.0.1:9090/api/v1/query?query=rate(http_requests_total[1m])" | python3 -m json.tool</pre>
+
+    <h3>8.2. Данные за период (range query)</h3>
+    <pre><span class="c"># p95 за последние 15 минут</span>
+START=$(date -u -d '15 minutes ago' +%s)
+END=$(date -u +%s)
+curl -G 'http://127.0.0.1:9090/api/v1/query_range' \
+  --data-urlencode 'query=histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m]))' \
+  --data-urlencode "start=$START" \
+  --data-urlencode "end=$END" \
+  --data-urlencode 'step=15' | python3 -m json.tool > ~/Sergey_doc/backups/latency_report.json</pre>
+
+    <h3>8.3. Как сохранить отчёт в читаемом виде</h3>
+    <pre><span class="c"># Сохраните в текстовый файл</span>
+python3 -c "
+import json
+data=json.load(open('/home/sergeykushnirov/Sergey_doc/backups/latency_report.json'))
+with open('/home/sergeykushnirov/Sergey_doc/backups/latency_report.txt','w') as f:
+    for r in data['data']['result']:
+        h=r['metric'].get('handler','all')
+        v=[float(x) for _,x in r['values'] if x!='NaN']
+        if v: f.write(f'{h}: пик p95 = {max(v):.3f} сек\n')
+" && cat ~/Sergey_doc/backups/latency_report.txt</pre>
+
+    <!-- ================= 9. НАСТРОЙКА ЛИМИТОВ ================= -->
+    <h2 id="settings">9. Настройка лимитов и параметров (под каждого клиента)</h2>
+    <div class="info">
+      <b>Для 50 клиентов:</b> у каждого могут быть свои лимиты (Битрикс24 — базовый 2 RPS, Энтерпрайз — 5 RPS) и свои настройки.
+    </div>
+
+    <h3>9.1. Где менять лимиты</h3>
+    <table>
+      <thead><tr><th>Что</th><th>Файл</th><th>Параметр</th><th>Пример</th></tr></thead>
+      <tbody>
+        <tr><td><b>Лимит Битрикс24</b></td><td><code>worker/tasks.py</code></td><td><code>rate_per_sec</code></td><td><code>2.0</code> (базовый) или <code>5.0</code> (Энтерпрайз)</td></tr>
+        <tr><td><b>Всплеск</b></td><td><code>worker/tasks.py</code></td><td><code>capacity</code></td><td><code>5</code></td></tr>
+        <tr><td><b>Пул соединений БД</b></td><td><code>app/db.py</code></td><td><code>pool_size</code>, <code>max_overflow</code></td><td><code>20</code>, <code>10</code></td></tr>
+        <tr><td><b>Tenant ID</b></td><td><code>.env</code></td><td><code>TENANT_ID</code></td><td><code>client_1</code></td></tr>
+        <tr><td><b>Порт API</b></td><td><code>.env</code></td><td><code>PORT</code></td><td><code>8001</code></td></tr>
+      </tbody>
+    </table>
+
+    <h3>9.2. Как настроить клиента (пример)</h3>
+    <pre><span class="c"># В папке клиента (~/clients/client_1)</span>
+nano .env
+
+<span class="c"># Вписать:</span>
+TENANT_ID=client_1
+PORT=8001
+B24_WEBHOOK_URL=https://client1.bitrix24.ru/rest/1/abc123/
+B24_APPLICATION_TOKEN=secret_token_1
+DATABASE_URL=postgresql+asyncpg://fastapi:password@localhost:5432/client_1_db
+REDIS_URL=redis://localhost:6379/1</pre>
+
+    <p><b>В <code>worker/tasks.py</code></b> (в папке клиента) можно поменять <code>rate_per_sec</code> под его тариф:</p>
+    <pre>limiter = BitrixRateLimiter(
+    redis_client=redis,
+    tenant_id=settings.tenant_id,
+    rate_per_sec=2.0,  <span class="c"># 2 для базового, 5 для Энтерпрайза</span>
+    capacity=5,
+)</pre>
+
+    <!-- ================= 10. МАСШТАБИРОВАНИЕ ================= -->
+    <h2 id="multi">10. Масштабирование (50 клиентов)</h2>
+    <p>Каждый клиент разворачивается как отдельный экземпляр приложения (FastAPI + Worker), но <b>телеметрия у всех отправляется в один Collector</b>.</p>
+
+    <h3>10.1. Как пометить клиента</h3>
+    <p>В <code>.env</code> каждого клиента:</p>
+    <pre>TENANT_ID=client_1</pre>
+    <p>В <code>app/telemetry.py</code> это значение добавляется в <code>Resource</code>:</p>
+    <pre>resource = Resource.create({
+    "service.name": service_name,
+    "tenant.id": tenant_id,  <span class="c"># ← фильтр по клиенту</span>
+})</pre>
+
+    <h3>10.2. Как фильтровать в Grafana</h3>
+    <p>В Grafana добавьте переменную:</p>
+    <ol>
+      <li><b>Dashboard settings</b> → <b>Variables</b> → <b>New variable</b>.</li>
+      <li><b>Name</b>: <code>tenant</code>.</li>
+      <li><b>Type</b>: <b>Query</b>.</li>
+      <li><b>Data source</b>: Prometheus.</li>
+      <li><b>Query</b>: <code>label_values(tasks_outbox_count, tenant_id)</code> (если вы добавите <code>tenant_id</code> в метрики).</li>
+    </ol>
+    <p>Или в Tempo:</p>
+    <pre>{ resource.tenant.id = "client_1" }</pre>
+
+    <h3>10.3. Изоляция</h3>
+    <table>
+      <thead><tr><th>Слой</th><th>Изоляция</th></tr></thead>
+      <tbody>
+        <tr><td>FastAPI</td><td>Отдельный процесс/контейнер на клиента.</td></tr>
+        <tr><td>PostgreSQL</td><td>Отдельная база или схема на клиента.</td></tr>
+        <tr><td>Redis</td><td>Отдельная база (DB 0, 1, 2...) или префикс ключей.</td></tr>
+        <tr><td>Телеметрия</td><td>Общий Collector, но с разным <code>tenant.id</code>.</td></tr>
+      </tbody>
+    </table>
+
+    <!-- ================= 11. TROUBLESHOOTING ================= -->
+    <h2 id="troubleshooting">11. Если что-то не работает</h2>
+    <table>
+      <thead><tr><th>Проблема</th><th>Причина</th><th>Решение</th></tr></thead>
+      <tbody>
+        <tr><td>Grafana не видит Prometheus</td><td>URL неправильный</td><td>Проверьте <code>http://prometheus:9090</code> в Data Sources.</td></tr>
+        <tr><td>Grafana не видит Tempo</td><td>URL неправильный</td><td>Проверьте <code>http://tempo:3200</code> в Data Sources.</td></tr>
+        <tr><td>Метрики не собираются</td><td>Prometheus не видит <code>/metrics</code></td><td>Проверьте <code>http://127.0.0.1:9090/targets</code> — <code>fastapi-app</code> и <code>fastapi-queue</code> должны быть UP.</td></tr>
+        <tr><td>Трассы не видны</td><td>Collector не получает спаны</td><td>Проверьте <code>podman logs observability_otel-collector_1</code> на ошибки.</td></tr>
+        <tr><td>В трассе только <code>fastapi-project</code></td><td>Worker не отправляет спаны</td><td>Проверьте, что <code>setup_tracing(service_name="fastapi-worker")</code> в <code>worker/settings.py</code>.</td></tr>
+        <tr><td><code>tasks_outbox_count</code> пустой</td><td>Prometheus не собирает <code>/metrics/queue</code></td><td>Добавьте job <code>fastapi-queue</code> в <code>prometheus.yml</code>.</td></tr>
+        <tr><td>Rate Limiter блокирует всё</td><td><code>rate_per_sec</code> слишком маленький</td><td>Увеличьте <code>rate_per_sec</code> в <code>worker/tasks.py</code>.</td></tr>
+      </tbody>
+    </table>
+
+    <!-- ================= 12. ШПАРГАЛКА ================= -->
+    <h2 id="cheatsheet">12. Шпаргалка команд</h2>
+
+    <h3>Запуск / остановка</h3>
+    <pre><span class="c"># Запустить инфраструктуру</span>
+cd ~/Sergey_doc/fastapi_project/observability
+podman-compose up -d
+
+<span class="c"># Остановить</span>
+podman-compose down
+
+<span class="c"># Перезапустить Prometheus (после правки prometheus.yml)</span>
+podman-compose restart prometheus</pre>
+
+    <h3>Проверка метрик</h3>
+    <pre><span class="c"># Метрики очереди</span>
+curl -s http://127.0.0.1:8000/metrics/queue
+
+<span class="c"># Метрики FastAPI</span>
+curl -s http://127.0.0.1:8000/metrics | head -20
+
+<span class="c"># Проверка Prometheus</span>
+curl -s "http://127.0.0.1:9090/api/v1/query?query=tasks_outbox_count" | python3 -m json.tool</pre>
+
+    <h3>Проверка трасс</h3>
+    <pre><span class="c"># Последние трассы в Tempo</span>
+curl -s "http://127.0.0.1:3200/api/search?tags=" | python3 -m json.tool
+
+<span class="c"># Конкретная трасса</span>
+curl -s "http://127.0.0.1:3200/api/traces/<trace_id>" | python3 -m json.tool</pre>
+
+    <h3>Логи контейнеров</h3>
+    <pre><span class="c"># Collector</span>
+podman logs observability_otel-collector_1 2>&1 | tail -30
+
+<span class="c"># Prometheus</span>
+podman logs observability_prometheus_1 2>&1 | tail -30
+
+<span class="c"># Tempo</span>
+podman logs observability_tempo_1 2>&1 | tail -30</pre>
+
+    <h3>Нагрузочные тесты (k6)</h3>
+    <pre><span class="c"># Запустить тест</span>
+cd ~/Sergey_doc/fastapi_project
+k6 run load_test.js
+
+<span class="c"># Сохранить отчёт Prometheus за период теста</span>
+START=$(date -u -d '2026-11-07 17:16:00' +%s)
+END=$(date -u -d '2026-11-07 17:21:00' +%s)
+curl -G 'http://127.0.0.1:9090/api/v1/query_range' \
+  --data-urlencode 'query=histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[1m]))' \
+  --data-urlencode "start=$START" \
+  --data-urlencode "end=$END" \
+  --data-urlencode 'step=15' | python3 -m json.tool > ~/Sergey_doc/backups/latency_peak.json</pre>
+
+    <div class="ok" style="margin-top:32px;">
+      <b>Готово.</b> Этот файл — ваш гид по мониторингу, тестам и настройке под клиентов. Открывайте его, когда нужно понять, что происходит в системе, запустить тест или изменить лимиты.
+    </div>
+
+  </main>
+</div>
+</body>
+</html>

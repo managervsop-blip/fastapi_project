@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Запуск проекта — Runbook</title>
+<style>
+  :root {
+    --bg: #0f1117; --panel: #1a1d27; --panel-2: #222633;
+    --text: #e6e8ee; --muted: #9aa3b2; --accent: #6ea8fe;
+    --green: #4ade80; --yellow: #fbbf24; --red: #f87171;
+    --purple: #c084fc; --border: #2e3440;
+    --mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; padding: 0; background: var(--bg); color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.65;
+  }
+  .layout { display: flex; max-width: 1300px; margin: 0 auto; }
+  .toc {
+    position: sticky; top: 0; align-self: flex-start;
+    width: 260px; min-width: 260px; height: 100vh; overflow-y: auto;
+    padding: 24px 16px; border-right: 1px solid var(--border); background: var(--panel);
+  }
+  .toc h3 { font-size: 0.8rem; color: var(--muted); margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; }
+  .toc a { display: block; color: var(--muted); text-decoration: none; font-size: 0.82rem; padding: 6px 10px; border-radius: 6px; margin-bottom: 2px; }
+  .toc a:hover { background: var(--panel-2); color: var(--text); }
+  .toc a.active { background: var(--panel-2); color: var(--accent); font-weight: 600; }
+  .content { flex: 1; padding: 32px 40px; max-width: 1000px; }
+  h1 { font-size: 1.9rem; margin: 0 0 6px; }
+  h2 { font-size: 1.35rem; margin: 44px 0 14px; color: var(--accent); border-bottom: 2px solid var(--border); padding-bottom: 10px; }
+  h3 { font-size: 1.05rem; margin: 26px 0 10px; color: var(--text); }
+  .sub { color: var(--muted); margin-bottom: 32px; font-size: 0.92rem; }
+
+  table { width: 100%; border-collapse: collapse; margin: 14px 0 22px; font-size: 0.84rem; }
+  th, td { border: 1px solid var(--border); padding: 10px 12px; text-align: left; vertical-align: top; }
+  th { background: var(--panel-2); color: var(--text); font-weight: 600; }
+  td { color: var(--muted); }
+  td code, th code { background: var(--panel-2); padding: 2px 6px; border-radius: 4px; font-family: var(--mono); font-size: 0.77rem; color: var(--text); }
+
+  .ok { background: rgba(74,222,128,.08); border-left: 4px solid var(--green); padding: 14px 18px; border-radius: 8px; margin: 16px 0; font-size: 0.88rem; }
+  .warn { background: rgba(251,191,36,.08); border-left: 4px solid var(--yellow); padding: 14px 18px; border-radius: 8px; margin: 16px 0; font-size: 0.88rem; }
+  .bad { background: rgba(248,113,113,.08); border-left: 4px solid var(--red); padding: 14px 18px; border-radius: 8px; margin: 16px 0; font-size: 0.88rem; }
+  .info { background: rgba(110,168,254,.08); border-left: 4px solid var(--accent); padding: 14px 18px; border-radius: 8px; margin: 16px 0; font-size: 0.88rem; }
+
+  pre { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 16px 18px; overflow-x: auto; font-family: var(--mono); font-size: 0.82rem; color: var(--text); margin: 12px 0; line-height: 1.6; }
+  pre .c { color: var(--muted); } pre .g { color: var(--green); } pre .y { color: var(--yellow); } pre .a { color: var(--accent); }
+
+  ul, ol { padding-left: 24px; margin: 10px 0; }
+  li { margin-bottom: 6px; }
+
+  .badge { display: inline-block; padding: 2px 9px; border-radius: 10px; font-size: 0.72rem; font-weight: 600; }
+  .badge.ok { background: rgba(74,222,128,.15); color: var(--green); }
+  .badge.warn { background: rgba(251,191,36,.15); color: var(--yellow); }
+  .badge.bad { background: rgba(248,113,113,.15); color: var(--red); }
+
+  .steps { counter-reset: step; margin: 20px 0; }
+  .step-item { position: relative; padding: 16px 18px 16px 64px; background: var(--panel); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 10px; }
+  .step-item::before { counter-increment: step; content: counter(step); position: absolute; left: 18px; top: 16px; width: 32px; height: 32px; border-radius: 50%; background: var(--accent); color: #0f1117; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem; }
+  .step-item .st { font-weight: 700; font-size: 0.95rem; margin-bottom: 4px; }
+  .step-item .sd { font-size: 0.85rem; color: var(--muted); }
+
+  .checklist { list-style: none; padding-left: 0; }
+  .checklist li { position: relative; padding-left: 32px; margin-bottom: 10px; font-size: 0.88rem; }
+  .checklist li::before { content: "☐"; position: absolute; left: 0; top: -2px; font-size: 1.2rem; color: var(--accent); }
+
+  @media (max-width: 900px) {
+    .toc { display: none; }
+    .content { padding: 24px 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <nav class="toc">
+    <h3>Оглавление</h3>
+    <a href="#quick">1. Быстрый старт</a>
+    <a href="#dev">2. Запуск (разработка)</a>
+    <a href="#prod">3. Развёртывание (клиент)</a>
+    <a href="#observability">4. Мониторинг</a>
+    <a href="#check">5. Чек-лист</a>
+    <a href="#stop">6. Как остановить</a>
+    <a href="#trouble">7. Если что-то не работает</a>
+    <a href="#cheatsheet">8. Шпаргалка</a>
+  </nav>
+
+  <main class="content">
+
+    <h1>🚀 Запуск проекта — Runbook</h1>
+    <div class="sub">
+      Пошаговая инструкция: как запустить проект на своём ПК, как развернуть нового клиента, как следить за мониторингом.<br>
+      <b>Открывайте этот файл каждый раз, когда запускаете систему.</b>
+    </div>
+
+    <!-- ================= 1. БЫСТРЫЙ СТАРТ ================= -->
+    <h2 id="quick">1. Быстрый старт (для разработки)</h2>
+    <div class="info">
+      <b>Для кого:</b> вы работаете на своём ПК (Debian), тестируете код, отлаживаете. Всё в одной папке <code>~/Sergey_doc/fastapi_project/</code>.
+    </div>
+
+    <div class="steps">
+      <div class="step-item">
+        <div class="st">Активировать venv (в каждом новом терминале)</div>
+        <div class="sd"><code>cd ~/Sergey_doc/fastapi_project && source venv/bin/activate</code></div>
+      </div>
+      <div class="step-item">
+        <div class="st">Поднять Redis + PostgreSQL + Observability</div>
+        <div class="sd">
+          <code>cd ~/Sergey_doc/fastapi_project && podman-compose up -d</code><br>
+          <code>cd ~/Sergey_doc/fastapi_project/observability && podman-compose up -d</code>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="st">Запустить FastAPI (терминал №1)</div>
+        <div class="sd"><code>uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload</code></div>
+      </div>
+      <div class="step-item">
+        <div class="st">Запустить ARQ Worker (терминал №2)</div>
+        <div class="sd"><code>arq worker.settings.WorkerSettings</code></div>
+      </div>
+      <div class="step-item">
+        <div class="st">Проверить (терминал №3)</div>
+        <div class="sd"><code>curl http://127.0.0.1:8000/health</code> → <code>{"status":"ok"}</code></div>
+      </div>
+    </div>
+
+    <div class="ok">
+      <b>Готово.</b> FastAPI на <code>http://127.0.0.1:8000</code>, Grafana на <code>http://127.0.0.1:3000</code>, Prometheus на <code>http://127.0.0.1:9090</code>.
+    </div>
+
+    <!-- ================= 2. ЗАПУСК (РАЗРАБОТКА) ================= -->
+    <h2 id="dev">2. Запуск (разработка) — подробно</h2>
+
+    <h3>2.1. Инфраструктура (Podman)</h3>
+    <pre><span class="c"># Основные контейнеры (Redis + PostgreSQL)</span>
+cd ~/Sergey_doc/fastapi_project
+podman-compose up -d
+
+<span class="c"># Observability (Collector + Prometheus + Tempo + Grafana)</span>
+cd ~/Sergey_doc/fastapi_project/observability
+podman-compose up -d
+
+<span class="c"># Проверка: все контейнеры Up</span>
+podman ps</pre>
+
+    <h3>2.2. FastAPI (терминал №1)</h3>
+    <pre><span class="c"># Активировать venv</span>
+cd ~/Sergey_doc/fastapi_project
+source venv/bin/activate
+
+<span class="c"># Запустить (0.0.0.0 — чтобы Prometheus видел метрики)</span>
+uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload</pre>
+    <div class="warn">
+      <b>Важно:</b> <code>--host 0.0.0.0</code>, а не <code>127.0.0.1</code>. Иначе Prometheus (в контейнере) не сможет достучаться до <code>/metrics</code>.
+    </div>
+
+    <h3>2.3. ARQ Worker (терминал №2)</h3>
+    <pre>cd ~/Sergey_doc/fastapi_project
+source venv/bin/activate
+arq worker.settings.WorkerSettings</pre>
+    <p>Дождаться:</p>
+    <pre><span class="g">INFO [app.telemetry] tracing: OTLP exporter enabled (service=fastapi-worker, tenant=client_1)</span>
+Starting worker for 4 functions: ping, publish_pending, process_outbox_task, cron:publish_pending</pre>
+
+    <h3>2.4. Проверка (терминал №3)</h3>
+    <pre><span class="c"># Health-check</span>
+curl http://127.0.0.1:8000/health
+curl http://127.0.0.1:8000/health/db
+
+<span class="c"># Метрики очереди</span>
+curl http://127.0.0.1:8000/metrics/queue
+
+<span class="c"># Создать задачу (с ключом идемпотентности)</span>
+curl -X POST "http://127.0.0.1:8000/test/enqueue?key=test-1"
+
+<span class="c"># Повтор — должен вернуть duplicate</span>
+curl -X POST "http://127.0.0.1:8000/test/enqueue?key=test-1"</pre>
+
+    <!-- ================= 3. РАЗВЁРТЫВАНИЕ (КЛИЕНТ) ================= -->
+    <h2 id="prod">3. Развёртывание (новый клиент) — пошагово</h2>
+    <div class="info">
+      <b>Для кого:</b> пришёл новый клиент. Вы разворачиваете для него отдельный экземпляр приложения (FastAPI + Worker), со своей базой и своим <code>TENANT_ID</code>.
+    </div>
+
+    <div class="steps">
+      <div class="step-item">
+        <div class="st">Создать папку для клиента</div>
+        <div class="sd"><code>mkdir -p ~/clients/client_1 && cd ~/clients/client_1</code></div>
+      </div>
+      <div class="step-item">
+        <div class="st">Скопировать проект (без venv)</div>
+        <div class="sd"><code>rsync -av --exclude='venv' --exclude='__pycache__' ~/Sergey_doc/fastapi_project/ ./</code></div>
+      </div>
+      <div class="step-item">
+        <div class="st">Создать базу данных клиента</div>
+        <div class="sd"><code>podman exec fastapi_project_postgres_1 psql -U fastapi -d postgres -c "CREATE DATABASE client_1_db;"</code></div>
+      </div>
+      <div class="step-item">
+        <div class="st">Настроить <code>.env</code> (индивидуальные данные)</div>
+        <div class="sd">
+          <code>nano .env</code><br>
+          Вписать:
+          <pre style="margin-top:8px;">TENANT_ID=client_1
+B24_WEBHOOK_URL=https://client1.bitrix24.ru/rest/1/abc123/
+B24_APPLICATION_TOKEN=secret_token_1
+DATABASE_URL=postgresql+asyncpg://fastapi:password@localhost:5432/client_1_db
+REDIS_URL=redis://localhost:6379/1
+PORT=8001</pre>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="st">Создать venv и поставить зависимости</div>
+        <div class="sd"><code>python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt</code></div>
+      </div>
+      <div class="step-item">
+        <div class="st">Применить миграции (создать таблицы)</div>
+        <div class="sd"><code>alembic upgrade head</code></div>
+      </div>
+      <div class="step-item">
+        <div class="st">Запустить FastAPI (свой порт!)</div>
+        <div class="sd"><code>uvicorn app.main:app --host 0.0.0.0 --port 8001</code></div>
+      </div>
+      <div class="step-item">
+        <div class="st">Запустить Worker (в отдельном терминале)</div>
+        <div class="sd"><code>cd ~/clients/client_1 && source venv/bin/activate && arq worker.settings.WorkerSettings</code></div>
+      </div>
+      <div class="step-item">
+        <div class="st">Проверить</div>
+        <div class="sd"><code>curl http://127.0.0.1:8001/health</code> → <code>{"status":"ok"}</code></div>
+      </div>
+    </div>
+
+    <div class="ok">
+      <b>Готово.</b> Клиент №1 работает на порту 8001. Его метрики и трассы помечены <code>tenant_id = client_1</code>.
+    </div>
+
+    <h3>3.1. Изоляция клиентов (чтобы не мешали друг другу)</h3>
+    <table>
+      <thead><tr><th>Что</th><th>Клиент 1</th><th>Клиент 2</th><th>Клиент 3</th></tr></thead>
+      <tbody>
+        <tr><td>Папка</td><td><code>~/clients/client_1</code></td><td><code>~/clients/client_2</code></td><td><code>~/clients/client_3</code></td></tr>
+        <tr><td>Порт API</td><td><code>8001</code></td><td><code>8002</code></td><td><code>8003</code></td></tr>
+        <tr><td>База PostgreSQL</td><td><code>client_1_db</code></td><td><code>client_2_db</code></td><td><code>client_3_db</code></td></tr>
+        <tr><td>База Redis</td><td><code>/1</code></td><td><code>/2</code></td><td><code>/3</code></td></tr>
+        <tr><td><code>TENANT_ID</code></td><td><code>client_1</code></td><td><code>client_2</code></td><td><code>client_3</code></td></tr>
+      </tbody>
+    </table>
+
+    <!-- ================= 4. МОНИТОРИНГ ================= -->
+    <h2 id="observability">4. Мониторинг (как следить)</h2>
+
+    <h3>4.1. Открыть Grafana</h3>
+    <pre>http://127.0.0.1:3000
+<span class="c"># Логин: admin / admin</span></pre>
+
+    <h3>4.2. Что смотреть</h3>
+    <table>
+      <thead><tr><th>Что</th><th>Где</th><th>Что означает</th></tr></thead>
+      <tbody>
+        <tr><td>Очередь задач</td><td>Дашборд <code>fastapi_project</code> → «Очередь задач»</td><td>Сколько задач в <code>pending</code>, <code>done</code>, <code>failed</code>.</td></tr>
+        <tr><td>RPS</td><td>Панель «RPS»</td><td>Сколько запросов в секунду.</td></tr>
+        <tr><td>Latency (p95)</td><td>Панель «p95 Latency»</td><td>95% запросов быстрее этого времени.</td></tr>
+        <tr><td>Ошибки 5xx</td><td>Панель «Ошибки 5xx»</td><td>Если пусто — ошибок нет.</td></tr>
+        <tr><td>Трассы</td><td>Explore → Tempo</td><td>Полный путь запроса: FastAPI → Worker.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>4.3. Как найти трассу</h3>
+    <ol>
+      <li>Откройте <b>Grafana → Explore → Tempo</b>.</li>
+      <li>Вкладка <b>TraceQL</b>.</li>
+      <li>Вставьте <code>trace_id</code> из БД:
+        <pre>podman exec fastapi_project_postgres_1 psql -U fastapi -d fastapi_db \
+  -c "SELECT id, status, trace_id FROM tasks_outbox ORDER BY created_at DESC LIMIT 1;"</pre>
+      </li>
+      <li>Нажмите <b>Run query</b>.</li>
+    </ol>
+    <p>Вы увидите два сервиса в одной трассе: <code>fastapi-project</code> и <code>fastapi-worker</code>.</p>
+
+    <!-- ================= 5. АРХИТЕКТУРА И ФАЙЛЫ ================= -->
+    <h2 id="architecture">5. Архитектура и файлы (что за что отвечает)</h2>
+    <div class="info">
+      <b>Как читать:</b> сверху вниз — поток данных. Под каждым блоком — файлы, параметры и метрики.
+    </div>
+
+    <!-- Блок 1: Вход -->
+    <div class="step-item" style="background: var(--panel); border-left: 4px solid var(--purple);">
+      <div class="st">🔔 Блок 1: Вход (Битрикс24 → FastAPI)</div>
+      <div class="sd">
+        <b>Что делает:</b> Принимает вебхуки от Битрикс24, проверяет токен, пишет задачу в БД, отвечает 200 OK.<br><br>
+        <b>Файлы:</b><br>
+        <code>app/main.py</code> — эндпоинт <code>/webhook/bitrix</code> (приём вебхука).<br>
+        <code>app/config.py</code> — читает <code>.env</code> (<code>B24_WEBHOOK_URL</code>, <code>B24_APPLICATION_TOKEN</code>).<br>
+        <code>core/outbox.py</code> — <code>create_task()</code> (запись в БД).<br><br>
+        <b>Параметры (в <code>.env</code>):</b><br>
+        <code>B24_WEBHOOK_URL</code> — URL вебхука клиента.<br>
+        <code>B24_APPLICATION_TOKEN</code> — токен приложения.<br>
+        <code>TENANT_ID</code> — ID клиента (для мониторинга).<br><br>
+        <b>Метрики:</b><br>
+        <code>http_requests_total</code> — сколько запросов (RPS).<br>
+        <code>http_request_duration_seconds</code> — время ответа (p95).<br>
+        <code>http_requests_total{status=~"5.."}</code> — ошибки 5xx.
+      </div>
+    </div>
+
+    <!-- Блок 2: Хранилище -->
+    <div class="step-item" style="background: var(--panel); border-left: 4px solid var(--accent);">
+      <div class="st">🗄️ Блок 2: Хранилище (PostgreSQL)</div>
+      <div class="sd">
+        <b>Что делает:</b> Надёжно хранит задачи (Outbox), ключи идемпотентности, статусы.<br><br>
+        <b>Файлы:</b><br>
+        <code>app/models/outbox.py</code> — таблица <code>tasks_outbox</code>.<br>
+        <code>app/models/idempotency.py</code> — таблица <code>idempotency_keys</code>.<br>
+        <code>migrations/versions/*.py</code> — миграции Alembic.<br><br>
+        <b>Параметры (в <code>.env</code>):</b><br>
+        <code>DATABASE_URL</code> — строка подключения.<br>
+        <code>pool_size</code>, <code>max_overflow</code> (в <code>app/db.py</code>) — размер пула.<br><br>
+        <b>Метрики:</b><br>
+        <code>tasks_outbox_count{status="pending"}</code> — сколько задач ждёт.<br>
+        <code>tasks_outbox_count{status="done"}</code> — сколько выполнено.<br>
+        <code>tasks_outbox_count{status="failed"}</code> — сколько упало.
+      </div>
+    </div>
+
+    <!-- Блок 3: Издатель -->
+    <div class="step-item" style="background: var(--panel); border-left: 4px solid var(--yellow);">
+      <div class="st">📤 Блок 3: Издатель (publish_pending)</div>
+      <div class="sd">
+        <b>Что делает:</b> Каждые 2 секунды читает <code>pending</code> из БД и кладёт в Redis. Возвращает «зависшие» <code>enqueued</code> в <code>pending</code>.<br><br>
+        <b>Файлы:</b><br>
+        <code>core/publisher.py</code> — <code>publish_pending()</code>.<br>
+        <code>worker/settings.py</code> — <code>cron_jobs</code> (расписание).<br><br>
+        <b>Параметры (в <code>.env</code>):</b><br>
+        <code>REDIS_URL</code> — строка подключения к Redis.<br><br>
+        <b>Метрики:</b><br>
+        Логи: <code>publisher: enqueued task ...</code><br>
+        Логи: <code>publisher: returned N stale enqueued tasks</code>
+      </div>
+    </div>
+
+    <!-- Блок 4: Очередь -->
+    <div class="step-item" style="background: var(--panel); border-left: 4px solid var(--red);">
+      <div class="st">📬 Блок 4: Очередь (Redis / ARQ)</div>
+      <div class="sd">
+        <b>Что делает:</b> Быстрая очередь задач. AOF сохраняет задачи при перезапуске.<br><br>
+        <b>Файлы:</b><br>
+        <code>docker-compose.yml</code> — Redis с <code>--appendonly yes</code>.<br>
+        <code>worker/settings.py</code> — <code>RedisSettings</code>.<br><br>
+        <b>Параметры (в <code>docker-compose.yml</code>):</b><br>
+        <code>--appendonly yes</code> — AOF (персистентность).<br><br>
+        <b>Метрики:</b><br>
+        <code>zcard arq:queue</code> — размер очереди.<br>
+        <code>podman exec fastapi_project_redis_1 redis-cli info</code> — статистика Redis.
+      </div>
+    </div>
+
+    <!-- Блок 5: Worker -->
+    <div class="step-item" style="background: var(--panel); border-left: 4px solid var(--green);">
+      <div class="st">⚙️ Блок 5: Worker (batch + rate limiter)</div>
+      <div class="sd">
+        <b>Что делает:</b> Берёт до 50 задач, отправляет batch-запрос в Битрикс24 (с учётом лимитов), обновляет статусы.<br><br>
+        <b>Файлы:</b><br>
+        <code>worker/tasks.py</code> — <code>process_outbox_task()</code>.<br>
+        <code>core/bitrix_batch.py</code> — <code>execute_batch()</code>.<br>
+        <code>core/rate_limiter.py</code> — <code>BitrixRateLimiter</code>.<br>
+        <code>core/outbox.py</code> — <code>mark_done()</code>, <code>mark_failed()</code>, <code>mark_processing()</code>.<br><br>
+        <b>Параметры (в <code>worker/tasks.py</code>):</b><br>
+        <code>limit(50)</code> — размер пачки.<br>
+        <code>rate_per_sec=2.0</code> — лимит RPS.<br>
+        <code>capacity=5</code> — всплеск.<br><br>
+        <b>Метрики:</b><br>
+        Логи: <code>batch: sending N tasks</code><br>
+        Логи: <code>batch: processed N tasks</code><br>
+        Логи: <code>batch: operating=..., reset_at=..., duration=...</code>
+      </div>
+    </div>
+
+    <!-- Блок 6: Внешний API -->
+    <div class="step-item" style="background: var(--panel); border-left: 4px solid var(--purple);">
+      <div class="st">🔔 Блок 6: Внешний API (Битрикс24)</div>
+      <div class="sd">
+        <b>Что делает:</b> Выполняет методы (<code>crm.item.add</code>, <code>user.get</code>), возвращает результат.<br><br>
+        <b>Файлы:</b><br>
+        (внешний, не в проекте).<br><br>
+        <b>Параметры (в <code>.env</code>):</b><br>
+        <code>B24_WEBHOOK_URL</code> — URL вебхука.<br><br>
+        <b>Метрики:</b><br>
+        (внутри Битрикс24 — <code>time.operating</code>, <code>time.duration</code>).
+      </div>
+    </div>
+
+    <!-- Блок 7: Observability -->
+    <div class="step-item" style="background: var(--panel); border-left: 4px solid var(--accent);">
+      <div class="st">📊 Блок 7: Observability (Collector + Prometheus + Tempo + Grafana)</div>
+      <div class="sd">
+        <b>Что делает:</b> Собирает метрики и трассы, показывает в Grafana.<br><br>
+        <b>Файлы:</b><br>
+        <code>app/telemetry.py</code> — <code>setup_tracing()</code>.<br>
+        <code>worker/settings.py</code> — <code>setup_tracing(service_name="fastapi-worker")</code>.<br>
+        <code>observability/docker-compose.yml</code> — Collector, Prometheus, Tempo, Grafana.<br>
+        <code>observability/otel-collector-config.yml</code> — маршрутизация.<br>
+        <code>observability/prometheus.yml</code> — сбор метрик.<br>
+        <code>observability/tempo.yml</code> — хранение трасс.<br><br>
+        <b>Параметры (в <code>app/telemetry.py</code>):</b><br>
+        <code>endpoint="http://localhost:4317"</code> — Collector.<br>
+        <code>tenant_id</code> — фильтр по клиенту.<br><br>
+        <b>Метрики:</b><br>
+        Grafana: <code>http://127.0.0.1:3000</code><br>
+        Prometheus: <code>http://127.0.0.1:9090</code><br>
+        Tempo: <code>http://127.0.0.1:3200</code>
+      </div>
+    </div>
+
+    <!-- Таблица: что менять при новом клиенте -->
+    <h3>5.1. Что менять при новом клиенте (или новой интеграции)</h3>
+    <table>
+      <thead><tr><th>Что</th><th>Файл</th><th>Параметр</th><th>Пример</th></tr></thead>
+      <tbody>
+        <tr><td><b>ID клиента</b></td><td><code>.env</code></td><td><code>TENANT_ID</code></td><td><code>client_1</code></td></tr>
+        <tr><td><b>Вебхук Битрикс24</b></td><td><code>.env</code></td><td><code>B24_WEBHOOK_URL</code></td><td><code>https://client1.bitrix24.ru/rest/1/abc123/</code></td></tr>
+        <tr><td><b>Токен приложения</b></td><td><code>.env</code></td><td><code>B24_APPLICATION_TOKEN</code></td><td><code>secret_token_1</code></td></tr>
+        <tr><td><b>База данных</b></td><td><code>.env</code></td><td><code>DATABASE_URL</code></td><td><code>.../client_1_db</code></td></tr>
+        <tr><td><b>Redis (база)</b></td><td><code>.env</code></td><td><code>REDIS_URL</code></td><td><code>redis://localhost:6379/1</code></td></tr>
+        <tr><td><b>Порт API</b></td><td><code>.env</code></td><td><code>PORT</code></td><td><code>8001</code></td></tr>
+        <tr><td><b>Лимит RPS</b></td><td><code>worker/tasks.py</code></td><td><code>rate_per_sec</code></td><td><code>2.0</code> (базовый) / <code>5.0</code> (Энтерпрайз)</td></tr>
+        <tr><td><b>Размер пачки</b></td><td><code>worker/tasks.py</code></td><td><code>limit(50)</code></td><td><code>50</code> (максимум по API)</td></tr>
+        <tr><td><b>Пул БД</b></td><td><code>app/db.py</code></td><td><code>pool_size</code>, <code>max_overflow</code></td><td><code>10</code>, <code>5</code> (для 50 клиентов)</td></tr>
+      </tbody>
+    </table>
+
+    <!-- Таблица: метрики -->
+    <h3>5.2. Какие метрики смотреть (и где)</h3>
+    <table>
+      <thead><tr><th>Метрика</th><th>Где смотреть</th><th>Норма</th><th>Тревога</th></tr></thead>
+      <tbody>
+        <tr><td><b>Очередь pending</b></td><td>Grafana → «Очередь задач»</td><td>0–5</td><td>&gt; 20 (растёт)</td></tr>
+        <tr><td><b>Очередь failed</b></td><td>Grafana → «Очередь задач»</td><td>0</td><td>&gt; 0</td></tr>
+        <tr><td><b>RPS</b></td><td>Grafana → «RPS»</td><td>Стабильно</td><td>−50%</td></tr>
+        <tr><td><b>Latency p95</b></td><td>Grafana → «Latency»</td><td>&lt; 0.5 сек</td><td>&gt; 2 сек</td></tr>
+        <tr><td><b>Ошибки 5xx</b></td><td>Grafana → «Ошибки 5xx»</td><td>0</td><td>&gt; 0</td></tr>
+        <tr><td><b>Трассы</b></td><td>Grafana → Explore → Tempo</td><td>Два сервиса</td><td>Один сервис (Worker не отправляет)</td></tr>
+      </tbody>
+    </table>
+
+    <!-- Команды выгрузки отчётов -->
+    <h3>5.3. Команды для выгрузки отчётов (Prometheus)</h3>
+    <pre><span class="c"># RPS (за последние 30 минут)</span>
+START=$(date -u -d '30 minutes ago' +%s)
+END=$(date -u +%s)
+curl -G 'http://127.0.0.1:9090/api/v1/query_range' \
+  --data-urlencode 'query=rate(http_requests_total[1m])' \
+  --data-urlencode "start=$START" --data-urlencode "end=$END" \
+  --data-urlencode 'step=15' > ~/Sergey_doc/backups/rps_report.json
+
+<span class="c"># Latency (p95)</span>
+curl -G 'http://127.0.0.1:9090/api/v1/query_range' \
+  --data-urlencode 'query=histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[1m]))' \
+  --data-urlencode "start=$START" --data-urlencode "end=$END" \
+  --data-urlencode 'step=15' > ~/Sergey_doc/backups/latency_report.json
+
+<span class="c"># Ошибки 5xx</span>
+curl -G 'http://127.0.0.1:9090/api/v1/query_range' \
+  --data-urlencode 'query=rate(http_requests_total{status=~"5.."}[5m])' \
+  --data-urlencode "start=$START" --data-urlencode "end=$END" \
+  --data-urlencode 'step=15' > ~/Sergey_doc/backups/errors_report.json
+
+<span class="c"># Очередь</span>
+curl -G 'http://127.0.0.1:9090/api/v1/query_range' \
+  --data-urlencode 'query=tasks_outbox_count' \
+  --data-urlencode "start=$START" --data-urlencode "end=$END" \
+  --data-urlencode 'step=15' > ~/Sergey_doc/backups/queue_report.json</pre>
+
+    <h3>5.4. Как превратить JSON в читаемый отчёт</h3>
+    <pre>python3 -c "
+import json
+files = {
+    'RPS': '/home/sergeykushnirov/Sergey_doc/backups/rps_report.json',
+    'Latency': '/home/sergeykushnirov/Sergey_doc/backups/latency_report.json',
+    'Errors': '/home/sergeykushnirov/Sergey_doc/backups/errors_report.json',
+    'Queue': '/home/sergeykushnirov/Sergey_doc/backups/queue_report.json',
+}
+for name, path in files.items():
+    try:
+        data = json.load(open(path))
+        if not data['data']['result']:
+            print(f'{name}: НЕТ ДАННЫХ')
+            continue
+        print(f'=== {name} ===')
+        for r in data['data']['result']:
+            h = r['metric'].get('handler', r['metric'].get('status', 'all'))
+            v = [float(x) for _, x in r['values'] if x != 'NaN']
+            if v: print(f'  {h}: макс={max(v):.3f}, среднее={sum(v)/len(v):.3f}')
+    except Exception as e:
+        print(f'{name}: ОШИБКА {e}')
+"</pre>
+
+    <div class="ok">
+      <b>Готово.</b> Теперь у вас есть визуальная схема всей цепочки: от вебхука Битрикс24 до мониторинга. Каждый блок связан с файлами, параметрами и метриками.
+    </div>
+   
+
+ <!-- ================= 5. ЧЕК-ЛИСТ ================= -->
+    <h2 id="check">5. Чек-лист (после запуска)</h2>
+    <ul class="checklist">
+      <li><code>podman ps</code> — все контейнеры <code>Up</code>.</li>
+      <li><code>curl http://127.0.0.1:8000/health</code> → <code>{"status":"ok"}</code>.</li>
+      <li><code>curl http://127.0.0.1:8000/health/db</code> → <code>{"status":"ok","db":"connected"}</code>.</li>
+      <li><code>curl -X POST "http://127.0.0.1:8000/test/enqueue?key=check-1"</code> → <code>pending</code>.</li>
+      <li>Подождать 3 сек, проверить БД: задача → <code>done</code>.</li>
+      <li><code>curl -X POST "http://127.0.0.1:8000/test/enqueue?key=check-1"</code> → <code>duplicate</code>.</li>
+      <li>Grafana → дашборд <code>fastapi_project</code> — графики строятся.</li>
+      <li>Tempo → трасса по <code>trace_id</code> — два сервиса.</li>
+    </ul>
+
+    <!-- ================= 6. ОСТАНОВКА ================= -->
+    <h2 id="stop">6. Как остановить</h2>
+    <table>
+      <thead><tr><th>Что</th><th>Как</th></tr></thead>
+      <tbody>
+        <tr><td><code>uvicorn</code></td><td><code>Ctrl+C</code> в терминале №1.</td></tr>
+        <tr><td><code>arq worker</code></td><td><code>Ctrl+C</code> в терминале №2.</td></tr>
+        <tr><td>Redis + PostgreSQL</td><td><code>cd ~/Sergey_doc/fastapi_project && podman-compose down</code></td></tr>
+        <tr><td>Observability</td><td><code>cd ~/Sergey_doc/fastapi_project/observability && podman-compose down</code></td></tr>
+        <tr><td>Всё сразу</td><td><code>pkill -f uvicorn</code>, <code>pkill -f arq</code>, <code>podman-compose down</code> (в обеих папках).</td></tr>
+      </tbody>
+    </table>
+    <div class="bad">
+      <b>Частая ошибка:</b> закрыть терминал с <code>uvicorn</code> без <code>Ctrl+C</code> → порт 8000 занят → <code>Address already in use</code>. Лечится: <code>pkill -f uvicorn</code>.
+    </div>
+
+    <!-- ================= 7. TROUBLESHOOTING ================= -->
+    <h2 id="trouble">7. Если что-то не работает</h2>
+    <table>
+      <thead><tr><th>Проблема</th><th>Причина</th><th>Решение</th></tr></thead>
+      <tbody>
+        <tr><td><code>Address already in use</code></td><td>Старый процесс держит порт</td><td><code>pkill -f uvicorn</code> или <code>lsof -i :8000</code> → <code>kill &lt;PID&gt;</code></td></tr>
+        <tr><td><code>ModuleNotFoundError</code></td><td>Забыли импорт / файл</td><td>Проверьте, что файл существует и импорт в начале</td></tr>
+        <tr><td>Prometheus не видит FastAPI</td><td><code>uvicorn</code> на <code>127.0.0.1</code></td><td>Запустите с <code>--host 0.0.0.0</code></td></tr>
+        <tr><td>Grafana: «No data»</td><td>Неверный интервал времени</td><td>В правом верхнем углу выберите <b>Last 24 hours</b></td></tr>
+        <tr><td>В трассе только <code>fastapi-project</code></td><td>Worker не отправляет спаны</td><td>Проверьте <code>setup_tracing(service_name="fastapi-worker")</code> в <code>worker/settings.py</code></td></tr>
+        <tr><td><code>Container state improper</code></td><td>Контейнер остановлен</td><td><code>podman-compose up -d</code></td></tr>
+      </tbody>
+    </table>
+
+    <!-- ================= 8. ШПАРГАЛКА ================= -->
+    <h2 id="cheatsheet">8. Шпаргалка (всё сразу)</h2>
+
+    <h3>Запуск (разработка)</h3>
+    <pre><span class="c"># 1. Инфраструктура</span>
+cd ~/Sergey_doc/fastapi_project && podman-compose up -d
+cd ~/Sergey_doc/fastapi_project/observability && podman-compose up -d
+
+<span class="c"># 2. FastAPI (терминал №1)</span>
+cd ~/Sergey_doc/fastapi_project && source venv/bin/activate
+uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+<span class="c"># 3. Worker (терминал №2)</span>
+cd ~/Sergey_doc/fastapi_project && source venv/bin/activate
+arq worker.settings.WorkerSettings
+
+<span class="c"># 4. Проверка (терминал №3)</span>
+curl http://127.0.0.1:8000/health
+curl -X POST "http://127.0.0.1:8000/test/enqueue?key=test-1"</pre>
+
+    <h3>Развёртывание клиента</h3>
+    <pre><span class="c"># 1. Папка + копия</span>
+mkdir -p ~/clients/client_1 && cd ~/clients/client_1
+rsync -av --exclude='venv' ~/Sergey_doc/fastapi_project/ ./
+
+<span class="c"># 2. База</span>
+podman exec fastapi_project_postgres_1 psql -U fastapi -d postgres -c "CREATE DATABASE client_1_db;"
+
+<span class="c"># 3. .env (TENANT_ID=client_1, свой порт, своя база)</span>
+nano .env
+
+<span class="c"># 4. venv + миграции</span>
+python3 -m venv venv && source venv/bin/activate
+pip install -r requirements.txt
+alembic upgrade head
+
+<span class="c"># 5. Запуск (свой порт!)</span>
+uvicorn app.main:app --host 0.0.0.0 --port 8001
+<span class="c"># (в другом терминале) arq worker.settings.WorkerSettings</span></pre>
+
+    <h3>Мониторинг</h3>
+    <pre><span class="c"># Grafana</span>
+http://127.0.0.1:3000  (admin/admin)
+
+<span class="c"># Prometheus</span>
+http://127.0.0.1:9090
+
+<span class="c"># Метрики очереди</span>
+curl http://127.0.0.1:8000/metrics/queue
+
+<span class="c"># Последняя трасса</span>
+podman exec fastapi_project_postgres_1 psql -U fastapi -d fastapi_db \
+  -c "SELECT trace_id FROM tasks_outbox ORDER BY created_at DESC LIMIT 1;"</pre>
+
+    <h3>Остановка</h3>
+    <pre><span class="c"># Ctrl+C в терминалах uvicorn и arq</span>
+pkill -f uvicorn
+pkill -f arq
+cd ~/Sergey_doc/fastapi_project && podman-compose down
+cd ~/Sergey_doc/fastapi_project/observability && podman-compose down</pre>
+
+    <div class="ok" style="margin-top:32px;">
+      <b>Готово.</b> Этот Runbook — ваш главный документ при запуске. Если что-то идёт не так — откройте раздел «Если что-то не работает» или шпаргалку. Для нового клиента — раздел «Развёртывание».
+    </div>
+
+  </main>
+</div>
+</body>
+</html>
+
