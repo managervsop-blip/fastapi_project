@@ -27,5 +27,5 @@ module telemetry.py
 - [config.py](app_config_py.md)
 
 ## Imported By
-- [main.py](app_main_py.md)
 - [settings.py](worker_settings_py.md)
+- [main.py](app_main_py.md)

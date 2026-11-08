@@ -4,17 +4,21 @@ label: "load_test_batch.js"
 type: "file"
 source_file: "load_test_batch.js"
 line_start: 1
-line_end: 28
-component: "load_test_batch"
+line_end: 92
+component: "e2eCheck (Component 9)"
 ---
 
 # load_test_batch.js
 
 **Type:** `file`  
 **File path:** `load_test_batch.js`  
-**Component:** load_test_batch  
+**Component:** e2eCheck (Component 9)  
 
 ## Definition
 ```javascript
 module load_test_batch.js
 ```
+
+## Contains Symbols
+- [loadTest](load_test_batch_js_loadTest.md) (`function`)
+- [e2eCheck](load_test_batch_js_e2eCheck.md) (`function`)

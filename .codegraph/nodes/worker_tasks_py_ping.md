@@ -3,16 +3,16 @@ id: "worker/tasks.py::ping"
 label: "ping"
 type: "function"
 source_file: "worker/tasks.py"
-line_start: 80
-line_end: 82
-component: "process_outbox_task"
+line_start: 26
+line_end: 28
+component: "worker (process_outbox_task)"
 ---
 
 # ping
 
 **Type:** `function`  
-**Defined in:** [worker/tasks.py](../nodes/worker_tasks_py.md) (Lines 80-82)  
-**Component:** process_outbox_task  
+**Defined in:** [worker/tasks.py](../nodes/worker_tasks_py.md) (Lines 26-28)  
+**Component:** worker (process_outbox_task)  
 
 ## Definition
 ```python

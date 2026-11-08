@@ -4,7 +4,7 @@ label: "main.py"
 type: "file"
 source_file: "app/main.py"
 line_start: 1
-line_end: 75
+line_end: 130
 component: "app (enqueue_test)"
 ---
 
@@ -24,13 +24,14 @@ module main.py
 - [health_db](app_main_py_health_db.md) (`function`)
 - [root](app_main_py_root.md) (`function`)
 - [enqueue_test](app_main_py_enqueue_test.md) (`function`)
+- [get_task_status](app_main_py_get_task_status.md) (`function`)
 - [queue_metrics](app_main_py_queue_metrics.md) (`function`)
 
 ## Imports
 - [db.py](app_db_py.md)
+- [outbox.py](app_models_outbox_py.md)
 - [telemetry.py](app_telemetry_py.md)
 - [logging_config.py](app_logging_config_py.md)
-- [outbox.py](app_models_outbox_py.md)
 
 ## Call Graph
 ```mermaid

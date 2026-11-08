@@ -22,4 +22,4 @@ members_count: 7
 
 - Depends on [app (setup_logging)](app_setup_logging_.md) (2 calls/connections)
 - Depends on [TaskOutbox](TaskOutbox.md) (1 calls/connections)
-- Depends on [process_outbox_task](process_outbox_task.md) (1 calls/connections)
+- Depends on [worker (process_outbox_task)](worker_process_outbox_task_.md) (1 calls/connections)

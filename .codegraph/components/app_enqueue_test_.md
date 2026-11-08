@@ -1,16 +1,17 @@
 ---
 type: "component"
-cohesion: 0.17
-members_count: 6
+cohesion: 0.14
+members_count: 7
 ---
 
 # app (enqueue_test)
 
-**Internal Cohesion:** 0.17 (density score)  
-**Members count:** 6 nodes  
+**Internal Cohesion:** 0.14 (density score)  
+**Members count:** 7 nodes  
 
 ## Members
 - [enqueue_test](../nodes/app_main_py_enqueue_test.md) (`function` in `app/main.py`)
+- [get_task_status](../nodes/app_main_py_get_task_status.md) (`function` in `app/main.py`)
 - [health](../nodes/app_main_py_health.md) (`function` in `app/main.py`)
 - [health_db](../nodes/app_main_py_health_db.md) (`function` in `app/main.py`)
 - [main.py](../nodes/app_main_py.md) (`file` in `app/main.py`)

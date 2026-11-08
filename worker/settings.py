@@ -4,8 +4,8 @@ from arq.connections import RedisSettings
 from app.config import settings
 from app.logging_config import setup_logging  # ← добавьте это
 setup_logging(level="DEBUG")
+from worker.tasks import ping, process_outbox_task, requeue_stale_tasks, retry_failed_tasks
 from core.publisher import publish_pending
-from worker.tasks import ping, process_outbox_task, requeue_stale_tasks
 from app.telemetry import setup_tracing
 
 # Сначала логирование, чтобы видеть INFO-логи, потом трейсинг
@@ -14,7 +14,7 @@ setup_tracing(service_name="fastapi-worker")
 
 class WorkerSettings:
     redis_settings = RedisSettings.from_dsn(settings.redis_url)
-    functions = [ping, publish_pending, process_outbox_task, requeue_stale_tasks]
+    functions = [ping, publish_pending, process_outbox_task, requeue_stale_tasks, retry_failed_tasks]
     cron_jobs = [
         # Издатель (pending -> Redis)
         cron(
@@ -28,5 +28,10 @@ class WorkerSettings:
         cron(
             requeue_stale_tasks,
             minute={0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55},
+        ),
+        # 👇 НОВЫЙ БЛОК: Retry failed (каждые 5 минут)
+        cron(
+            retry_failed_tasks,
+            minute={1, 6, 11, 16, 21, 26, 31, 36, 41, 46, 51, 56},  # минута +1, чтобы не пересекаться с watchdog
         ),
     ]

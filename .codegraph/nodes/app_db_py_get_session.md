@@ -3,15 +3,15 @@ id: "app/db.py::get_session"
 label: "get_session"
 type: "function"
 source_file: "app/db.py"
-line_start: 31
-line_end: 33
+line_start: 33
+line_end: 35
 component: "app (Base)"
 ---
 
 # get_session
 
 **Type:** `function`  
-**Defined in:** [app/db.py](../nodes/app_db_py.md) (Lines 31-33)  
+**Defined in:** [app/db.py](../nodes/app_db_py.md) (Lines 33-35)  
 **Component:** app (Base)  
 
 ## Definition

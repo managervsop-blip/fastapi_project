@@ -23,5 +23,5 @@ module logging_config.py
 - [setup_logging](app_logging_config_py_setup_logging.md) (`function`)
 
 ## Imported By
-- [main.py](app_main_py.md)
 - [settings.py](worker_settings_py.md)
+- [main.py](app_main_py.md)

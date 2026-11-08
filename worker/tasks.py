@@ -8,7 +8,7 @@ from datetime import datetime, timezone
 
 from opentelemetry import trace
 from opentelemetry.trace import SpanContext, TraceFlags
-from sqlalchemy import select, update
+from sqlalchemy import select, update, or_
 from tenacity import (
     retry,
     stop_after_attempt,
@@ -64,7 +64,12 @@ def wait_operating_reset(retry_state):
 
 
 async def requeue_stale_tasks(ctx):
-    """Watchdog: возвращает зависшие processing-задачи в pending."""
+    """Watchdog: возвращает зависшие processing-задачи в pending.
+
+    Ловит два случая:
+    1. processing_started_at < now() - 5 min (старые задачи)
+    2. processing_started_at IS NULL (сироты — задачи без таймстампа)
+    """
     from app.db import SessionLocal
     from app.models.outbox import TaskOutbox
     from datetime import timedelta
@@ -76,7 +81,10 @@ async def requeue_stale_tasks(ctx):
             update(TaskOutbox)
             .where(
                 TaskOutbox.status == "processing",
-                TaskOutbox.processing_started_at < stale_threshold,
+                or_(
+                    TaskOutbox.processing_started_at < stale_threshold,
+                    TaskOutbox.processing_started_at.is_(None),
+                ),
             )
             .values(
                 status="pending",
@@ -117,7 +125,7 @@ async def process_outbox_task(ctx, task_id: str, payload: dict) -> dict:
             select(TaskOutbox)
             .where(TaskOutbox.status.in_(["pending", "enqueued"]))
             .order_by(TaskOutbox.created_at)
-            .limit(25)  # было 50 — уменьшено для избежания таймаута 60с
+            .limit(25)
             .with_for_update(skip_locked=True)
         )
         tasks = result.scalars().all()
@@ -152,7 +160,7 @@ async def process_outbox_task(ctx, task_id: str, payload: dict) -> dict:
         redis_client=redis,
         tenant_id=settings.tenant_id,
         rate_per_sec=2.0,
-        capacity=50,  # Leaky Bucket: burst до 50, долгосрочно 2/сек
+        capacity=50,
     )
 
     try:
@@ -180,15 +188,30 @@ async def process_outbox_task(ctx, task_id: str, payload: dict) -> dict:
         try:
             batch_result = await execute_batch(commands)
 
-            # 4a. Проверка накопленного времени (operating) — защита от OPERATION_TIME_LIMIT
+            # 4a. Проверка накопленного времени (operating)
             operating = batch_result.get("time", {}).get("operating", 0)
             reset_at = batch_result.get("time", {}).get("operating_reset_at", 0)
             if operating > 400 and reset_at > time.time():
-                wait_sec = min(reset_at - time.time(), 300)  # не больше 5 минут
                 logger.warning(
-                    "operating=%s close to limit, waiting %.0f sec", operating, wait_sec
+                    "operating=%.0f close to limit, returning %d tasks to pending",
+                    operating, len(task_ids)
                 )
-                await asyncio.sleep(wait_sec)
+                async with SessionLocal() as session:
+                    await session.execute(
+                        update(TaskOutbox)
+                        .where(TaskOutbox.id.in_(task_ids))
+                        .values(
+                            status="pending",
+                            processing_started_at=None,
+                            updated_at=datetime.now(timezone.utc),
+                        )
+                    )
+                    await session.commit()
+                return {
+                    "ok": False,
+                    "reason": "operating_limit",
+                    "returned_to_pending": len(task_ids),
+                }
 
             # 5. КОРОТКАЯ транзакция: обновить статусы
             done_ids = []
@@ -230,7 +253,6 @@ async def process_outbox_task(ctx, task_id: str, payload: dict) -> dict:
             return {"ok": True, "processed": len(commands)}
 
         except Exception as e:
-            # Ошибка Bitrix/сети — помечаем failed
             logger.error("batch failed: %s", e)
             async with SessionLocal() as session:
                 await session.execute(
@@ -248,3 +270,68 @@ async def process_outbox_task(ctx, task_id: str, payload: dict) -> dict:
 
     finally:
         await redis.close()
+async def retry_failed_tasks(ctx):
+    """Автоматический retry для упавших задач.
+    
+    Логика:
+    - Первые 5 попыток: retry каждые 5 минут (быстрые сбои).
+    - Следующие 20 попыток: retry каждые 30 минут (медленные сбои).
+    - После 25 попыток: задача уходит в 'dead' (не удаляется, но не мешает).
+    """
+    from app.db import SessionLocal
+    from app.models.outbox import TaskOutbox
+    from datetime import datetime, timezone, timedelta
+    from sqlalchemy import or_
+
+    now = datetime.now(timezone.utc)
+
+    async with SessionLocal() as session:
+        # 1. Быстрый retry (retry_count < 5, упали > 5 минут назад)
+        fast_retry_threshold = now - timedelta(minutes=5)
+        
+        # 2. Медленный retry (5 <= retry_count < 25, упали > 30 минут назад)
+        slow_retry_threshold = now - timedelta(minutes=30)
+
+        result = await session.execute(
+            update(TaskOutbox)
+            .where(
+                TaskOutbox.status == "failed",
+                or_(
+                    # Быстрый retry
+                    (TaskOutbox.retry_count < 5) & (TaskOutbox.updated_at < fast_retry_threshold),
+                    # Медленный retry
+                    (TaskOutbox.retry_count >= 5) & (TaskOutbox.retry_count < 25) & (TaskOutbox.updated_at < slow_retry_threshold),
+                )
+            )
+            .values(
+                status="pending",
+                processing_started_at=None,
+                retry_count=TaskOutbox.retry_count + 1,
+                updated_at=now,
+            )
+        )
+        
+        # 3. Задачи, которые упали 25+ раз — переводим в 'dead'
+        # (Они не удаляются, но перестают блокировать очередь)
+        dead_result = await session.execute(
+            update(TaskOutbox)
+            .where(
+                TaskOutbox.status == "failed",
+                TaskOutbox.retry_count >= 25,
+            )
+            .values(
+                status="dead",
+                updated_at=now,
+            )
+        )
+        
+        retried = result.rowcount
+        dead = dead_result.rowcount
+        await session.commit()
+
+    if retried > 0:
+        logger.warning("retry: returned %d failed tasks to pending", retried)
+    if dead > 0:
+        logger.error("retry: moved %d tasks to 'dead' after 25 attempts", dead)
+        
+    return {"ok": True, "retried": retried, "dead": dead}

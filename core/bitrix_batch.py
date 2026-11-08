@@ -1,96 +1,65 @@
-import logging
-from typing import Any
+# core/bitrix_batch.py (Имитация реального Bitrix)
+import asyncio
+import time
+import random
 
-import httpx
+# Глобальные переменные для имитации состояния Bitrix
+# (В реальном приложении это было бы в Redis, но для теста сойдет и память)
+bitrix_state = {
+    "tokens": 50,           # Начальный запас токенов (всплеск)
+    "last_refill": time.time(),
+    "operating_time": {},   # { "method_name": накопленное_время }
+}
 
-from app.config import settings
+async def execute_batch(commands):
+    now = time.time()
+    method_name = "crm.item.add" # Предположим, мы шлем этот метод
+    
+    # 1. Имитация Leaky Bucket (Восстановление токенов)
+    elapsed = now - bitrix_state["last_refill"]
+    bitrix_state["tokens"] = min(50, bitrix_state["tokens"] + elapsed * 2) # 2 токена/сек
+    bitrix_state["last_refill"] = now
+    
+    # 2. Проверка интенсивности
+    if bitrix_state["tokens"] < 1:
+        raise Exception("QUERY_LIMIT_EXCEEDED: retry_after: 2")
+    
+    bitrix_state["tokens"] -= 1 # Тратим токен
+    
+    # 3. Имитация РЕАЛЬНОЙ задержки Bitrix (1-5 секунд на batch)
+    # Чем больше задач в batch, тем дольше (примерно)
+    simulated_delay = random.uniform(1.0, 3.0) + (len(commands) * 0.05)
+    print(f"[Mock Bitrix] Выполняю {method_name} (задач: {len(commands)}). Задержка: {simulated_delay:.2f}с")
+    await asyncio.sleep(simulated_delay)
+    
+    # 4. Проверка таймаута 60 секунд (если задержка была бы huge)
+    if simulated_delay > 60:
+        raise Exception("Timeout: Request took longer than 60s")
+    
+    # 5. Имитация накопления operating (Ресурсоемкость)
+    current_op = bitrix_state["operating_time"].get(method_name, 0)
+    # В реальности operating растет от времени выполнения метода на сервере,
+    # а не от задержки сети. Но для симуляции возьмем долю от задержки.
+    added_op = simulated_delay * 2 # Имитируем, что метод "тяжелый"
+    bitrix_state["operating_time"][method_name] = current_op + added_op
+    
+    if bitrix_state["operating_time"][method_name] > 400: # Близко к лимиту
+        print(f"[Mock Bitrix] ⚠️ OPERATING WARNING: {bitrix_state['operating_time'][method_name]:.0f}/480 сек")
+    
+    if bitrix_state["operating_time"][method_name] > 480:
+        # Сбрасываем, чтобы не блокировать навсегда в тесте (в реальности блок на 10 мин)
+        bitrix_state["operating_time"][method_name] = 0 
+        raise Exception("OPERATION_TIME_LIMIT: reset_at: " + str(int(time.time() + 600)))
 
-logger = logging.getLogger(__name__)
+    # 6. Имитация случайных ошибок Bitrix (1% шанс)
+    if random.random() < 0.01:
+        raise Exception("Internal Server Error (Bitrix 500)")
 
-
-async def execute_batch(commands: dict[str, str]) -> dict[str, Any]:
-    """Выполняет batch-запрос к Битрикс24."""
-    if not commands:
-        return {}
-
-    # Если вебхук не настроен — эмулируем успех (для тестов)
-    if not settings.b24_webhook_url or "your-company" in settings.b24_webhook_url:
-        logger.warning("batch: webhook not configured, simulating success")
-        return {
-            "result": {cmd_id: {"result": True} for cmd_id in commands},
-            "result_error": {},
-            "result_time": {},
+    # 7. Успешный ответ
+    return {
+        "result": {f"task_{i}": "ok" for i in range(len(commands))},
+        "time": {
+            "operating": bitrix_state["operating_time"][method_name],
+            "operating_reset_at": int(time.time()) + 600,
         }
-
-    if len(commands) > 50:
-        raise ValueError(f"Batch limit exceeded: {len(commands)} > 50")
-
-    url = f"{settings.b24_webhook_url}/batch"
-    payload = {
-        "halt": 0,
-        "cmd": commands,
     }
-
-    async with httpx.AsyncClient(timeout=30.0) as client:
-        try:
-            response = await client.post(url, json=payload)
-            response.raise_for_status()
-            data = response.json()
-
-            if "error" in data:
-                error_code = data.get("error", "UNKNOWN")
-                logger.error("batch system error: %s", error_code)
-                reset_at = data.get("time", {}).get("operating_reset_at")
-                raise RuntimeError(f"Bitrix batch error: {error_code}, reset_at: {reset_at}")
-
-            result = data.get("result", {})
-            result_error = data.get("result_error", {})
-            result_time = data.get("time", {})
-
-            operating = result_time.get("operating")
-            reset_at = result_time.get("operating_reset_at")
-            if operating is not None:
-                logger.info(
-                    "batch: operating=%.3f sec, reset_at=%s, duration=%.3f sec",
-                    operating,
-                    reset_at,
-                    result_time.get("duration", 0.0),
-                )
-
-            if result_error:
-                logger.warning("batch partial errors: %s", list(result_error.keys()))
-
-            return {
-                "result": result,
-                "result_error": result_error,
-                "result_time": result_time,
-            }
-
-        except httpx.HTTPStatusError as e:
-            status = e.response.status_code
-            body = e.response.text
-
-            if status == 503 and "QUERY_LIMIT_EXCEEDED" in body:
-                logger.error("batch: QUERY_LIMIT_EXCEEDED, retry with backoff")
-                raise RuntimeError("QUERY_LIMIT_EXCEEDED")
-
-            if status == 429 and "OPERATION_TIME_LIMIT" in body:
-                try:
-                    data = e.response.json()
-                    reset_at = data.get("time", {}).get("operating_reset_at")
-                except Exception:
-                    reset_at = None
-                logger.error("batch: OPERATION_TIME_LIMIT, reset_at=%s", reset_at)
-                raise RuntimeError(f"OPERATION_TIME_LIMIT reset_at: {reset_at}")
-
-            if status == 503 and "QUERYTIMELIMITEXCEPTION" in body:
-                retry_after = e.response.headers.get("Retry-After", "5")
-                logger.error("batch: QUERYTIMELIMITEXCEPTION, Retry-After=%s", retry_after)
-                raise RuntimeError(f"QUERYTIMELIMITEXCEPTION retry_after: {retry_after}")
-
-            logger.error("batch HTTP error: %s %s", status, body[:200])
-            raise
-
-        except Exception as e:
-            logger.error("batch failed: %s", e)
-            raise

@@ -32,5 +32,5 @@ flowchart TD
 ```
 
 ### Incoming Calls (Backlinks)
-- Called by [main.py](app_main_py.md) (`file`)
 - Called by [settings.py](worker_settings_py.md) (`file`)
+- Called by [main.py](app_main_py.md) (`file`)

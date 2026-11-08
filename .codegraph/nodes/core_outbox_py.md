@@ -4,7 +4,7 @@ label: "outbox.py"
 type: "file"
 source_file: "core/outbox.py"
 line_start: 1
-line_end: 112
+line_end: 111
 component: "core (create_task)"
 ---
 

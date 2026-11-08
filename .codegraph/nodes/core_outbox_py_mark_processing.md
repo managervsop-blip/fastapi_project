@@ -19,11 +19,6 @@ component: "core (create_task)"
 async def mark_processing(task_ids: list[uuid.UUID]) -> None
 ```
 
-## Description
-Отметить задачи как processing (чтобы другие воркеры их не брали).
-
-    Вызывается в той же транзакции, что и SELECT ... FOR UPDATE.
-
 **Contained in parent:** [outbox.py](core_outbox_py.md) (`file`)
 
 ## Call Graph

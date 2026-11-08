@@ -4,7 +4,7 @@ label: "settings.py"
 type: "file"
 source_file: "worker/settings.py"
 line_start: 1
-line_end: 27
+line_end: 32
 component: "instrument_app"
 ---
 

@@ -4,14 +4,14 @@ label: "TaskOutbox"
 type: "class"
 source_file: "app/models/outbox.py"
 line_start: 11
-line_end: 26
+line_end: 29
 component: "TaskOutbox"
 ---
 
 # TaskOutbox
 
 **Type:** `class`  
-**Defined in:** [app/models/outbox.py](../nodes/app_models_outbox_py.md) (Lines 11-26)  
+**Defined in:** [app/models/outbox.py](../nodes/app_models_outbox_py.md) (Lines 11-29)  
 **Component:** TaskOutbox  
 
 ## Definition

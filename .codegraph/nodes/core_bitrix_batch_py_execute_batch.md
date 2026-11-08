@@ -4,15 +4,15 @@ label: "execute_batch"
 type: "function"
 source_file: "core/bitrix_batch.py"
 line_start: 11
-line_end: 78
-component: "process_outbox_task"
+line_end: 96
+component: "core (execute_batch)"
 ---
 
 # execute_batch
 
 **Type:** `function`  
-**Defined in:** [core/bitrix_batch.py](../nodes/core_bitrix_batch_py.md) (Lines 11-78)  
-**Component:** process_outbox_task  
+**Defined in:** [core/bitrix_batch.py](../nodes/core_bitrix_batch_py.md) (Lines 11-96)  
+**Component:** core (execute_batch)  
 
 ## Definition
 ```python

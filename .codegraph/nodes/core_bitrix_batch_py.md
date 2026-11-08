@@ -4,15 +4,15 @@ label: "bitrix_batch.py"
 type: "file"
 source_file: "core/bitrix_batch.py"
 line_start: 1
-line_end: 78
-component: "process_outbox_task"
+line_end: 96
+component: "core (execute_batch)"
 ---
 
 # bitrix_batch.py
 
 **Type:** `file`  
 **File path:** `core/bitrix_batch.py`  
-**Component:** process_outbox_task  
+**Component:** core (execute_batch)  
 
 ## Definition
 ```python

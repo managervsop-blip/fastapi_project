@@ -3,15 +3,15 @@ id: "app/main.py::enqueue_test"
 label: "enqueue_test"
 type: "function"
 source_file: "app/main.py"
-line_start: 46
-line_end: 53
+line_start: 57
+line_end: 64
 component: "app (enqueue_test)"
 ---
 
 # enqueue_test
 
 **Type:** `function`  
-**Defined in:** [app/main.py](../nodes/app_main_py.md) (Lines 46-53)  
+**Defined in:** [app/main.py](../nodes/app_main_py.md) (Lines 57-64)  
 **Component:** app (enqueue_test)  
 
 ## Definition
