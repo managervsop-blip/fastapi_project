@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Архитектура проекта — Настольная книга</title>
+<style>
+  :root {
+    --bg: #0f1419;
+    --bg-card: #1a1f2e;
+    --bg-code: #0d1117;
+    --border: #2d3748;
+    --text: #e2e8f0;
+    --text-dim: #94a3b8;
+    --accent: #4fd1c5;
+    --accent2: #f6ad55;
+    --danger: #fc8181;
+    --success: #68d391;
+    --blue: #63b3ed;
+    --purple: #b794f4;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 15px;
+  }
+  .layout { display: flex; min-height: 100vh; }
+
+  /* Sidebar */
+  nav {
+    width: 280px;
+    background: var(--bg-card);
+    border-right: 1px solid var(--border);
+    padding: 24px 16px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    flex-shrink: 0;
+  }
+  nav h2 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+  nav a {
+    display: block;
+    color: var(--text-dim);
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    margin-bottom: 2px;
+    transition: all 0.15s;
+  }
+  nav a:hover { background: #252b3d; color: var(--text); }
+  nav a.active { background: var(--accent); color: #0f1419; font-weight: 600; }
+
+  /* Main */
+  main { flex: 1; padding: 40px 48px; max-width: 900px; }
+  h1 { font-size: 32px; margin-bottom: 8px; color: #fff; }
+  h1 + .subtitle { color: var(--text-dim); margin-bottom: 40px; font-size: 16px; }
+  h2 {
+    font-size: 24px;
+    margin: 48px 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--accent);
+    color: #fff;
+  }
+  h3 { font-size: 18px; margin: 28px 0 12px; color: var(--accent2); }
+  p { margin-bottom: 14px; color: var(--text); }
+  ul, ol { margin: 12px 0 16px 24px; }
+  li { margin-bottom: 6px; }
+  code {
+    background: var(--bg-code);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'SF Mono', 'Consolas', monospace;
+    font-size: 13px;
+    color: var(--accent);
+  }
+  pre {
+    background: var(--bg-code);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    overflow-x: auto;
+    margin: 16px 0;
+  }
+  pre code { background: none; padding: 0; color: var(--text); }
+
+  /* Cards */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 16px 0;
+  }
+  .card-title { font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .badge.green { background: rgba(104,211,145,0.15); color: var(--success); }
+  .badge.yellow { background: rgba(246,173,85,0.15); color: var(--accent2); }
+  .badge.red { background: rgba(252,129,129,0.15); color: var(--danger); }
+  .badge.blue { background: rgba(99,179,237,0.15); color: var(--blue); }
+  .badge.purple { background: rgba(183,148,244,0.15); color: var(--purple); }
+
+  /* Diagrams */
+  .diagram {
+    background: var(--bg-code);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+    margin: 20px 0;
+    text-align: center;
+  }
+  .flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .flow-box {
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    min-width: 100px;
+  }
+  .flow-arrow { color: var(--text-dim); font-size: 20px; }
+
+  /* Layer diagram */
+  .layers { display: flex; flex-direction: column; gap: 4px; margin: 20px 0; }
+  .layer {
+    padding: 14px 20px;
+    border-radius: 8px;
+    border-left: 4px solid;
+    background: var(--bg-card);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .layer-name { font-weight: 600; font-size: 15px; }
+  .layer-desc { color: var(--text-dim); font-size: 13px; text-align: right; }
+
+  /* Callout */
+  .callout {
+    border-left: 4px solid var(--accent2);
+    background: rgba(246,173,85,0.08);
+    padding: 14px 18px;
+    border-radius: 0 8px 8px 0;
+    margin: 16px 0;
+  }
+  .callout.danger { border-color: var(--danger); background: rgba(252,129,129,0.08); }
+  .callout.success { border-color: var(--success); background: rgba(104,211,145,0.08); }
+  .callout.info { border-color: var(--blue); background: rgba(99,179,237,0.08); }
+  .callout-title { font-weight: 600; margin-bottom: 6px; }
+
+  /* Table */
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
+  th {
+    background: var(--bg-card);
+    padding: 10px 12px;
+    text-align: left;
+    border-bottom: 2px solid var(--border);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-dim);
+  }
+  td { padding: 10px 12px; border-bottom: 1px solid var(--border); }
+  tr:hover td { background: rgba(79,209,197,0.03); }
+
+  /* Checklist */
+  .checklist { list-style: none; margin-left: 0; }
+  .checklist li { padding-left: 28px; position: relative; margin-bottom: 10px; }
+  .checklist li::before {
+    content: '☐';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 18px;
+  }
+
+  /* Steps */
+  .step {
+    display: flex;
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .step-num {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #0f1419;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .step-body { flex: 1; }
+
+  @media (max-width: 768px) {
+    nav { display: none; }
+    main { padding: 24px 20px; }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+
+<nav>
+  <h2>Содержание</h2>
+  <a href="#intro" class="active">Введение</a>
+  <a href="#big-picture">Общая картина</a>
+  <a href="#layers">Слои системы</a>
+  <a href="#outbox">Паттерн Outbox</a>
+  <a href="#request-flow">Путь запроса</a>
+  <a href="#structure">Структура файлов</a>
+  <a href="#god-nodes">God-ноды</a>
+  <a href="#hotspots">Горячие точки</a>
+  <a href="#edit-guide">Что и как редактировать</a>
+  <a href="#client-guide">Работа с клиентами</a>
+  <a href="#monitoring">Мониторинг</a>
+  <a href="#checklist">Чек-лист поддержки</a>
+</nav>
+
+<main>
+
+<h1>Архитектура проекта</h1>
+<p class="subtitle">Настольная книга: как устроен код, как он работает и как его поддерживать в продакшене</p>
+
+<!-- INTRO -->
+<section id="intro">
+<h2>1. Введение</h2>
+<p>Этот проект — <strong>асинхронный сервис интеграции с Bitrix24</strong>. Он принимает запросы от клиентов, ставит задачи в очередь в базе данных и фоновый воркер постепенно отправляет их в Bitrix, соблюдая лимиты API.</p>
+
+<div class="callout info">
+  <div class="callout-title">Ключевая идея</div>
+  Система не отправляет данные в Bitrix «в лоб». Сначала задача надёжно сохраняется в БД (outbox), и только потом воркер её выполняет. Если Bitrix упал — задача не потеряется, воркер повторит попытку.
+</div>
+
+<h3>Стек технологий</h3>
+<table>
+  <tr><th>Компонент</th><th>Технология</th><th>Зачем</th></tr>
+  <tr><td>API</td><td>FastAPI</td><td>Приём HTTP-запросов от клиентов</td></tr>
+  <tr><td>БД</td><td>SQLAlchemy (async) + PostgreSQL</td><td>Хранение задач, идемпотентность</td></tr>
+  <tr><td>Воркер</td><td>Celery/ARQ-подобный</td><td>Фоновое выполнение задач</td></tr>
+  <tr><td>Миграции</td><td>Alembic</td><td>Версионирование схемы БД</td></tr>
+  <tr><td>Телеметрия</td><td>OpenTelemetry</td><td>Трассировка, метрики</td></tr>
+  <tr><td>Конфиг</td><td>Pydantic Settings</td><td>Валидация переменных окружения</td></tr>
+</table>
+</section>
+
+<!-- BIG PICTURE -->
+<section id="big-picture">
+<h2>2. Общая картина</h2>
+<p>Представь систему как <strong>три больших блока</strong>, связанных через базу данных:</p>
+
+<div class="diagram">
+  <div class="flow">
+    <div class="flow-box" style="background: rgba(99,179,237,0.2); border: 2px solid var(--blue);">
+      🌐 Клиент<br><small style="font-weight:400">HTTP-запрос</small>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-box" style="background: rgba(79,209,197,0.2); border: 2px solid var(--accent);">
+      📥 API (app/)<br><small style="font-weight:400">принимает, валидирует</small>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-box" style="background: rgba(246,173,85,0.2); border: 2px solid var(--accent2);">
+      🗄️ TaskOutbox<br><small style="font-weight:400">таблица в БД</small>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-box" style="background: rgba(183,148,244,0.2); border: 2px solid var(--purple);">
+      ⚙️ Worker<br><small style="font-weight:400">забирает и шлёт</small>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-box" style="background: rgba(104,211,145,0.2); border: 2px solid var(--success);">
+      🎯 Bitrix24 API
+    </div>
+  </div>
+</div>
+
+<p>Всё, что между API и Worker, — это <strong>core/</strong>: общая логика, которую используют оба слоя. Именно поэтому в графе зависимостей <code>core</code> стоит в центре, а не дублируется в API и воркере.</p>
+</section>
+
+<!-- LAYERS -->
+<section id="layers">
+<h2>3. Слои системы</h2>
+<p>Проект разделён на слои. Чем выше слой — тем он «умнее», чем ниже — тем он «техничнее».</p>
+
+<div class="layers">
+  <div class="layer" style="border-color: var(--blue);">
+    <span class="layer-name">🌐 app/ — API-слой</span>
+    <span class="layer-desc">main.py, config.py, db.py, telemetry.py</span>
+  </div>
+  <div class="layer" style="border-color: var(--accent);">
+    <span class="layer-name">🧠 core/ — Доменная логика</span>
+    <span class="layer-desc">outbox.py, rate_limiter.py, bitrix_batch.py, publisher.py</span>
+  </div>
+  <div class="layer" style="border-color: var(--purple);">
+    <span class="layer-name">⚙️ worker/ — Исполнение</span>
+    <span class="layer-desc">tasks.py, settings.py</span>
+  </div>
+  <div class="layer" style="border-color: var(--accent2);">
+    <span class="layer-name">🗄️ migrations/ — Схема БД</span>
+    <span class="layer-desc">env.py, версии миграций</span>
+  </div>
+</div>
+
+<div class="callout success">
+  <div class="callout-title">Правило зависимостей</div>
+  <code>app → core ← worker</code>. API и воркер знают про core, но core не знает про них. Если тебе нужно, чтобы core импортировал что-то из app или worker — это сигнал, что логика лежит не на своём месте.
+</div>
+</section>
+
+<!-- OUTBOX -->
+<section id="outbox">
+<h2>4. Паттерн Outbox — сердце системы</h2>
+<p>Это главное, что нужно понять. Разберём по шагам, что происходит при создании задачи:</p>
+
+<div class="step">
+  <div class="step-num">1</div>
+  <div class="step-body">
+    <strong>Клиент шлёт POST-запрос</strong> в API с данными (например, «создать сделку в Bitrix»).
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">2</div>
+  <div class="step-body">
+    <strong>API валидирует данные</strong> и вызывает <code>core/outbox.py::create_task()</code>. Эта функция пишет строку в таблицу <code>tasks_outbox</code> со статусом <code>pending</code>.
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">3</div>
+  <div class="step-body">
+    <strong>API отвечает клиенту «202 Accepted»</strong> — задача принята, но ещё не выполнена. Клиент не ждёт Bitrix.
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">4</div>
+  <div class="step-body">
+    <strong>Воркер периодически опрашивает БД</strong>, забирает пачку задач со статусом <code>pending</code> и переводит их в <code>processing</code>.
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">5</div>
+  <div class="step-body">
+    <strong>Воркер вызывает <code>process_outbox_task()</code></strong>, который через <code>BitrixRateLimiter</code> соблюдает лимиты API и отправляет данные в Bitrix.
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">6</div>
+  <div class="step-body">
+    <strong>Успех → статус <code>done</code>. Ошибка → <code>failed</code></strong> + запись <code>last_error</code>, задача вернётся в очередь на повтор (retry).
+  </div>
+</div>
+
+<div class="callout">
+  <div class="callout-title">Почему так, а не напрямую?</div>
+  Если API будет вызывать Bitrix напрямую: (1) клиент будет ждать по 5–30 секунд; (2) при падении Bitrix задача потеряется; (3) не получится соблюдать rate limit. Outbox решает все три проблемы сразу.
+</div>
+
+<h3>Таблица tasks_outbox — что в ней лежит</h3>
+<table>
+  <tr><th>Поле</th><th>Что хранит</th><th>Зачем</th></tr>
+  <tr><td><code>id</code></td><td>UUID</td><td>Уникальный идентификатор задачи</td></tr>
+  <tr><td><code>status</code></td><td>pending / processing / done / failed</td><td>Состояние задачи</td></tr>
+  <tr><td><code>payload</code></td><td>JSON</td><td>Данные для отправки в Bitrix</td></tr>
+  <tr><td><code>trace_id</code></td><td>строка</td><td>Связь с трассировкой OpenTelemetry</td></tr>
+  <tr><td><code>last_error</code></td><td>текст</td><td>Последняя ошибка для отладки</td></tr>
+  <tr><td><code>created_at / updated_at</code></td><td>timestamp</td><td>Время жизни задачи</td></tr>
+</table>
+</section>
+
+<!-- REQUEST FLOW -->
+<section id="request-flow">
+<h2>5. Путь запроса — от клиента до Bitrix</h2>
+<div class="diagram">
+<pre style="text-align:left; margin:0; font-size:13px; line-height:1.8;">
+Клиент
+  │
+  ▼
+app/main.py ──────► app/config.py (читает .env)
+  │
+  ▼
+app/models/outbox.py::TaskOutbox ──► INSERT в tasks_outbox
+  │                                    (status = pending)
+  ▼
+Клиенту: 202 Accepted
+  ═══════════════════════════════════════════
+  (дальше — асинхронно, клиент уже свободен)
+
+worker/tasks.py
+  │
+  ├──► SELECT ... WHERE status='pending' LIMIT N
+  │
+  ▼
+core/outbox.py::process_outbox_task()
+  │
+  ├──► core/rate_limiter.py::BitrixRateLimiter (ждём слот)
+  │
+  ├──► core/bitrix_batch.py (группируем запросы)
+  │
+  ▼
+Bitrix24 API
+  │
+  ├──► OK  → UPDATE status='done'
+  └──► ERR → UPDATE status='failed', last_error=...
+</pre>
+</div>
+</section>
+
+<!-- STRUCTURE -->
+<section id="structure">
+<h2>6. Структура файлов</h2>
+<p>Что лежит где и зачем:</p>
+
+<div class="card">
+  <div class="card-title">📁 app/ — API и инфраструктура</div>
+  <table>
+    <tr><td><code>main.py</code></td><td>Точка входа. Собирает FastAPI-приложение. <span class="badge yellow">God-нода</span></td></tr>
+    <tr><td><code>config.py</code></td><td>Pydantic-настройки из .env. <span class="badge green">Стабильно</span></td></tr>
+    <tr><td><code>db.py</code></td><td>Async engine, sessionmaker. <span class="badge yellow">God-нода</span></td></tr>
+    <tr><td><code>telemetry.py</code></td><td>OpenTelemetry, <code>instrument_app()</code></td></tr>
+    <tr><td><code>logging_config.py</code></td><td><code>setup_logging()</code> — логирование</td></tr>
+    <tr><td><code>models/outbox.py</code></td><td><code>TaskOutbox</code> — ORM-модель</td></tr>
+    <tr><td><code>models/idempotency.py</code></td><td><code>IdempotencyKey</code> — защита от дублей</td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <div class="card-title">📁 core/ — Доменная логика (используют и API, и воркер)</div>
+  <table>
+    <tr><td><code>outbox.py</code></td><td><code>create_task()</code> — создание задачи. <span class="badge red">Проверить!</span></td></tr>
+    <tr><td><code>rate_limiter.py</code></td><td><code>BitrixRateLimiter</code> — лимиты API</td></tr>
+    <tr><td><code>bitrix_batch.py</code></td><td>Батчинг запросов к Bitrix</td></tr>
+    <tr><td><code>publisher.py</code></td><td>Публикация событий</td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <div class="card-title">📁 worker/ — Фоновое исполнение</div>
+  <table>
+    <tr><td><code>tasks.py</code></td><td><code>process_outbox_task()</code> — воркер. <span class="badge red">Горячая точка</span></td></tr>
+    <tr><td><code>settings.py</code></td><td>Настройки воркера</td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <div class="card-title">📁 migrations/ — Alembic</div>
+  <table>
+    <tr><td><code>env.py</code></td><td>Окружение Alembic</td></tr>
+    <tr><td><code>versions/*.py</code></td><td>История изменений схемы</td></tr>
+  </table>
+</div>
+</section>
+
+<!-- GOD NODES -->
+<section id="god-nodes">
+<h2>7. God-ноды — что это и почему не всегда плохо</h2>
+<p>«God-нода» — узел с максимальным числом связей. Не всегда это болезнь. Бывает <strong>здоровый хаб</strong> (стабильный, низкая частота изменений) и <strong>жирный объект</strong> (меняется часто, тянет всё).</p>
+
+<table>
+  <tr><th>Узел</th><th>Связей</th><th>Вердикт</th><th>Что делать</th></tr>
+  <tr>
+    <td><code>main.py</code></td><td>12</td>
+    <td><span class="badge red">Fat module</span></td>
+    <td>Вынести инициализацию в <code>bootstrap.py</code></td>
+  </tr>
+  <tr>
+    <td><code>db.py</code></td><td>10 (7 вход.)</td>
+    <td><span class="badge yellow">Риск</span></td>
+    <td>Разделить на <code>db/engine.py</code> + <code>db/base.py</code></td>
+  </tr>
+  <tr>
+    <td><code>core/outbox.py</code></td><td>9 (0 вход.)</td>
+    <td><span class="badge red">Проверить</span></td>
+    <td>Если никто не импортирует — мёртвый код или динамика</td>
+  </tr>
+  <tr>
+    <td><code>worker/tasks.py</code></td><td>9</td>
+    <td><span class="badge red">Горячая точка</span></td>
+    <td>Разбить на подфункции, вынести rate-limit</td>
+  </tr>
+  <tr>
+    <td><code>config.py</code></td><td>8</td>
+    <td><span class="badge green">Здоровый хаб</span></td>
+    <td>Оставить как есть</td>
+  </tr>
+  <tr>
+    <td><code>telemetry.py</code></td><td>5</td>
+    <td><span class="badge green">Кросс-каттинг</span></td>
+    <td>Оставить как есть</td>
+  </tr>
+  <tr>
+    <td><code>TaskOutbox</code></td><td>5</td>
+    <td><span class="badge green">Агрегат</span></td>
+    <td>Оставить как есть</td>
+  </tr>
+</table>
+</section>
+
+<!-- HOTSPOTS -->
+<section id="hotspots">
+<h2>8. Горячие точки — что чинить в первую очередь</h2>
+
+<div class="callout danger">
+  <div class="callout-title">🔴 Приоритет 1: core/outbox.py с 0 входящих связей</div>
+  Все 9 связей модуля — исходящие. Никто его не импортирует. Либо это мёртвый код, либо он загружается через <code>importlib</code> (что хуже для поддержки).
+  <pre><code># Проверь:
+grep -rn "from core.outbox" .
+grep -rn "import core.outbox" .
+grep -rn "core\.outbox" .</code></pre>
+  Если пусто — удаляй. Если динамика — замени на явный импорт и покрой тестами.
+</div>
+
+<div class="callout danger">
+  <div class="callout-title">🔴 Приоритет 2: worker/tasks.py — 8 исходящих связей</div>
+  Воркер напрямую дёргает telemetry (2×) и rate limiter (3×). Это «жирная» функция. Разбей на:
+  <ul style="margin-top:8px;">
+    <li><code>fetch_pending_tasks()</code> — выборка из БД</li>
+    <li><code>send_to_bitrix(task)</code> — отправка</li>
+    <li><code>mark_done() / mark_failed()</code> — обновление статуса</li>
+  </ul>
+  Тогда каждая функция тестируется отдельно, а <code>process_outbox_task</code> становится тонкой обёрткой-оркестратором.
+</div>
+
+<div class="callout">
+  <div class="callout-title">🟡 Приоритет 3: main.py</div>
+  Вынеси в <code>app/bootstrap.py</code>:
+  <pre><code># bootstrap.py
+async def create_app() -> FastAPI: ...
+async def init_db() -> None: ...
+def init_telemetry() -> None: ...
+
+# main.py — только запуск
+if __name__ == "__main__":
+    uvicorn.run(...)</code></pre>
+  Степень <code>main.py</code> упадёт с 12 до 2–3.
+</div>
+
+<div class="callout">
+  <div class="callout-title">🟡 Приоритет 4: db.py</div>
+  Раздели на два файла:
+  <ul style="margin-top:8px;">
+    <li><code>app/db/engine.py</code> — только <code>engine</code> и <code>sessionmaker</code></li>
+    <li><code>app/db/base.py</code> — только <code>Base</code></li>
+  </ul>
+  Модели будут импортировать только <code>base</code>, не таща за собой engine.
+</div>
+
+<div class="callout info">
+  <div class="callout-title">🟡 Приоритет 5: два файла outbox.py</div>
+  <code>app/models/outbox.py</code> и <code>core/outbox.py</code> — путаница. Переименуй:
+  <ul style="margin-top:8px;">
+    <li><code>app/models/outbox.py</code> → оставить (это модель)</li>
+    <li><code>core/outbox.py</code> → <code>core/outbox_service.py</code> (это логика)</li>
+  </ul>
+</div>
+</section>
+
+<!-- EDIT GUIDE -->
+<section id="edit-guide">
+<h2>9. Что и как редактировать</h2>
+<p>Практические сценарии с указанием файлов:</p>
+
+<div class="card">
+  <div class="card-title">➕ Добавить новое поле в задачу</div>
+  <ol>
+    <li>Создай миграцию: <code>alembic revision -m "add field X"</code></li>
+    <li>Отредактируй файл в <code>migrations/versions/</code> — добавь <code>op.add_column(...)</code></li>
+    <li>Обнови модель <code>app/models/outbox.py::TaskOutbox</code> — добавь <code>mapped_column</code></li>
+    <li>Если поле нужно при создании — обнови <code>core/outbox.py::create_task()</code></li>
+    <li>Если поле нужно при обработке — обнови <code>worker/tasks.py</code></li>
+    <li>Прогони <code>alembic upgrade head</code></li>
+  </ol>
+</div>
+
+<div class="card">
+  <div class="card-title">➕ Добавить новый endpoint</div>
+  <ol>
+    <li>Создай роутер в <code>app/</code> (например, <code>app/routes/xxx.py</code>)</li>
+    <li>Подключи в <code>app/main.py</code> через <code>app.include_router(...)</code></li>
+    <li>Валидацию данных — в Pydantic-схеме (отдельный файл <code>app/schemas/</code>)</li>
+    <li>Постановку задачи — через <code>core/outbox.py::create_task()</code></li>
+  </ol>
+</div>
+
+<div class="card">
+  <div class="card-title">➕ Добавить интеграцию с новым API (не Bitrix)</div>
+  <ol>
+    <li>Создай <code>core/new_api_client.py</code></li>
+    <li>Создай <code>core/new_api_rate_limiter.py</code> по образцу <code>BitrixRateLimiter</code></li>
+    <li>Добавь тип задачи в <code>tasks_outbox</code> (поле <code>task_type</code>, если ещё нет)</li>
+    <li>В <code>worker/tasks.py</code> добавь ветвление по <code>task_type</code> или отдельный воркер</li>
+  </ol>
+</div>
+
+<div class="card">
+  <div class="card-title">🔧 Изменить rate limit Bitrix</div>
+  <ol>
+    <li>Найди <code>core/rate_limiter.py</code></li>
+    <li>Константы лимитов должны быть в <code>app/config.py</code>, не хардкодом</li>
+    <li>Если хардкод — вынеси в настройки, чтобы менять без деплоя</li>
+  </ol>
+</div>
+
+<div class="card">
+  <div class="card-title">🔧 Добавить retry-политику</div>
+  <ol>
+    <li>В <code>TaskOutbox</code> должны быть поля <code>retry_count</code> и <code>next_retry_at</code></li>
+    <li>В <code>worker/tasks.py::mark_failed()</code> — инкремент <code>retry_count</code>, расчёт <code>next_retry_at</code> (exponential backoff)</li>
+    <li>В выборке воркера — фильтр <code>WHERE next_retry_at &lt;= NOW()</code></li>
+    <li>При <code>retry_count &gt; MAX</code> — статус <code>dead</code> (не повторять, нужен ручной разбор)</li>
+  </ol>
+</div>
+</section>
+
+<!-- CLIENT GUIDE -->
+<section id="client-guide">
+<h2>10. Работа с клиентами — операционные сценарии</h2>
+
+<div class="callout success">
+  <div class="callout-title">✅ Клиент говорит «задача не выполнилась»</div>
+  <ol style="margin-top:8px;">
+    <li>Найди задачу: <code>SELECT * FROM tasks_outbox WHERE payload::text LIKE '%&lt;ключ&gt;%'</code></li>
+    <li>Посмотри <code>status</code> и <code>last_error</code></li>
+    <li>Если <code>failed</code> — проверь, повторяется ли ошибка (retry_count растёт?)</li>
+    <li>Найди <code>trace_id</code> и посмотри трейс в Jaeger/Grafana Tempo</li>
+    <li>Если ошибка Bitrix — проверь их статус-страницу и лимиты</li>
+  </ol>
+</div>
+
+<div class="callout">
+  <div class="callout-title">⚠️ Воркер «завис» — задачи не уходят</div>
+  <ol style="margin-top:8px;">
+    <li>Проверь, жив ли процесс воркера: <code>ps aux | grep worker</code></li>
+    <li>Проверь очередь: <code>SELECT status, COUNT(*) FROM tasks_outbox GROUP BY status;</code></li>
+    <li>Если много <code>processing</code> — воркер упал, не успев обновить статус. Нужен watchdog: задачи в <code>processing</code> старше N минут → вернуть в <code>pending</code></li>
+    <li>Проверь логи воркера</li>
+  </ol>
+</div>
+
+<div class="callout">
+  <div class="callout-title">⚠️ Клиент жалуется на дубли</div>
+  <ol style="margin-top:8px;">
+    <li>Проверь <code>app/models/idempotency.py::IdempotencyKey</code> — работает ли дедупликация</li>
+    <li>Проверь, передаёт ли клиент <code>Idempotency-Key</code> заголовок</li>
+    <li>Если нет — попроси клиента добавить, или включи дедупликацию по payload</li>
+    <li>Проверь, нет ли двойной отправки: задача <code>done</code>, но Bitrix её не получил → проблема в транзакции между БД и Bitrix (классическая проблема outbox — нужна идемпотентность на стороне Bitrix)</li>
+  </ol>
+</div>
+
+<div class="callout danger">
+  <div class="callout-title">🔴 Массовый сбой (много failed)</div>
+  <ol style="margin-top:8px;">
+    <li>Останови воркер, чтобы не усугублять</li>
+    <li>Найди общий паттерн в <code>last_error</code>: <code>SELECT last_error, COUNT(*) FROM tasks_outbox WHERE status='failed' GROUP BY last_error ORDER BY COUNT(*) DESC;</code></li>
+    <li>Если Bitrix вернул 401 — проверь токен в <code>app/config.py</code> / .env</li>
+    <li>Если rate limit — снизь скорость в <code>core/rate_limiter.py</code></li>
+    <li>После фикса — сбрось статус: <code>UPDATE tasks_outbox SET status='pending' WHERE status='failed' AND ...</code></li>
+  </ol>
+</div>
+</section>
+
+<!-- MONITORING -->
+<section id="monitoring">
+<h2>11. Мониторинг — что смотреть в продакшене</h2>
+
+<h3>Обязательные метрики</h3>
+<table>
+  <tr><th>Метрика</th><th>Откуда</th><th>Норма</th></tr>
+  <tr><td>Размер очереди <code>pending</code></td><td>SQL</td><td>&lt; 1000</td></tr>
+  <tr><td>Задачи в <code>processing</code> дольше 5 мин</td><td>SQL</td><td>0</td></tr>
+  <tr><td>Доля <code>failed</code> за час</td><td>SQL</td><td>&lt; 5%</td></tr>
+  <tr><td>Rate limit hits (429 от Bitrix)</td><td>Логи + OTel</td><td>~0</td></tr>
+  <tr><td>Latency отправки в Bitrix</td><td>OTel</td><td>&lt; 2 сек p95</td></tr>
+  <tr><td>Ошибки API (5xx)</td><td>FastAPI middleware</td><td>&lt; 0.1%</td></tr>
+</table>
+
+<h3>SQL-запрос для дашборда</h3>
+<pre><code>-- Состояние очереди прямо сейчас
+SELECT
+  status,
+  COUNT(*) AS cnt,
+  MIN(created_at) AS oldest,
+  MAX(updated_at) AS newest
+FROM tasks_outbox
+WHERE created_at > NOW() - INTERVAL '24 hours'
+GROUP BY status
+ORDER BY cnt DESC;</code></pre>
+
+<div class="callout info">
+  <div class="callout-title">Совет</div>
+  Заведи алерт: если <code>COUNT(*)</code> задач в <code>pending</code> за 5 минут не уменьшился — значит, воркер не работает. Это самый частый сбой.
+</div>
+</section>
+
+<!-- CHECKLIST -->
+<section id="checklist">
+<h2>12. Чек-лист поддержки</h2>
+
+<h3>Ежедневно</h3>
+<ul class="checklist">
+  <li>Размер очереди <code>pending</code> не растёт</li>
+  <li>Нет задач в <code>processing</code> старше 5 минут</li>
+  <li>Доля <code>failed</code> за сутки &lt; 5%</li>
+  <li>Воркер отвечает (health-check)</li>
+</ul>
+
+<h3>Еженедельно</h3>
+<ul class="checklist">
+  <li>Просмотреть топ-10 ошибок в <code>last_error</code></li>
+  <li>Проверить, не заканчивается ли место в БД (outbox растёт)</li>
+  <li>Проверить актуальность токена Bitrix (срок действия)</li>
+  <li>Прогнать <code>alembic current</code> — совпадает ли с <code>head</code></li>
+</ul>
+
+<h3>Перед релизом</h3>
+<ul class="checklist">
+  <li>Миграции протестированы на staging</li>
+  <li><code>alembic upgrade head</code> проходит без ошибок</li>
+  <li>Тесты зелёные</li>
+  <li>Конфиг валидируется (Pydantic не падает)</li>
+  <li>Версия задеплоена сначала на staging, потом на prod</li>
+  <li>После деплоя — проверить первые 10 задач прошли успешно</li>
+</ul>
+
+<h3>При инциденте</h3>
+<ul class="checklist">
+  <li>Остановить воркер, если ошибки массовые</li>
+  <li>Зафиксировать <code>trace_id</code> проблемных задач</li>
+  <li>Найти паттерн в <code>last_error</code></li>
+  <li>Проверить, не изменился ли API Bitrix (их changelog)</li>
+  <li>После фикса — массово сбросить <code>failed</code> → <code>pending</code> осознанно</li>
+  <li>Написать post-mortem: что сломалось, почему, как предотвратить</li>
+</ul>
+
+<div class="callout success">
+  <div class="callout-title">Главное правило</div>
+  <strong>Не редактируй <code>tasks_outbox</code> вручную без бэкапа.</strong> Это единственный источник правды о том, что не доставлено в Bitrix. Перед любым <code>UPDATE</code> — <code>CREATE TABLE tasks_outbox_backup AS SELECT * FROM tasks_outbox WHERE status='failed';</code>
+</div>
+</section>
+
+<div style="margin-top:60px; padding-top:24px; border-top:1px solid var(--border); color:var(--text-dim); font-size:13px; text-align:center;">
+  Настольная книга по архитектуре • Обновляй при изменении кода
+</div>
+
+</main>
+</div>
+
+<script>
+// Активный пункт меню при скролле
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('nav a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 100) current = s.id;
+  });
+  navLinks.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+});
+</script>
+</body>
+</html>
