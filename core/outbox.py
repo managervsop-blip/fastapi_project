@@ -69,21 +69,20 @@ async def mark_enqueued(task_id: uuid.UUID) -> None:
 
 
 async def mark_processing(task_ids: list[uuid.UUID]) -> None:
-    """Отметить задачи как processing (чтобы другие воркеры их не брали).
-
-    Вызывается в той же транзакции, что и SELECT ... FOR UPDATE.
-    """
     if not task_ids:
         return
     async with SessionLocal() as session:
         await session.execute(
             update(TaskOutbox)
             .where(TaskOutbox.id.in_(task_ids))
-            .values(status="processing", updated_at=datetime.now(timezone.utc))
+            .values(
+                status="processing",
+                processing_started_at=datetime.now(timezone.utc),
+                updated_at=datetime.now(timezone.utc),
+            )
         )
         await session.commit()
     logger.info("outbox: marked %d tasks as processing", len(task_ids))
-
 
 async def mark_done(task_id: uuid.UUID) -> None:
     """Отметить, что задача выполнена."""

@@ -27,7 +27,7 @@ async def execute_batch(commands: dict[str, str]) -> dict[str, Any]:
 
     url = f"{settings.b24_webhook_url}/batch"
     payload = {
-        "halt": 0,  # 0 — выполняем все, даже если есть ошибки
+        "halt": 0,
         "cmd": commands,
     }
 
@@ -37,12 +37,9 @@ async def execute_batch(commands: dict[str, str]) -> dict[str, Any]:
             response.raise_for_status()
             data = response.json()
 
-            # Проверка на системные ошибки
             if "error" in data:
                 error_code = data.get("error", "UNKNOWN")
                 logger.error("batch system error: %s", error_code)
-                # Если пришёл OPERATION_TIME_LIMIT (хотя для batch это редкость),
-                # пробрасываем его с reset_at, чтобы retry мог подождать
                 reset_at = data.get("time", {}).get("operating_reset_at")
                 raise RuntimeError(f"Bitrix batch error: {error_code}, reset_at: {reset_at}")
 
@@ -50,7 +47,6 @@ async def execute_batch(commands: dict[str, str]) -> dict[str, Any]:
             result_error = data.get("result_error", {})
             result_time = data.get("time", {})
 
-            # --- ЛОГИРОВАНИЕ OPERATING ---
             operating = result_time.get("operating")
             reset_at = result_time.get("operating_reset_at")
             if operating is not None:
@@ -69,10 +65,32 @@ async def execute_batch(commands: dict[str, str]) -> dict[str, Any]:
                 "result_error": result_error,
                 "result_time": result_time,
             }
+
         except httpx.HTTPStatusError as e:
-            logger.error("batch HTTP error: %s %s", e.response.status_code, e.response.text)
-            # Пробрасываем статус, чтобы retry мог проверить 429
+            status = e.response.status_code
+            body = e.response.text
+
+            if status == 503 and "QUERY_LIMIT_EXCEEDED" in body:
+                logger.error("batch: QUERY_LIMIT_EXCEEDED, retry with backoff")
+                raise RuntimeError("QUERY_LIMIT_EXCEEDED")
+
+            if status == 429 and "OPERATION_TIME_LIMIT" in body:
+                try:
+                    data = e.response.json()
+                    reset_at = data.get("time", {}).get("operating_reset_at")
+                except Exception:
+                    reset_at = None
+                logger.error("batch: OPERATION_TIME_LIMIT, reset_at=%s", reset_at)
+                raise RuntimeError(f"OPERATION_TIME_LIMIT reset_at: {reset_at}")
+
+            if status == 503 and "QUERYTIMELIMITEXCEPTION" in body:
+                retry_after = e.response.headers.get("Retry-After", "5")
+                logger.error("batch: QUERYTIMELIMITEXCEPTION, Retry-After=%s", retry_after)
+                raise RuntimeError(f"QUERYTIMELIMITEXCEPTION retry_after: {retry_after}")
+
+            logger.error("batch HTTP error: %s %s", status, body[:200])
             raise
+
         except Exception as e:
             logger.error("batch failed: %s", e)
             raise
