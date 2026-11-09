@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Реагирование на инциденты — Runbook</title>
+<style>
+  :root {
+    --bg: #0f1117; --panel: #1a1d27; --panel-2: #222633;
+    --text: #e6e8ee; --muted: #9aa3b2; --accent: #6ea8fe;
+    --green: #4ade80; --yellow: #fbbf24; --red: #f87171;
+    --purple: #c084fc; --border: #2e3440;
+    --mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; padding: 0; background: var(--bg); color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.65;
+  }
+  .layout { display: flex; max-width: 1300px; margin: 0 auto; }
+  .toc {
+    position: sticky; top: 0; align-self: flex-start;
+    width: 260px; min-width: 260px; height: 100vh; overflow-y: auto;
+    padding: 24px 16px; border-right: 1px solid var(--border); background: var(--panel);
+  }
+  .toc h3 { font-size: 0.8rem; color: var(--muted); margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; }
+  .toc a { display: block; color: var(--muted); text-decoration: none; font-size: 0.82rem; padding: 6px 10px; border-radius: 6px; margin-bottom: 2px; }
+  .toc a:hover { background: var(--panel-2); color: var(--text); }
+  .content { flex: 1; padding: 32px 40px; max-width: 1000px; }
+  h1 { font-size: 1.9rem; margin: 0 0 6px; }
+  h2 { font-size: 1.35rem; margin: 44px 0 14px; color: var(--accent); border-bottom: 2px solid var(--border); padding-bottom: 10px; }
+  h3 { font-size: 1.05rem; margin: 26px 0 10px; color: var(--text); }
+  .sub { color: var(--muted); margin-bottom: 32px; font-size: 0.92rem; }
+
+  table { width: 100%; border-collapse: collapse; margin: 14px 0 22px; font-size: 0.84rem; }
+  th, td { border: 1px solid var(--border); padding: 10px 12px; text-align: left; vertical-align: top; }
+  th { background: var(--panel-2); color: var(--text); font-weight: 600; }
+  td { color: var(--muted); }
+  td code, th code { background: var(--panel-2); padding: 2px 6px; border-radius: 4px; font-family: var(--mono); font-size: 0.77rem; color: var(--text); }
+
+  .ok { background: rgba(74,222,128,.08); border-left: 4px solid var(--green); padding: 14px 18px; border-radius: 8px; margin: 16px 0; font-size: 0.88rem; }
+  .warn { background: rgba(251,191,36,.08); border-left: 4px solid var(--yellow); padding: 14px 18px; border-radius: 8px; margin: 16px 0; font-size: 0.88rem; }
+  .bad { background: rgba(248,113,113,.08); border-left: 4px solid var(--red); padding: 14px 18px; border-radius: 8px; margin: 16px 0; font-size: 0.88rem; }
+  .info { background: rgba(110,168,254,.08); border-left: 4px solid var(--accent); padding: 14px 18px; border-radius: 8px; margin: 16px 0; font-size: 0.88rem; }
+
+  pre { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 16px 18px; overflow-x: auto; font-family: var(--mono); font-size: 0.82rem; color: var(--text); margin: 12px 0; line-height: 1.6; }
+  pre .c { color: var(--muted); } pre .g { color: var(--green); } pre .y { color: var(--yellow); } pre .r { color: var(--red); } pre .a { color: var(--accent); }
+
+  ul, ol { padding-left: 24px; margin: 10px 0; }
+  li { margin-bottom: 6px; }
+
+  .badge { display: inline-block; padding: 2px 9px; border-radius: 10px; font-size: 0.72rem; font-weight: 600; }
+  .badge.ok { background: rgba(74,222,128,.15); color: var(--green); }
+  .badge.warn { background: rgba(251,191,36,.15); color: var(--yellow); }
+  .badge.bad { background: rgba(248,113,113,.15); color: var(--red); }
+
+  .steps { counter-reset: step; margin: 20px 0; }
+  .step-item { position: relative; padding: 16px 18px 16px 64px; background: var(--panel); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 10px; }
+  .step-item::before { counter-increment: step; content: counter(step); position: absolute; left: 18px; top: 16px; width: 32px; height: 32px; border-radius: 50%; background: var(--accent); color: #0f1117; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem; }
+  .step-item .st { font-weight: 700; font-size: 0.95rem; margin-bottom: 4px; }
+  .step-item .sd { font-size: 0.85rem; color: var(--muted); }
+
+  .checklist { list-style: none; padding-left: 0; }
+  .checklist li { position: relative; padding-left: 32px; margin-bottom: 10px; font-size: 0.88rem; }
+  .checklist li::before { content: "☐"; position: absolute; left: 0; top: -2px; font-size: 1.2rem; color: var(--accent); }
+
+  @media (max-width: 900px) {
+    .toc { display: none; }
+    .content { padding: 24px 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <nav class="toc">
+    <h3>Оглавление</h3>
+    <a href="#philosophy">1. Главный принцип</a>
+    <a href="#thresholds">2. Пороги тревоги</a>
+    <a href="#triage">3. Первичная диагностика</a>
+    <a href="#scenarios">4. Сценарии (что делать)</a>
+    <a href="#query">5. Шпаргалка запросов</a>
+    <a href="#postmortem">6. Разбор полётов</a>
+  </nav>
+
+  <main class="content">
+
+    <h1>🚨 Реагирование на инциденты — Runbook</h1>
+    <div class="sub">
+      Что делать, когда что-то сломалось: как найти причину, какие показатели считать критичными, и в каком порядке смотреть.<br>
+      <b>Открывайте этот файл, когда пришла тревога или клиент говорит «не работает».</b>
+    </div>
+
+    <!-- ================= 1. ГЛАВНЫЙ ПРИНЦИП ================= -->
+    <h2 id="philosophy">1. Главный принцип: не гадать, а смотреть</h2>
+    <div class="info">
+      У вас есть три источника информации, и у каждого своя роль. Не пытайтесь решить проблему одним из них — используйте все три вместе [citation:1].
+    </div>
+    <table>
+      <thead><tr><th>Инструмент</th><th>На какой вопрос отвечает</th><th>Когда смотреть</th></tr></thead>
+      <tbody>
+        <tr><td><b>Метрики</b> (Grafana, Prometheus)</td><td>«Что-то вообще не так?» (ошибки, задержка, очередь)</td><td><b>Первым делом</b> — увидеть, что проблема есть, и где она примерно.</td></tr>
+        <tr><td><b>Трассы</b> (Tempo)</td><td>«Где именно внутри запроса сломалось или зависло?»</td><td><b>Вторым</b> — когда знаете, что проблема есть, но не знаете, в каком сервисе/шаге.</td></tr>
+        <tr><td><b>Логи</b> (uvicorn, arq, PostgreSQL)</td><td>«Почему это сломалось?» (конкретная ошибка, стектрейс)</td><td><b>Третьим</b> — когда нашли виновника, но нужна причина.</td></tr>
+      </tbody>
+    </table>
+    <div class="warn">
+      <b>Ошибка новичка:</b> сразу лезть в логи и читать тысячи строк. Сначала посмотрите на графики — они покажут, <b>куда</b> смотреть. Логи — только для подтверждения причины.
+    </div>
+
+    <!-- ================= 2. ПОРОГИ ТРЕВОГИ ================= -->
+    <h2 id="thresholds">2. Какие показатели считать критичными (пороги)</h2>
+    <p>Вот цифры, при которых пора бить тревогу. Если показатель ниже — это нормально, не паникуйте.</p>
+    <table>
+      <thead><tr><th>Показатель</th><th>Норма</th><th>⚠️ Внимание</th><th>🚨 Критично (будильник)</th></tr></thead>
+      <tbody>
+        <tr><td><b>Очередь: <code>pending</code></b></td><td>0–5</td><td>6–20 (растёт)</td><td><b>&gt; 20</b> и не падает 5+ минут</td></tr>
+        <tr><td><b>Очередь: <code>failed</code></b></td><td>0</td><td>1–5 в час</td><td><b>&gt; 5</b> или растёт быстро</td></tr>
+        <tr><td><b>Ошибки 5xx</b></td><td>0</td><td>Любые</td><td><b>Любые</b> (это серверные ошибки)</td></tr>
+        <tr><td><b>Latency p95</b></td><td>&lt; 0.5 сек</td><td>0.5–2 сек</td><td><b>&gt; 2 сек</b></td></tr>
+        <tr><td><b>RPS</b> (резкое падение)</td><td>Стабильно</td><td>−30%</td><td><b>−50%</b> и больше (значит, запросы не доходят)</td></tr>
+      </tbody>
+    </table>
+    <div class="ok">
+      <b>Для 50 клиентов:</b> эти же пороги работают, но с фильтром по <code>tenant_id</code>. Если у одного клиента очередь <code>pending</code> растёт, а у остальных всё нормально — проблема в его экземпляре (его БД, его вебхук, его Worker).
+    </div>
+
+    <!-- ================= 3. ПЕРВИЧНАЯ ДИАГНОСТИКА ================= -->
+    <h2 id="triage">3. Первичная диагностика (за 2 минуты)</h2>
+    <div class="steps">
+      <div class="step-item">
+        <div class="st">Откройте Grafana → дашборд <code>fastapi_project</code></div>
+        <div class="sd">Смотрите на 4 панели: «Очередь задач», «RPS», «p95 Latency», «Ошибки 5xx».</div>
+      </div>
+      <div class="step-item">
+        <div class="st">Определите, какой показатель «красный»</div>
+        <div class="sd">Если очередь растёт — проблема в Worker. Если ошибки 5xx — проблема в FastAPI. Если latency — проблема в БД или внешнем API.</div>
+      </div>
+      <div class="step-item">
+        <div class="st">Проверьте, все ли контейнеры живы</div>
+        <div class="sd"><code>podman ps</code> — Redis, PostgreSQL, Collector, Prometheus, Tempo, Grafana должны быть <code>Up</code>.</div>
+      </div>
+      <div class="step-item">
+        <div class="st">Проверьте, запущены ли процессы</div>
+        <div class="sd"><code>pkill -f uvicorn</code> не нужен, просто проверьте: <code>ps aux | grep -E 'uvicorn|arq'</code>. Оба должны быть.</div>
+      </div>
+    </div>
+
+    <!-- ================= 4. СЦЕНАРИИ ================= -->
+    <h2 id="scenarios">4. Сценарии: что случилось → что делать</h2>
+
+    <h3>Сценарий A: Очередь <code>pending</code> растёт и не падает</h3>
+    <div class="bad">
+      <b>Симптом:</b> График «Очередь задач» показывает, что <code>pending</code> растёт (10, 20, 50...), а <code>done</code> не увеличивается.
+    </div>
+    <p><b>Причина:</b> Worker не забирает задачи из Redis (или не может их выполнить).</p>
+    <div class="steps">
+      <div class="step-item">
+        <div class="st">Проверьте, запущен ли Worker</div>
+        <div class="sd">В терминале с <code>arq</code> должны идти логи <code>cron:publish_pending</code>. Если тишина — Worker упал. Запустите: <code>arq worker.settings.WorkerSettings</code>.</div>
+      </div>
+      <div class="step-item">
+        <div class="st">Проверьте Redis</div>
+        <div class="sd"><code>podman exec fastapi_project_redis_1 redis-cli ping</code> → должно быть <code>PONG</code>. Если нет — <code>podman-compose up -d</code>.</div>
+      </div>
+      <div class="step-item">
+        <div class="st">Проверьте, видит ли Worker задачи</div>
+        <div class="sd">В логах Worker должно быть <code>publisher: enqueued task ...</code>. Если есть, но <code>process_outbox_task</code> не начинается — проблема в Redis-очереди.</div>
+      </div>
+      <div class="step-item">
+        <div class="st">Проверьте БД (не завис ли Worker на запросе)</div>
+        <div class="sd"><code>podman exec fastapi_project_postgres_1 psql -U fastapi -d fastapi_db -c "SELECT pid, state, query FROM pg_stat_activity WHERE state != 'idle';"</code> — если видите долгий <code>SELECT</code> или <code>UPDATE</code>, возможно, БД тормозит.</div>
+      </div>
+    </div>
+
+    <h3>Сценарий B: Ошибки 5xx (FastAPI возвращает 500)</h3>
+    <div class="bad">
+      <b>Симптом:</b> Панель «Ошибки 5xx» показывает ненулевые значения.
+    </div>
+    <p><b>Причина:</b> Исключение внутри FastAPI (необработанная ошибка).</p>
+    <div class="steps">
+      <div class="step-item">
+        <div class="st">Посмотрите в терминал с <code>uvicorn</code></div>
+        <div class="sd">Там будет <code>Traceback</code>. Ищите последнюю строку (<code>SomeError: ...</code>). Это и есть причина.</div>
+      </div>
+      <div class="step-item">
+        <div class="st">Если traceback нет — найдите <code>trace_id</code> упавшей задачи</div>
+        <div class="sd">В Grafana → Tempo → TraceQL → <code>{ status = error }</code> или <code>{ resource.service.name = "fastapi-project" && status = error }</code>.</div>
+      </div>
+      <div class="step-item">
+        <div class="st">Проверьте, не связано ли с БД</div>
+        <div class="sd">Если в traceback видите <code>asyncpg</code> или <code>sqlalchemy</code> — проблема в подключении к PostgreSQL. Проверьте <code>podman ps</code> (контейнер <code>postgres</code>).</div>
+      </div>
+    </div>
+
+    <h3>Сценарий C: Latency высокая (запросы медленные)</h3>
+    <div class="bad">
+      <b>Симптом:</b> «p95 Latency» > 2 секунд.
+    </div>
+    <p><b>Причина:</b> Медленная БД, медленный внешний API (Битрикс24), или сам Worker тормозит.</p>
+    <div class="steps">
+      <div class="step-item">
+        <div class="st">Найдите медленную трассу</div>
+        <div class="sd">Grafana → Tempo → TraceQL → <code>{ duration > 2s }</code>. Откройте самую долгую.</div>
+      </div>
+      <div class="step-item">
+        <div class="st">Посмотрите, какой спан долгий</div>
+        <div class="sd">Если <code>process_outbox_task</code> долгий — проблема в Worker (вызов Битрикс24 или БД). Если <code>POST /...</code> долгий — проблема в FastAPI (БД).</div>
+      </div>
+      <div class="step-item">
+        <div class="st">Проверьте БД</div>
+        <div class="sd"><code>podman exec fastapi_project_postgres_1 psql -U fastapi -d fastapi_db -c "SELECT query, mean_exec_time FROM pg_stat_statements ORDER BY mean_exec_time DESC LIMIT 5;"</code> (если расширение включено). Или просто посмотрите на <code>pg_stat_activity</code>.</div>
+      </div>
+    </div>
+
+    <h3>Сценарий D: RPS резко упал</h3>
+    <div class="warn">
+      <b>Симптом:</b> График RPS падает в 2 раза и больше.
+    </div>
+    <p><b>Причина:</b> Либо запросы перестали приходить (Битрикс24 не шлёт вебхуки), либо FastAPI не принимает (порт, сеть).</p>
+    <div class="steps">
+      <div class="step-item">
+        <div class="st">Проверьте, живы ли FastAPI</div>
+        <div class="sd"><code>curl http://127.0.0.1:8000/health</code> → <code>{"status":"ok"}</code>. Если нет — процесс упал.</div>
+      </div>
+      <div class="step-item">
+        <div class="st">Проверьте, идут ли запросы вообще</div>
+        <div class="sd">В терминале <code>uvicorn</code> должны появляться строки <code>POST /webhook/bitrix ... 200 OK</code>. Если нет — проблема на стороне Битрикс24 (не шлёт) или сеть.</div>
+      </div>
+    </div>
+
+    <!-- ================= 5. ШПАРГАЛКА ЗАПРОСОВ ================= -->
+    <h2 id="query">5. Шпаргалка запросов (быстро найти причину)</h2>
+
+    <h3>В Grafana / Prometheus</h3>
+    <pre><span class="c"># Очередь по статусам</span>
+tasks_outbox_count
+
+<span class="c"># Ошибки 5xx (должно быть пусто)</span>
+rate(http_requests_total{status=~"5.."}[5m])
+
+<span class="c"># Самые медленные эндпоинты (p95)</span>
+histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m]))
+
+<span class="c"># RPS</span>
+rate(http_requests_total[1m])</pre>
+
+    <h3>В Grafana / Tempo (поиск проблемных трасс)</h3>
+    <pre><span class="c"># Все трассы с ошибкой</span>
+{ status = error }
+
+<span class="c"># Трассы дольше 2 секунд</span>
+{ duration > 2s }
+
+<span class="c"># Трассы конкретного сервиса</span>
+{ resource.service.name = "fastapi-worker" }
+
+<span class="c"># Трассы конкретного клиента (если есть tenant_id)</span>
+{ resource.tenant.id = "client_1" }</pre>
+
+    <h3>В терминале (SQL к БД)</h3>
+    <pre><span class="c"># Что сейчас выполняется в БД (долгие запросы)</span>
+podman exec fastapi_project_postgres_1 psql -U fastapi -d fastapi_db \
+  -c "SELECT pid, state, query FROM pg_stat_activity WHERE state != 'idle';"
+
+<span class="c"># Последние упавшие задачи (с ошибкой)</span>
+podman exec fastapi_project_postgres_1 psql -U fastapi -d fastapi_db \
+  -c "SELECT id, status, last_error FROM tasks_outbox WHERE status='failed' ORDER BY updated_at DESC LIMIT 5;"
+
+<span class="c"># Задачи, которые зависли в pending > 5 минут</span>
+podman exec fastapi_project_postgres_1 psql -U fastapi -d fastapi_db \
+  -c "SELECT id, created_at FROM tasks_outbox WHERE status='pending' AND created_at < NOW() - INTERVAL '5 minutes';"</pre>
+
+    <!-- ================= 6. РАЗБОР ПОЛЁТОВ ================= -->
+    <h2 id="postmortem">6. Разбор полётов (после того как починили)</h2>
+    <p>Когда проблема решена, не просто закройте вкладку. Запишите три вещи в файл <code>INCIDENTS.md</code> (создайте в корне проекта):</p>
+    <ol>
+      <li><b>Что случилось</b> (симптом: «очередь выросла до 200»).</li>
+      <li><b>Почему случилось</b> (причина: «Worker упал из-за OOM» или «Redis перезагрузился без AOF»).</li>
+      <li><b>Что сделали, чтобы не повторилось</b> (например: «Добавили алерт на pending > 20», «Включили AOF в Redis»).</li>
+    </ol>
+    <div class="ok">
+      <b>Зачем это:</b> через месяц вы забудете, почему очередь росла. Записи спасут вас (и клиента) от повторения той же ошибки. Это стандартная практика SRE — «postmortem culture» [citation:8].
+    </div>
+
+    <div class="ok" style="margin-top:32px;">
+      <b>Готово.</b> Теперь у вас есть не просто инструменты, а <b>методика</b>: что смотреть, какие пороги считать критичными, и что делать в каждом сценарии. Когда что-то сломается — откройте этот файл, найдите симптом, выполните шаги.
+    </div>
+
+  </main>
+</div>
+</body>
+</html>

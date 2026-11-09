@@ -4,7 +4,7 @@ label: "outbox.py"
 type: "file"
 source_file: "app/models/outbox.py"
 line_start: 1
-line_end: 29
+line_end: 39
 component: "TaskOutbox"
 ---
 
@@ -26,7 +26,7 @@ module outbox.py
 - [db.py](app_db_py.md)
 
 ## Imported By
-- [publisher.py](core_publisher_py.md)
 - [main.py](app_main_py.md)
+- [publisher.py](core_publisher_py.md)
 - [outbox.py](core_outbox_py.md)
 - [tasks.py](worker_tasks_py.md)

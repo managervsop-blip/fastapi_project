@@ -12,7 +12,3 @@ members_count: 2
 ## Members
 - [bitrix_batch.py](../nodes/core_bitrix_batch_py.md) (`file` in `core/bitrix_batch.py`)
 - [execute_batch](../nodes/core_bitrix_batch_py_execute_batch.md) (`function` in `core/bitrix_batch.py`)
-
-## Component Dependencies
-
-- Depends on [instrument_app](instrument_app.md) (1 calls/connections)

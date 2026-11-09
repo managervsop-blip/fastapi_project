@@ -19,5 +19,4 @@ members_count: 6
 
 ## Component Dependencies
 
-- Depends on [instrument_app](instrument_app.md) (1 calls/connections)
-- Depends on [app (Base)](app_Base_.md) (1 calls/connections)
+- Depends on [TaskOutbox](TaskOutbox.md) (2 calls/connections)

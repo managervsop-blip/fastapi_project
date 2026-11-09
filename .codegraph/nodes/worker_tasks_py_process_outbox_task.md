@@ -3,15 +3,15 @@ id: "worker/tasks.py::process_outbox_task"
 label: "process_outbox_task"
 type: "function"
 source_file: "worker/tasks.py"
-line_start: 101
-line_end: 250
+line_start: 109
+line_end: 272
 component: "worker (process_outbox_task)"
 ---
 
 # process_outbox_task
 
 **Type:** `function`  
-**Defined in:** [worker/tasks.py](../nodes/worker_tasks_py.md) (Lines 101-250)  
+**Defined in:** [worker/tasks.py](../nodes/worker_tasks_py.md) (Lines 109-272)  
 **Component:** worker (process_outbox_task)  
 
 ## Definition

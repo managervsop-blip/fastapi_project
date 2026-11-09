@@ -5,14 +5,14 @@ type: "file"
 source_file: "app/models/idempotency.py"
 line_start: 1
 line_end: 20
-component: "app (Base)"
+component: "app/models (IdempotencyKey)"
 ---
 
 # idempotency.py
 
 **Type:** `file`  
 **File path:** `app/models/idempotency.py`  
-**Component:** app (Base)  
+**Component:** app/models (IdempotencyKey)  
 
 ## Definition
 ```python

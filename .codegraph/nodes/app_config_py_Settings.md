@@ -5,14 +5,14 @@ type: "class"
 source_file: "app/config.py"
 line_start: 4
 line_end: 26
-component: "instrument_app"
+component: "TaskOutbox"
 ---
 
 # Settings
 
 **Type:** `class`  
 **Defined in:** [app/config.py](../nodes/app_config_py.md) (Lines 4-26)  
-**Component:** instrument_app  
+**Component:** TaskOutbox  
 
 ## Definition
 ```python

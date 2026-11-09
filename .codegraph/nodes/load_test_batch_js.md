@@ -5,14 +5,14 @@ type: "file"
 source_file: "load_test_batch.js"
 line_start: 1
 line_end: 92
-component: "e2eCheck (Component 9)"
+component: "e2eCheck (Component 8)"
 ---
 
 # load_test_batch.js
 
 **Type:** `file`  
 **File path:** `load_test_batch.js`  
-**Component:** e2eCheck (Component 9)  
+**Component:** e2eCheck (Component 8)  
 
 ## Definition
 ```javascript

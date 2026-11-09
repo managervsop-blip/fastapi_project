@@ -20,5 +20,5 @@ members_count: 7
 
 ## Component Dependencies
 
-- Depends on [app (Base)](app_Base_.md) (3 calls/connections)
-- Depends on [TaskOutbox](TaskOutbox.md) (3 calls/connections)
+- Depends on [TaskOutbox](TaskOutbox.md) (4 calls/connections)
+- Depends on [app/models (IdempotencyKey)](app_models_IdempotencyKey_.md) (2 calls/connections)

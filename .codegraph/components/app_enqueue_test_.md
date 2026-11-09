@@ -20,8 +20,6 @@ members_count: 7
 
 ## Component Dependencies
 
-- Depends on [instrument_app](instrument_app.md) (3 calls/connections)
-- Depends on [app (setup_logging)](app_setup_logging_.md) (2 calls/connections)
-- Depends on [app (Base)](app_Base_.md) (1 calls/connections)
-- Depends on [TaskOutbox](TaskOutbox.md) (1 calls/connections)
+- Depends on [instrument_app](instrument_app.md) (5 calls/connections)
+- Depends on [TaskOutbox](TaskOutbox.md) (2 calls/connections)
 - Depends on [core (create_task)](core_create_task_.md) (1 calls/connections)

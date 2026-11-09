@@ -5,14 +5,14 @@ type: "class"
 source_file: "app/db.py"
 line_start: 29
 line_end: 30
-component: "app (Base)"
+component: "TaskOutbox"
 ---
 
 # Base
 
 **Type:** `class`  
 **Defined in:** [app/db.py](../nodes/app_db_py.md) (Lines 29-30)  
-**Component:** app (Base)  
+**Component:** TaskOutbox  
 
 ## Definition
 ```python

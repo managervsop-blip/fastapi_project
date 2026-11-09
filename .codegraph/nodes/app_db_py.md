@@ -5,14 +5,14 @@ type: "file"
 source_file: "app/db.py"
 line_start: 1
 line_end: 35
-component: "app (Base)"
+component: "TaskOutbox"
 ---
 
 # db.py
 
 **Type:** `file`  
 **File path:** `app/db.py`  
-**Component:** app (Base)  
+**Component:** TaskOutbox  
 
 ## Definition
 ```python
@@ -28,9 +28,9 @@ module db.py
 
 ## Imported By
 - [idempotency.py](app_models_idempotency_py.md)
+- [main.py](app_main_py.md)
 - [publisher.py](core_publisher_py.md)
+- [outbox.py](core_outbox_py.md)
 - [env.py](migrations_env_py.md)
 - [outbox.py](app_models_outbox_py.md)
-- [main.py](app_main_py.md)
-- [outbox.py](core_outbox_py.md)
 - [tasks.py](worker_tasks_py.md)

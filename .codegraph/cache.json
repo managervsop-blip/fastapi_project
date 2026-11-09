@@ -537,1541 +537,6 @@
       "edges": []
     }
   },
-  "core/rate_limiter.py": {
-    "mtime": 1794078857.4985886,
-    "size": 3740,
-    "hash": "5f843035e3d0c6a30e3102ef1e617f48",
-    "result": {
-      "nodes": [
-        {
-          "id": "core/rate_limiter.py",
-          "label": "rate_limiter.py",
-          "type": "file",
-          "source_file": "core/rate_limiter.py",
-          "line_start": 1,
-          "line_end": 106,
-          "signature": "module rate_limiter.py",
-          "docstring": "",
-          "local_bindings": {}
-        },
-        {
-          "id": "core/rate_limiter.py::BitrixRateLimiter",
-          "label": "BitrixRateLimiter",
-          "type": "class",
-          "source_file": "core/rate_limiter.py",
-          "line_start": 50,
-          "line_end": 106,
-          "signature": "class BitrixRateLimiter",
-          "docstring": "\u041e\u0433\u0440\u0430\u043d\u0438\u0447\u0438\u0442\u0435\u043b\u044c \u0441\u043a\u043e\u0440\u043e\u0441\u0442\u0438 \u0434\u043b\u044f \u0437\u0430\u043f\u0440\u043e\u0441\u043e\u0432 \u043a \u0411\u0438\u0442\u0440\u0438\u043a\u044124.",
-          "local_bindings": {}
-        },
-        {
-          "id": "core/rate_limiter.py::BitrixRateLimiter.__init__",
-          "label": "__init__",
-          "type": "method",
-          "source_file": "core/rate_limiter.py",
-          "line_start": 53,
-          "line_end": 64,
-          "signature": "def __init__(\n        self,\n        redis_client: Redis,\n        tenant_id: str = \"client_1\",\n        rate_per_sec: float = 2.0,  # 2 RPS \u0434\u043b\u044f \u0431\u0430\u0437\u043e\u0432\u043e\u0433\u043e, 5 \u0434\u043b\u044f \u042d\u043d\u0442\u0435\u0440\u043f\u0440\u0430\u0439\u0437\u0430\n        capacity: int = 5,           # \u0432\u0441\u043f\u043b\u0435\u0441\u043a \u0434\u043e 5 \u0437\u0430\u043f\u0440\u043e\u0441\u043e\u0432\n    )",
-          "docstring": "",
-          "local_bindings": {
-            "redis_client": "Redis",
-            "tenant_id": "str",
-            "rate_per_sec": "float",
-            "capacity": "int"
-          }
-        },
-        {
-          "id": "core/rate_limiter.py::BitrixRateLimiter.acquire",
-          "label": "acquire",
-          "type": "method",
-          "source_file": "core/rate_limiter.py",
-          "line_start": 66,
-          "line_end": 95,
-          "signature": "async def acquire(self) -> bool",
-          "docstring": "\u041f\u043e\u043f\u044b\u0442\u0430\u0442\u044c\u0441\u044f \u043f\u043e\u043b\u0443\u0447\u0438\u0442\u044c \u0440\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u0435 \u043d\u0430 \u0437\u0430\u043f\u0440\u043e\u0441.\n        \u0412\u043e\u0437\u0432\u0440\u0430\u0449\u0430\u0435\u0442 True, \u0435\u0441\u043b\u0438 \u043c\u043e\u0436\u043d\u043e \u0432\u044b\u043f\u043e\u043b\u043d\u044f\u0442\u044c, False \u2014 \u0435\u0441\u043b\u0438 \u043d\u0443\u0436\u043d\u043e \u043f\u043e\u0434\u043e\u0436\u0434\u0430\u0442\u044c.",
-          "local_bindings": {
-            "now": "time.time"
-          }
-        },
-        {
-          "id": "core/rate_limiter.py::BitrixRateLimiter.wait_and_acquire",
-          "label": "wait_and_acquire",
-          "type": "method",
-          "source_file": "core/rate_limiter.py",
-          "line_start": 97,
-          "line_end": 106,
-          "signature": "async def wait_and_acquire(self, max_wait: float = 30.0) -> bool",
-          "docstring": "\u0416\u0434\u0430\u0442\u044c, \u043f\u043e\u043a\u0430 \u043d\u0435 \u043f\u043e\u044f\u0432\u0438\u0442\u0441\u044f \u0442\u043e\u043a\u0435\u043d (\u0441 \u043e\u0433\u0440\u0430\u043d\u0438\u0447\u0435\u043d\u0438\u0435\u043c \u043f\u043e \u0432\u0440\u0435\u043c\u0435\u043d\u0438).",
-          "local_bindings": {
-            "max_wait": "float",
-            "start": "time.time"
-          }
-        }
-      ],
-      "edges": [
-        {
-          "source": "core/rate_limiter.py",
-          "target": "asyncio",
-          "relation": "imports",
-          "import_map": {
-            "asyncio": "asyncio"
-          }
-        },
-        {
-          "source": "core/rate_limiter.py",
-          "target": "time",
-          "relation": "imports",
-          "import_map": {
-            "time": "time"
-          }
-        },
-        {
-          "source": "core/rate_limiter.py",
-          "target": "logging",
-          "relation": "imports",
-          "import_map": {
-            "logging": "logging"
-          }
-        },
-        {
-          "source": "core/rate_limiter.py",
-          "target": "redis.asyncio",
-          "relation": "imports",
-          "import_map": {
-            "Redis": "Redis"
-          }
-        },
-        {
-          "source": "core/rate_limiter.py",
-          "target": "logging.getLogger",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/rate_limiter.py",
-          "target": "core/rate_limiter.py::BitrixRateLimiter",
-          "relation": "contains",
-          "import_map": {}
-        },
-        {
-          "source": "core/rate_limiter.py::BitrixRateLimiter",
-          "target": "core/rate_limiter.py::BitrixRateLimiter.__init__",
-          "relation": "contains",
-          "import_map": {}
-        },
-        {
-          "source": "core/rate_limiter.py::BitrixRateLimiter",
-          "target": "core/rate_limiter.py::BitrixRateLimiter.acquire",
-          "relation": "contains",
-          "import_map": {}
-        },
-        {
-          "source": "core/rate_limiter.py::BitrixRateLimiter.acquire",
-          "target": "time.time",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/rate_limiter.py::BitrixRateLimiter.acquire",
-          "target": "self.redis.script_load",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/rate_limiter.py::BitrixRateLimiter.acquire",
-          "target": "self.redis.evalsha",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/rate_limiter.py::BitrixRateLimiter.acquire",
-          "target": "logger.warning",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/rate_limiter.py::BitrixRateLimiter.acquire",
-          "target": "self.redis.script_load",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/rate_limiter.py::BitrixRateLimiter.acquire",
-          "target": "self.redis.evalsha",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/rate_limiter.py::BitrixRateLimiter.acquire",
-          "target": "logger.debug",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/rate_limiter.py::BitrixRateLimiter",
-          "target": "core/rate_limiter.py::BitrixRateLimiter.wait_and_acquire",
-          "relation": "contains",
-          "import_map": {}
-        },
-        {
-          "source": "core/rate_limiter.py::BitrixRateLimiter.wait_and_acquire",
-          "target": "time.time",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/rate_limiter.py::BitrixRateLimiter.wait_and_acquire",
-          "target": "time.time",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/rate_limiter.py::BitrixRateLimiter.wait_and_acquire",
-          "target": "self.acquire",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/rate_limiter.py::BitrixRateLimiter.wait_and_acquire",
-          "target": "asyncio.sleep",
-          "relation": "calls",
-          "import_map": {}
-        }
-      ]
-    }
-  },
-  "core/publisher.py": {
-    "mtime": 1794082997.225378,
-    "size": 2124,
-    "hash": "44fb28aaa9370aee5d15a4d42686620a",
-    "result": {
-      "nodes": [
-        {
-          "id": "core/publisher.py",
-          "label": "publisher.py",
-          "type": "file",
-          "source_file": "core/publisher.py",
-          "line_start": 1,
-          "line_end": 57,
-          "signature": "module publisher.py",
-          "docstring": "",
-          "local_bindings": {}
-        },
-        {
-          "id": "core/publisher.py::publish_pending",
-          "label": "publish_pending",
-          "type": "function",
-          "source_file": "core/publisher.py",
-          "line_start": 15,
-          "line_end": 57,
-          "signature": "async def publish_pending(ctx=None, limit: int = 100) -> int",
-          "docstring": "\u0418\u0437\u0434\u0430\u0442\u0435\u043b\u044c: \u0447\u0438\u0442\u0430\u0435\u0442 pending \u0438\u0437 outbox \u0438 \u043a\u043b\u0430\u0434\u0451\u0442 \u0432 Redis.\n    \n    \u0422\u0430\u043a\u0436\u0435 \u0432\u043e\u0437\u0432\u0440\u0430\u0449\u0430\u0435\u0442 \u0432 pending \u0437\u0430\u0434\u0430\u0447\u0438, \u043a\u043e\u0442\u043e\u0440\u044b\u0435 \u0437\u0430\u0432\u0438\u0441\u043b\u0438 \u0432 enqueued > 5 \u043c\u0438\u043d\u0443\u0442.",
-          "local_bindings": {
-            "limit": "int",
-            "session": "SessionLocal"
-          }
-        }
-      ],
-      "edges": [
-        {
-          "source": "core/publisher.py",
-          "target": "logging",
-          "relation": "imports",
-          "import_map": {
-            "logging": "logging"
-          }
-        },
-        {
-          "source": "core/publisher.py",
-          "target": "datetime",
-          "relation": "imports",
-          "import_map": {
-            "datetime": "datetime",
-            "timezone": "timezone",
-            "timedelta": "timedelta"
-          }
-        },
-        {
-          "source": "core/publisher.py",
-          "target": "sqlalchemy",
-          "relation": "imports",
-          "import_map": {
-            "select": "select",
-            "update": "update"
-          }
-        },
-        {
-          "source": "core/publisher.py",
-          "target": "arq",
-          "relation": "imports",
-          "import_map": {
-            "create_pool": "create_pool"
-          }
-        },
-        {
-          "source": "core/publisher.py",
-          "target": "arq.connections",
-          "relation": "imports",
-          "import_map": {
-            "RedisSettings": "RedisSettings"
-          }
-        },
-        {
-          "source": "core/publisher.py",
-          "target": "app.config",
-          "relation": "imports",
-          "import_map": {
-            "settings": "settings"
-          }
-        },
-        {
-          "source": "core/publisher.py",
-          "target": "app.db",
-          "relation": "imports",
-          "import_map": {
-            "SessionLocal": "SessionLocal"
-          }
-        },
-        {
-          "source": "core/publisher.py",
-          "target": "app.models.outbox",
-          "relation": "imports",
-          "import_map": {
-            "TaskOutbox": "TaskOutbox"
-          }
-        },
-        {
-          "source": "core/publisher.py",
-          "target": "core",
-          "relation": "imports",
-          "import_map": {
-            "outbox": "outbox"
-          }
-        },
-        {
-          "source": "core/publisher.py",
-          "target": "logging.getLogger",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/publisher.py",
-          "target": "core/publisher.py::publish_pending",
-          "relation": "contains",
-          "import_map": {}
-        },
-        {
-          "source": "core/publisher.py::publish_pending",
-          "target": "datetime.now",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/publisher.py::publish_pending",
-          "target": "timedelta",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/publisher.py::publish_pending",
-          "target": "SessionLocal",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/publisher.py::publish_pending",
-          "target": "session.execute",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/publisher.py::publish_pending",
-          "target": "update(TaskOutbox)\n            .where(\n                TaskOutbox.status == \"enqueued\",\n                TaskOutbox.updated_at < stale_threshold,\n            )\n            .values",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/publisher.py::publish_pending",
-          "target": "update(TaskOutbox)\n            .where",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/publisher.py::publish_pending",
-          "target": "update",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/publisher.py::publish_pending",
-          "target": "datetime.now",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/publisher.py::publish_pending",
-          "target": "logger.warning",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/publisher.py::publish_pending",
-          "target": "session.commit",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/publisher.py::publish_pending",
-          "target": "outbox.fetch_pending",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/publisher.py::publish_pending",
-          "target": "create_pool",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/publisher.py::publish_pending",
-          "target": "RedisSettings.from_dsn",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/publisher.py::publish_pending",
-          "target": "redis.enqueue_job",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/publisher.py::publish_pending",
-          "target": "str",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/publisher.py::publish_pending",
-          "target": "str",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/publisher.py::publish_pending",
-          "target": "outbox.mark_enqueued",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/publisher.py::publish_pending",
-          "target": "logger.info",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/publisher.py::publish_pending",
-          "target": "logger.warning",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/publisher.py::publish_pending",
-          "target": "redis.close",
-          "relation": "calls",
-          "import_map": {}
-        }
-      ]
-    }
-  },
-  "migrations/env.py": {
-    "mtime": 1793905296.712124,
-    "size": 1590,
-    "hash": "c581b2c4cfd1905cbe4ba843a8650eb5",
-    "result": {
-      "nodes": [
-        {
-          "id": "migrations/env.py",
-          "label": "env.py",
-          "type": "file",
-          "source_file": "migrations/env.py",
-          "line_start": 1,
-          "line_end": 64,
-          "signature": "module env.py",
-          "docstring": "",
-          "local_bindings": {}
-        },
-        {
-          "id": "migrations/env.py::run_migrations_offline",
-          "label": "run_migrations_offline",
-          "type": "function",
-          "source_file": "migrations/env.py",
-          "line_start": 24,
-          "line_end": 34,
-          "signature": "def run_migrations_offline() -> None",
-          "docstring": "",
-          "local_bindings": {
-            "url": "config.get_main_option"
-          }
-        },
-        {
-          "id": "migrations/env.py::do_run_migrations",
-          "label": "do_run_migrations",
-          "type": "function",
-          "source_file": "migrations/env.py",
-          "line_start": 37,
-          "line_end": 41,
-          "signature": "def do_run_migrations(connection: Connection) -> None",
-          "docstring": "",
-          "local_bindings": {
-            "connection": "Connection"
-          }
-        },
-        {
-          "id": "migrations/env.py::run_async_migrations",
-          "label": "run_async_migrations",
-          "type": "function",
-          "source_file": "migrations/env.py",
-          "line_start": 44,
-          "line_end": 54,
-          "signature": "async def run_async_migrations() -> None",
-          "docstring": "",
-          "local_bindings": {
-            "connectable": "async_engine_from_config",
-            "connection": "connectable.connect"
-          }
-        },
-        {
-          "id": "migrations/env.py::run_migrations_online",
-          "label": "run_migrations_online",
-          "type": "function",
-          "source_file": "migrations/env.py",
-          "line_start": 57,
-          "line_end": 58,
-          "signature": "def run_migrations_online() -> None",
-          "docstring": "",
-          "local_bindings": {}
-        }
-      ],
-      "edges": [
-        {
-          "source": "migrations/env.py",
-          "target": "asyncio",
-          "relation": "imports",
-          "import_map": {
-            "asyncio": "asyncio"
-          }
-        },
-        {
-          "source": "migrations/env.py",
-          "target": "logging.config",
-          "relation": "imports",
-          "import_map": {
-            "fileConfig": "fileConfig"
-          }
-        },
-        {
-          "source": "migrations/env.py",
-          "target": "sqlalchemy",
-          "relation": "imports",
-          "import_map": {
-            "pool": "pool"
-          }
-        },
-        {
-          "source": "migrations/env.py",
-          "target": "sqlalchemy.engine",
-          "relation": "imports",
-          "import_map": {
-            "Connection": "Connection"
-          }
-        },
-        {
-          "source": "migrations/env.py",
-          "target": "sqlalchemy.ext.asyncio",
-          "relation": "imports",
-          "import_map": {
-            "async_engine_from_config": "async_engine_from_config"
-          }
-        },
-        {
-          "source": "migrations/env.py",
-          "target": "alembic",
-          "relation": "imports",
-          "import_map": {
-            "context": "context"
-          }
-        },
-        {
-          "source": "migrations/env.py",
-          "target": "app.config",
-          "relation": "imports",
-          "import_map": {
-            "settings": "settings"
-          }
-        },
-        {
-          "source": "migrations/env.py",
-          "target": "app.db",
-          "relation": "imports",
-          "import_map": {
-            "Base": "Base"
-          }
-        },
-        {
-          "source": "migrations/env.py",
-          "target": "app.models",
-          "relation": "imports",
-          "import_map": {
-            "outbox": "outbox",
-            "idempotency": "idempotency"
-          }
-        },
-        {
-          "source": "migrations/env.py",
-          "target": "fileConfig",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/env.py",
-          "target": "config.set_main_option",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/env.py",
-          "target": "migrations/env.py::run_migrations_offline",
-          "relation": "contains",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/env.py::run_migrations_offline",
-          "target": "config.get_main_option",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/env.py::run_migrations_offline",
-          "target": "context.configure",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/env.py::run_migrations_offline",
-          "target": "context.begin_transaction",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/env.py::run_migrations_offline",
-          "target": "context.run_migrations",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/env.py",
-          "target": "migrations/env.py::do_run_migrations",
-          "relation": "contains",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/env.py::do_run_migrations",
-          "target": "context.configure",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/env.py::do_run_migrations",
-          "target": "context.begin_transaction",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/env.py::do_run_migrations",
-          "target": "context.run_migrations",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/env.py",
-          "target": "migrations/env.py::run_async_migrations",
-          "relation": "contains",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/env.py::run_async_migrations",
-          "target": "async_engine_from_config",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/env.py::run_async_migrations",
-          "target": "config.get_section",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/env.py::run_async_migrations",
-          "target": "connectable.connect",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/env.py::run_async_migrations",
-          "target": "connection.run_sync",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/env.py::run_async_migrations",
-          "target": "connectable.dispose",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/env.py",
-          "target": "migrations/env.py::run_migrations_online",
-          "relation": "contains",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/env.py::run_migrations_online",
-          "target": "asyncio.run",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/env.py::run_migrations_online",
-          "target": "run_async_migrations",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/env.py",
-          "target": "context.is_offline_mode",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/env.py",
-          "target": "run_migrations_offline",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/env.py",
-          "target": "run_migrations_online",
-          "relation": "calls",
-          "import_map": {}
-        }
-      ]
-    }
-  },
-  "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py": {
-    "mtime": 1794044400.567029,
-    "size": 1078,
-    "hash": "1fd8bb21834246757537b0f73bcd0881",
-    "result": {
-      "nodes": [
-        {
-          "id": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py",
-          "label": "dc3cd7a06e30_add_trace_id_to_tasks_outbox.py",
-          "type": "file",
-          "source_file": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py",
-          "line_start": 1,
-          "line_end": 34,
-          "signature": "module dc3cd7a06e30_add_trace_id_to_tasks_outbox.py",
-          "docstring": "add trace_id to tasks_outbox\n\nRevision ID: dc3cd7a06e30\nRevises: 8818bdcf3760\nCreate Date: 2026-11-07 12:40:00.567665",
-          "local_bindings": {}
-        },
-        {
-          "id": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py::upgrade",
-          "label": "upgrade",
-          "type": "function",
-          "source_file": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py",
-          "line_start": 21,
-          "line_end": 26,
-          "signature": "def upgrade() -> None",
-          "docstring": "Upgrade schema.",
-          "local_bindings": {}
-        },
-        {
-          "id": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py::downgrade",
-          "label": "downgrade",
-          "type": "function",
-          "source_file": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py",
-          "line_start": 29,
-          "line_end": 34,
-          "signature": "def downgrade() -> None",
-          "docstring": "Downgrade schema.",
-          "local_bindings": {}
-        }
-      ],
-      "edges": [
-        {
-          "source": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py",
-          "target": "typing",
-          "relation": "imports",
-          "import_map": {
-            "Sequence": "Sequence",
-            "Union": "Union"
-          }
-        },
-        {
-          "source": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py",
-          "target": "alembic",
-          "relation": "imports",
-          "import_map": {
-            "op": "op"
-          }
-        },
-        {
-          "source": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py",
-          "target": "sqlalchemy",
-          "relation": "imports",
-          "import_map": {
-            "sa": "sqlalchemy"
-          }
-        },
-        {
-          "source": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py",
-          "target": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py::upgrade",
-          "relation": "contains",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py::upgrade",
-          "target": "op.add_column",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py::upgrade",
-          "target": "sa.Column",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py::upgrade",
-          "target": "sa.String",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py::upgrade",
-          "target": "op.create_index",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py::upgrade",
-          "target": "op.f",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py",
-          "target": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py::downgrade",
-          "relation": "contains",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py::downgrade",
-          "target": "op.drop_index",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py::downgrade",
-          "target": "op.f",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py::downgrade",
-          "target": "op.drop_column",
-          "relation": "calls",
-          "import_map": {}
-        }
-      ]
-    }
-  },
-  "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py": {
-    "mtime": 1793905345.2191443,
-    "size": 1985,
-    "hash": "f1fe19a234d838c03233767290106953",
-    "result": {
-      "nodes": [
-        {
-          "id": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py",
-          "label": "7ed6f6d1f417_create_outbox_and_idempotency_tables.py",
-          "type": "file",
-          "source_file": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py",
-          "line_start": 1,
-          "line_end": 50,
-          "signature": "module 7ed6f6d1f417_create_outbox_and_idempotency_tables.py",
-          "docstring": "create outbox and idempotency tables\n\nRevision ID: 7ed6f6d1f417\nRevises: \nCreate Date: 2026-11-05 22:02:25.215107",
-          "local_bindings": {}
-        },
-        {
-          "id": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
-          "label": "upgrade",
-          "type": "function",
-          "source_file": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py",
-          "line_start": 21,
-          "line_end": 40,
-          "signature": "def upgrade() -> None",
-          "docstring": "Upgrade schema.",
-          "local_bindings": {}
-        },
-        {
-          "id": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::downgrade",
-          "label": "downgrade",
-          "type": "function",
-          "source_file": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py",
-          "line_start": 43,
-          "line_end": 50,
-          "signature": "def downgrade() -> None",
-          "docstring": "Downgrade schema.",
-          "local_bindings": {}
-        }
-      ],
-      "edges": [
-        {
-          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py",
-          "target": "typing",
-          "relation": "imports",
-          "import_map": {
-            "Sequence": "Sequence",
-            "Union": "Union"
-          }
-        },
-        {
-          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py",
-          "target": "alembic",
-          "relation": "imports",
-          "import_map": {
-            "op": "op"
-          }
-        },
-        {
-          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py",
-          "target": "sqlalchemy",
-          "relation": "imports",
-          "import_map": {
-            "sa": "sqlalchemy"
-          }
-        },
-        {
-          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py",
-          "target": "sqlalchemy.dialects",
-          "relation": "imports",
-          "import_map": {
-            "postgresql": "postgresql"
-          }
-        },
-        {
-          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py",
-          "target": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
-          "relation": "contains",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
-          "target": "op.create_table",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
-          "target": "sa.Column",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
-          "target": "sa.UUID",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
-          "target": "sa.Column",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
-          "target": "sa.String",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
-          "target": "sa.Column",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
-          "target": "sa.DateTime",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
-          "target": "sa.text",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
-          "target": "sa.PrimaryKeyConstraint",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
-          "target": "op.create_index",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
-          "target": "op.f",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
-          "target": "op.create_table",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
-          "target": "sa.Column",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
-          "target": "sa.UUID",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
-          "target": "sa.Column",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
-          "target": "postgresql.JSONB",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
-          "target": "sa.Text",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
-          "target": "sa.Column",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
-          "target": "sa.String",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
-          "target": "sa.Column",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
-          "target": "sa.DateTime",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
-          "target": "sa.text",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
-          "target": "sa.Column",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
-          "target": "sa.DateTime",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
-          "target": "sa.text",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
-          "target": "sa.PrimaryKeyConstraint",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
-          "target": "op.create_index",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
-          "target": "op.f",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py",
-          "target": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::downgrade",
-          "relation": "contains",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::downgrade",
-          "target": "op.drop_index",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::downgrade",
-          "target": "op.f",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::downgrade",
-          "target": "op.drop_table",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::downgrade",
-          "target": "op.drop_index",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::downgrade",
-          "target": "op.f",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::downgrade",
-          "target": "op.drop_table",
-          "relation": "calls",
-          "import_map": {}
-        }
-      ]
-    }
-  },
-  "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py": {
-    "mtime": 1793910147.5131433,
-    "size": 896,
-    "hash": "2476c23640bf1352f70a0d13c76d0b46",
-    "result": {
-      "nodes": [
-        {
-          "id": "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py",
-          "label": "8818bdcf3760_add_last_error_to_tasks_outbox.py",
-          "type": "file",
-          "source_file": "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py",
-          "line_start": 1,
-          "line_end": 32,
-          "signature": "module 8818bdcf3760_add_last_error_to_tasks_outbox.py",
-          "docstring": "add last_error to tasks_outbox\n\nRevision ID: 8818bdcf3760\nRevises: 7ed6f6d1f417\nCreate Date: 2026-11-05 23:22:27.513384",
-          "local_bindings": {}
-        },
-        {
-          "id": "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py::upgrade",
-          "label": "upgrade",
-          "type": "function",
-          "source_file": "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py",
-          "line_start": 21,
-          "line_end": 25,
-          "signature": "def upgrade() -> None",
-          "docstring": "Upgrade schema.",
-          "local_bindings": {}
-        },
-        {
-          "id": "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py::downgrade",
-          "label": "downgrade",
-          "type": "function",
-          "source_file": "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py",
-          "line_start": 28,
-          "line_end": 32,
-          "signature": "def downgrade() -> None",
-          "docstring": "Downgrade schema.",
-          "local_bindings": {}
-        }
-      ],
-      "edges": [
-        {
-          "source": "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py",
-          "target": "typing",
-          "relation": "imports",
-          "import_map": {
-            "Sequence": "Sequence",
-            "Union": "Union"
-          }
-        },
-        {
-          "source": "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py",
-          "target": "alembic",
-          "relation": "imports",
-          "import_map": {
-            "op": "op"
-          }
-        },
-        {
-          "source": "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py",
-          "target": "sqlalchemy",
-          "relation": "imports",
-          "import_map": {
-            "sa": "sqlalchemy"
-          }
-        },
-        {
-          "source": "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py",
-          "target": "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py::upgrade",
-          "relation": "contains",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py::upgrade",
-          "target": "op.add_column",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py::upgrade",
-          "target": "sa.Column",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py::upgrade",
-          "target": "sa.Text",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py",
-          "target": "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py::downgrade",
-          "relation": "contains",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py::downgrade",
-          "target": "op.drop_column",
-          "relation": "calls",
-          "import_map": {}
-        }
-      ]
-    }
-  },
-  "load_test.js": {
-    "mtime": 1794071266.6976972,
-    "size": 1213,
-    "hash": "76ba46fa30521596106f93cfe5c511e6",
-    "result": {
-      "nodes": [
-        {
-          "id": "load_test.js",
-          "label": "load_test.js",
-          "type": "file",
-          "source_file": "load_test.js",
-          "line_start": 1,
-          "line_end": 32,
-          "signature": "module load_test.js",
-          "docstring": "",
-          "local_bindings": {}
-        }
-      ],
-      "edges": [
-        {
-          "source": "load_test.js",
-          "target": "k6/http",
-          "relation": "imports",
-          "import_map": {
-            "http": "default"
-          }
-        },
-        {
-          "source": "load_test.js",
-          "target": "k6",
-          "relation": "imports",
-          "import_map": {
-            "check": "check",
-            "sleep": "sleep"
-          }
-        },
-        {
-          "source": "load_test.js",
-          "target": "https://jslib.k6.io/k6-utils/1.2.0/index.js",
-          "relation": "imports",
-          "import_map": {
-            "randomString": "randomString"
-          }
-        },
-        {
-          "source": "load_test.js",
-          "target": "randomString",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "load_test.js",
-          "target": "http.post",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "load_test.js",
-          "target": "check",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "load_test.js",
-          "target": "r.json",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "load_test.js",
-          "target": "sleep",
-          "relation": "calls",
-          "import_map": {}
-        }
-      ]
-    }
-  },
-  "app/models/outbox.py": {
-    "mtime": 1794157097.8688517,
-    "size": 1081,
-    "hash": "6198d5cbed567442ede28c3e88c057d2",
-    "result": {
-      "nodes": [
-        {
-          "id": "app/models/outbox.py",
-          "label": "outbox.py",
-          "type": "file",
-          "source_file": "app/models/outbox.py",
-          "line_start": 1,
-          "line_end": 29,
-          "signature": "module outbox.py",
-          "docstring": "",
-          "local_bindings": {}
-        },
-        {
-          "id": "app/models/outbox.py::TaskOutbox",
-          "label": "TaskOutbox",
-          "type": "class",
-          "source_file": "app/models/outbox.py",
-          "line_start": 11,
-          "line_end": 29,
-          "signature": "class TaskOutbox(Base)",
-          "docstring": "",
-          "local_bindings": {}
-        }
-      ],
-      "edges": [
-        {
-          "source": "app/models/outbox.py",
-          "target": "uuid",
-          "relation": "imports",
-          "import_map": {
-            "uuid": "uuid"
-          }
-        },
-        {
-          "source": "app/models/outbox.py",
-          "target": "datetime",
-          "relation": "imports",
-          "import_map": {
-            "datetime": "datetime"
-          }
-        },
-        {
-          "source": "app/models/outbox.py",
-          "target": "sqlalchemy",
-          "relation": "imports",
-          "import_map": {
-            "DateTime": "DateTime",
-            "String": "String",
-            "Text": "Text",
-            "func": "func"
-          }
-        },
-        {
-          "source": "app/models/outbox.py",
-          "target": "sqlalchemy.dialects.postgresql",
-          "relation": "imports",
-          "import_map": {
-            "JSONB": "JSONB",
-            "UUID": "UUID"
-          }
-        },
-        {
-          "source": "app/models/outbox.py",
-          "target": "sqlalchemy.orm",
-          "relation": "imports",
-          "import_map": {
-            "Mapped": "Mapped",
-            "mapped_column": "mapped_column"
-          }
-        },
-        {
-          "source": "app/models/outbox.py",
-          "target": "app.db",
-          "relation": "imports",
-          "import_map": {
-            "Base": "Base"
-          }
-        },
-        {
-          "source": "app/models/outbox.py",
-          "target": "app/models/outbox.py::TaskOutbox",
-          "relation": "contains",
-          "import_map": {}
-        },
-        {
-          "source": "app/models/outbox.py::TaskOutbox",
-          "target": "Base",
-          "relation": "inherits",
-          "import_map": {}
-        },
-        {
-          "source": "app/models/outbox.py::TaskOutbox",
-          "target": "mapped_column",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "app/models/outbox.py::TaskOutbox",
-          "target": "UUID",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "app/models/outbox.py::TaskOutbox",
-          "target": "mapped_column",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "app/models/outbox.py::TaskOutbox",
-          "target": "mapped_column",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "app/models/outbox.py::TaskOutbox",
-          "target": "String",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "app/models/outbox.py::TaskOutbox",
-          "target": "mapped_column",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "app/models/outbox.py::TaskOutbox",
-          "target": "String",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "app/models/outbox.py::TaskOutbox",
-          "target": "mapped_column",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "app/models/outbox.py::TaskOutbox",
-          "target": "mapped_column",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "app/models/outbox.py::TaskOutbox",
-          "target": "DateTime",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "app/models/outbox.py::TaskOutbox",
-          "target": "func.now",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "app/models/outbox.py::TaskOutbox",
-          "target": "mapped_column",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "app/models/outbox.py::TaskOutbox",
-          "target": "DateTime",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "app/models/outbox.py::TaskOutbox",
-          "target": "func.now",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "app/models/outbox.py::TaskOutbox",
-          "target": "func.now",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "app/models/outbox.py::TaskOutbox",
-          "target": "mapped_column",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "app/models/outbox.py::TaskOutbox",
-          "target": "DateTime",
-          "relation": "calls",
-          "import_map": {}
-        }
-      ]
-    }
-  },
   "app/db.py": {
     "mtime": 1794161797.8478491,
     "size": 700,
@@ -2182,364 +647,6 @@
         {
           "source": "app/db.py::get_session",
           "target": "SessionLocal",
-          "relation": "calls",
-          "import_map": {}
-        }
-      ]
-    }
-  },
-  "load_test_max.js": {
-    "mtime": 1794166319.4424968,
-    "size": 2545,
-    "hash": "073c9d048147385f61aa41d35c03dc6c",
-    "result": {
-      "nodes": [
-        {
-          "id": "load_test_max.js",
-          "label": "load_test_max.js",
-          "type": "file",
-          "source_file": "load_test_max.js",
-          "line_start": 1,
-          "line_end": 91,
-          "signature": "module load_test_max.js",
-          "docstring": "",
-          "local_bindings": {}
-        },
-        {
-          "id": "load_test_max.js::loadTest",
-          "label": "loadTest",
-          "type": "function",
-          "source_file": "load_test_max.js",
-          "line_start": 35,
-          "line_end": 65,
-          "signature": "function loadTest()",
-          "docstring": "",
-          "local_bindings": {}
-        },
-        {
-          "id": "load_test_max.js::e2eCheck",
-          "label": "e2eCheck",
-          "type": "function",
-          "source_file": "load_test_max.js",
-          "line_start": 67,
-          "line_end": 91,
-          "signature": "function e2eCheck()",
-          "docstring": "",
-          "local_bindings": {}
-        }
-      ],
-      "edges": [
-        {
-          "source": "load_test_max.js",
-          "target": "k6/http",
-          "relation": "imports",
-          "import_map": {
-            "http": "default"
-          }
-        },
-        {
-          "source": "load_test_max.js",
-          "target": "k6",
-          "relation": "imports",
-          "import_map": {
-            "check": "check",
-            "sleep": "sleep"
-          }
-        },
-        {
-          "source": "load_test_max.js",
-          "target": "https://jslib.k6.io/k6-utils/1.2.0/index.js",
-          "relation": "imports",
-          "import_map": {
-            "randomString": "randomString"
-          }
-        },
-        {
-          "source": "load_test_max.js",
-          "target": "load_test_max.js::loadTest",
-          "relation": "contains",
-          "import_map": {}
-        },
-        {
-          "source": "load_test_max.js::loadTest",
-          "target": "randomString",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "load_test_max.js::loadTest",
-          "target": "http.post",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "load_test_max.js::loadTest",
-          "target": "JSON.stringify",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "load_test_max.js::loadTest",
-          "target": "console.error",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "load_test_max.js::loadTest",
-          "target": "res.body.substring",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "load_test_max.js::loadTest",
-          "target": "res.json",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "load_test_max.js::loadTest",
-          "target": "console.error",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "load_test_max.js::loadTest",
-          "target": "res.body.substring",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "load_test_max.js::loadTest",
-          "target": "check",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "load_test_max.js::loadTest",
-          "target": "sleep",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "load_test_max.js::loadTest",
-          "target": "Math.random",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "load_test_max.js",
-          "target": "load_test_max.js::e2eCheck",
-          "relation": "contains",
-          "import_map": {}
-        },
-        {
-          "source": "load_test_max.js::e2eCheck",
-          "target": "http.get",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "load_test_max.js::e2eCheck",
-          "target": "console.error",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "load_test_max.js::e2eCheck",
-          "target": "parseInt",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "load_test_max.js::e2eCheck",
-          "target": "text.match",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "load_test_max.js::e2eCheck",
-          "target": "parseInt",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "load_test_max.js::e2eCheck",
-          "target": "text.match",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "load_test_max.js::e2eCheck",
-          "target": "parseInt",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "load_test_max.js::e2eCheck",
-          "target": "text.match",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "load_test_max.js::e2eCheck",
-          "target": "parseInt",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "load_test_max.js::e2eCheck",
-          "target": "text.match",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "load_test_max.js::e2eCheck",
-          "target": "console.log",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "load_test_max.js::e2eCheck",
-          "target": "check",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "load_test_max.js::e2eCheck",
-          "target": "sleep",
-          "relation": "calls",
-          "import_map": {}
-        }
-      ]
-    }
-  },
-  "worker/settings.py": {
-    "mtime": 1794157794.3139586,
-    "size": 1228,
-    "hash": "62d3c20e004c2d0067087cd0b0eeafcd",
-    "result": {
-      "nodes": [
-        {
-          "id": "worker/settings.py",
-          "label": "settings.py",
-          "type": "file",
-          "source_file": "worker/settings.py",
-          "line_start": 1,
-          "line_end": 32,
-          "signature": "module settings.py",
-          "docstring": "",
-          "local_bindings": {}
-        },
-        {
-          "id": "worker/settings.py::WorkerSettings",
-          "label": "WorkerSettings",
-          "type": "class",
-          "source_file": "worker/settings.py",
-          "line_start": 15,
-          "line_end": 32,
-          "signature": "class WorkerSettings",
-          "docstring": "",
-          "local_bindings": {}
-        }
-      ],
-      "edges": [
-        {
-          "source": "worker/settings.py",
-          "target": "arq",
-          "relation": "imports",
-          "import_map": {
-            "cron": "cron"
-          }
-        },
-        {
-          "source": "worker/settings.py",
-          "target": "arq.connections",
-          "relation": "imports",
-          "import_map": {
-            "RedisSettings": "RedisSettings"
-          }
-        },
-        {
-          "source": "worker/settings.py",
-          "target": "app.config",
-          "relation": "imports",
-          "import_map": {
-            "settings": "settings"
-          }
-        },
-        {
-          "source": "worker/settings.py",
-          "target": "app.logging_config",
-          "relation": "imports",
-          "import_map": {
-            "setup_logging": "setup_logging"
-          }
-        },
-        {
-          "source": "worker/settings.py",
-          "target": "setup_logging",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "worker/settings.py",
-          "target": "core.publisher",
-          "relation": "imports",
-          "import_map": {
-            "publish_pending": "publish_pending"
-          }
-        },
-        {
-          "source": "worker/settings.py",
-          "target": "worker.tasks",
-          "relation": "imports",
-          "import_map": {
-            "ping": "ping",
-            "process_outbox_task": "process_outbox_task",
-            "requeue_stale_tasks": "requeue_stale_tasks"
-          }
-        },
-        {
-          "source": "worker/settings.py",
-          "target": "app.telemetry",
-          "relation": "imports",
-          "import_map": {
-            "setup_tracing": "setup_tracing"
-          }
-        },
-        {
-          "source": "worker/settings.py",
-          "target": "setup_logging",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "worker/settings.py",
-          "target": "setup_tracing",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "worker/settings.py",
-          "target": "worker/settings.py::WorkerSettings",
-          "relation": "contains",
-          "import_map": {}
-        },
-        {
-          "source": "worker/settings.py::WorkerSettings",
-          "target": "RedisSettings.from_dsn",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "worker/settings.py::WorkerSettings",
-          "target": "cron",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "worker/settings.py::WorkerSettings",
-          "target": "cron",
           "relation": "calls",
           "import_map": {}
         }
@@ -3046,49 +1153,322 @@
       ]
     }
   },
-  "core/bitrix_batch.py": {
-    "mtime": 1794159187.2975059,
-    "size": 3582,
-    "hash": "b13098a8217452cd48b6be7de869e576",
+  "load_test_max.js": {
+    "mtime": 1794166319.4424968,
+    "size": 2545,
+    "hash": "073c9d048147385f61aa41d35c03dc6c",
     "result": {
       "nodes": [
         {
-          "id": "core/bitrix_batch.py",
-          "label": "bitrix_batch.py",
+          "id": "load_test_max.js",
+          "label": "load_test_max.js",
           "type": "file",
-          "source_file": "core/bitrix_batch.py",
+          "source_file": "load_test_max.js",
           "line_start": 1,
-          "line_end": 96,
-          "signature": "module bitrix_batch.py",
+          "line_end": 91,
+          "signature": "module load_test_max.js",
           "docstring": "",
           "local_bindings": {}
         },
         {
-          "id": "core/bitrix_batch.py::execute_batch",
-          "label": "execute_batch",
+          "id": "load_test_max.js::loadTest",
+          "label": "loadTest",
           "type": "function",
-          "source_file": "core/bitrix_batch.py",
-          "line_start": 11,
-          "line_end": 96,
-          "signature": "async def execute_batch(commands: dict[str, str]) -> dict[str, Any]",
-          "docstring": "\u0412\u044b\u043f\u043e\u043b\u043d\u044f\u0435\u0442 batch-\u0437\u0430\u043f\u0440\u043e\u0441 \u043a \u0411\u0438\u0442\u0440\u0438\u043a\u044124.",
+          "source_file": "load_test_max.js",
+          "line_start": 35,
+          "line_end": 65,
+          "signature": "function loadTest()",
+          "docstring": "",
+          "local_bindings": {}
+        },
+        {
+          "id": "load_test_max.js::e2eCheck",
+          "label": "e2eCheck",
+          "type": "function",
+          "source_file": "load_test_max.js",
+          "line_start": 67,
+          "line_end": 91,
+          "signature": "function e2eCheck()",
+          "docstring": "",
+          "local_bindings": {}
+        }
+      ],
+      "edges": [
+        {
+          "source": "load_test_max.js",
+          "target": "k6/http",
+          "relation": "imports",
+          "import_map": {
+            "http": "default"
+          }
+        },
+        {
+          "source": "load_test_max.js",
+          "target": "k6",
+          "relation": "imports",
+          "import_map": {
+            "check": "check",
+            "sleep": "sleep"
+          }
+        },
+        {
+          "source": "load_test_max.js",
+          "target": "https://jslib.k6.io/k6-utils/1.2.0/index.js",
+          "relation": "imports",
+          "import_map": {
+            "randomString": "randomString"
+          }
+        },
+        {
+          "source": "load_test_max.js",
+          "target": "load_test_max.js::loadTest",
+          "relation": "contains",
+          "import_map": {}
+        },
+        {
+          "source": "load_test_max.js::loadTest",
+          "target": "randomString",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "load_test_max.js::loadTest",
+          "target": "http.post",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "load_test_max.js::loadTest",
+          "target": "JSON.stringify",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "load_test_max.js::loadTest",
+          "target": "console.error",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "load_test_max.js::loadTest",
+          "target": "res.body.substring",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "load_test_max.js::loadTest",
+          "target": "res.json",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "load_test_max.js::loadTest",
+          "target": "console.error",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "load_test_max.js::loadTest",
+          "target": "res.body.substring",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "load_test_max.js::loadTest",
+          "target": "check",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "load_test_max.js::loadTest",
+          "target": "sleep",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "load_test_max.js::loadTest",
+          "target": "Math.random",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "load_test_max.js",
+          "target": "load_test_max.js::e2eCheck",
+          "relation": "contains",
+          "import_map": {}
+        },
+        {
+          "source": "load_test_max.js::e2eCheck",
+          "target": "http.get",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "load_test_max.js::e2eCheck",
+          "target": "console.error",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "load_test_max.js::e2eCheck",
+          "target": "parseInt",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "load_test_max.js::e2eCheck",
+          "target": "text.match",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "load_test_max.js::e2eCheck",
+          "target": "parseInt",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "load_test_max.js::e2eCheck",
+          "target": "text.match",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "load_test_max.js::e2eCheck",
+          "target": "parseInt",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "load_test_max.js::e2eCheck",
+          "target": "text.match",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "load_test_max.js::e2eCheck",
+          "target": "parseInt",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "load_test_max.js::e2eCheck",
+          "target": "text.match",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "load_test_max.js::e2eCheck",
+          "target": "console.log",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "load_test_max.js::e2eCheck",
+          "target": "check",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "load_test_max.js::e2eCheck",
+          "target": "sleep",
+          "relation": "calls",
+          "import_map": {}
+        }
+      ]
+    }
+  },
+  "core/rate_limiter.py": {
+    "mtime": 1794078857.4985886,
+    "size": 3740,
+    "hash": "5f843035e3d0c6a30e3102ef1e617f48",
+    "result": {
+      "nodes": [
+        {
+          "id": "core/rate_limiter.py",
+          "label": "rate_limiter.py",
+          "type": "file",
+          "source_file": "core/rate_limiter.py",
+          "line_start": 1,
+          "line_end": 106,
+          "signature": "module rate_limiter.py",
+          "docstring": "",
+          "local_bindings": {}
+        },
+        {
+          "id": "core/rate_limiter.py::BitrixRateLimiter",
+          "label": "BitrixRateLimiter",
+          "type": "class",
+          "source_file": "core/rate_limiter.py",
+          "line_start": 50,
+          "line_end": 106,
+          "signature": "class BitrixRateLimiter",
+          "docstring": "\u041e\u0433\u0440\u0430\u043d\u0438\u0447\u0438\u0442\u0435\u043b\u044c \u0441\u043a\u043e\u0440\u043e\u0441\u0442\u0438 \u0434\u043b\u044f \u0437\u0430\u043f\u0440\u043e\u0441\u043e\u0432 \u043a \u0411\u0438\u0442\u0440\u0438\u043a\u044124.",
+          "local_bindings": {}
+        },
+        {
+          "id": "core/rate_limiter.py::BitrixRateLimiter.__init__",
+          "label": "__init__",
+          "type": "method",
+          "source_file": "core/rate_limiter.py",
+          "line_start": 53,
+          "line_end": 64,
+          "signature": "def __init__(\n        self,\n        redis_client: Redis,\n        tenant_id: str = \"client_1\",\n        rate_per_sec: float = 2.0,  # 2 RPS \u0434\u043b\u044f \u0431\u0430\u0437\u043e\u0432\u043e\u0433\u043e, 5 \u0434\u043b\u044f \u042d\u043d\u0442\u0435\u0440\u043f\u0440\u0430\u0439\u0437\u0430\n        capacity: int = 5,           # \u0432\u0441\u043f\u043b\u0435\u0441\u043a \u0434\u043e 5 \u0437\u0430\u043f\u0440\u043e\u0441\u043e\u0432\n    )",
+          "docstring": "",
           "local_bindings": {
-            "commands": "dict",
-            "client": "httpx.AsyncClient",
-            "data": "e.response.json",
-            "error_code": "data.get",
-            "reset_at": "data.get(\"time\", {}).get",
-            "result": "data.get",
-            "result_error": "data.get",
-            "result_time": "data.get",
-            "operating": "result_time.get",
-            "retry_after": "e.response.headers.get"
+            "redis_client": "Redis",
+            "tenant_id": "str",
+            "rate_per_sec": "float",
+            "capacity": "int"
+          }
+        },
+        {
+          "id": "core/rate_limiter.py::BitrixRateLimiter.acquire",
+          "label": "acquire",
+          "type": "method",
+          "source_file": "core/rate_limiter.py",
+          "line_start": 66,
+          "line_end": 95,
+          "signature": "async def acquire(self) -> bool",
+          "docstring": "\u041f\u043e\u043f\u044b\u0442\u0430\u0442\u044c\u0441\u044f \u043f\u043e\u043b\u0443\u0447\u0438\u0442\u044c \u0440\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u0435 \u043d\u0430 \u0437\u0430\u043f\u0440\u043e\u0441.\n        \u0412\u043e\u0437\u0432\u0440\u0430\u0449\u0430\u0435\u0442 True, \u0435\u0441\u043b\u0438 \u043c\u043e\u0436\u043d\u043e \u0432\u044b\u043f\u043e\u043b\u043d\u044f\u0442\u044c, False \u2014 \u0435\u0441\u043b\u0438 \u043d\u0443\u0436\u043d\u043e \u043f\u043e\u0434\u043e\u0436\u0434\u0430\u0442\u044c.",
+          "local_bindings": {
+            "now": "time.time"
+          }
+        },
+        {
+          "id": "core/rate_limiter.py::BitrixRateLimiter.wait_and_acquire",
+          "label": "wait_and_acquire",
+          "type": "method",
+          "source_file": "core/rate_limiter.py",
+          "line_start": 97,
+          "line_end": 106,
+          "signature": "async def wait_and_acquire(self, max_wait: float = 30.0) -> bool",
+          "docstring": "\u0416\u0434\u0430\u0442\u044c, \u043f\u043e\u043a\u0430 \u043d\u0435 \u043f\u043e\u044f\u0432\u0438\u0442\u0441\u044f \u0442\u043e\u043a\u0435\u043d (\u0441 \u043e\u0433\u0440\u0430\u043d\u0438\u0447\u0435\u043d\u0438\u0435\u043c \u043f\u043e \u0432\u0440\u0435\u043c\u0435\u043d\u0438).",
+          "local_bindings": {
+            "max_wait": "float",
+            "start": "time.time"
           }
         }
       ],
       "edges": [
         {
-          "source": "core/bitrix_batch.py",
+          "source": "core/rate_limiter.py",
+          "target": "asyncio",
+          "relation": "imports",
+          "import_map": {
+            "asyncio": "asyncio"
+          }
+        },
+        {
+          "source": "core/rate_limiter.py",
+          "target": "time",
+          "relation": "imports",
+          "import_map": {
+            "time": "time"
+          }
+        },
+        {
+          "source": "core/rate_limiter.py",
           "target": "logging",
           "relation": "imports",
           "import_map": {
@@ -3096,23 +1476,190 @@
           }
         },
         {
-          "source": "core/bitrix_batch.py",
-          "target": "typing",
+          "source": "core/rate_limiter.py",
+          "target": "redis.asyncio",
           "relation": "imports",
           "import_map": {
-            "Any": "Any"
+            "Redis": "Redis"
           }
         },
         {
-          "source": "core/bitrix_batch.py",
-          "target": "httpx",
+          "source": "core/rate_limiter.py",
+          "target": "logging.getLogger",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "core/rate_limiter.py",
+          "target": "core/rate_limiter.py::BitrixRateLimiter",
+          "relation": "contains",
+          "import_map": {}
+        },
+        {
+          "source": "core/rate_limiter.py::BitrixRateLimiter",
+          "target": "core/rate_limiter.py::BitrixRateLimiter.__init__",
+          "relation": "contains",
+          "import_map": {}
+        },
+        {
+          "source": "core/rate_limiter.py::BitrixRateLimiter",
+          "target": "core/rate_limiter.py::BitrixRateLimiter.acquire",
+          "relation": "contains",
+          "import_map": {}
+        },
+        {
+          "source": "core/rate_limiter.py::BitrixRateLimiter.acquire",
+          "target": "time.time",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "core/rate_limiter.py::BitrixRateLimiter.acquire",
+          "target": "self.redis.script_load",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "core/rate_limiter.py::BitrixRateLimiter.acquire",
+          "target": "self.redis.evalsha",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "core/rate_limiter.py::BitrixRateLimiter.acquire",
+          "target": "logger.warning",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "core/rate_limiter.py::BitrixRateLimiter.acquire",
+          "target": "self.redis.script_load",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "core/rate_limiter.py::BitrixRateLimiter.acquire",
+          "target": "self.redis.evalsha",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "core/rate_limiter.py::BitrixRateLimiter.acquire",
+          "target": "logger.debug",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "core/rate_limiter.py::BitrixRateLimiter",
+          "target": "core/rate_limiter.py::BitrixRateLimiter.wait_and_acquire",
+          "relation": "contains",
+          "import_map": {}
+        },
+        {
+          "source": "core/rate_limiter.py::BitrixRateLimiter.wait_and_acquire",
+          "target": "time.time",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "core/rate_limiter.py::BitrixRateLimiter.wait_and_acquire",
+          "target": "time.time",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "core/rate_limiter.py::BitrixRateLimiter.wait_and_acquire",
+          "target": "self.acquire",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "core/rate_limiter.py::BitrixRateLimiter.wait_and_acquire",
+          "target": "asyncio.sleep",
+          "relation": "calls",
+          "import_map": {}
+        }
+      ]
+    }
+  },
+  "core/publisher.py": {
+    "mtime": 1794082997.225378,
+    "size": 2124,
+    "hash": "44fb28aaa9370aee5d15a4d42686620a",
+    "result": {
+      "nodes": [
+        {
+          "id": "core/publisher.py",
+          "label": "publisher.py",
+          "type": "file",
+          "source_file": "core/publisher.py",
+          "line_start": 1,
+          "line_end": 57,
+          "signature": "module publisher.py",
+          "docstring": "",
+          "local_bindings": {}
+        },
+        {
+          "id": "core/publisher.py::publish_pending",
+          "label": "publish_pending",
+          "type": "function",
+          "source_file": "core/publisher.py",
+          "line_start": 15,
+          "line_end": 57,
+          "signature": "async def publish_pending(ctx=None, limit: int = 100) -> int",
+          "docstring": "\u0418\u0437\u0434\u0430\u0442\u0435\u043b\u044c: \u0447\u0438\u0442\u0430\u0435\u0442 pending \u0438\u0437 outbox \u0438 \u043a\u043b\u0430\u0434\u0451\u0442 \u0432 Redis.\n    \n    \u0422\u0430\u043a\u0436\u0435 \u0432\u043e\u0437\u0432\u0440\u0430\u0449\u0430\u0435\u0442 \u0432 pending \u0437\u0430\u0434\u0430\u0447\u0438, \u043a\u043e\u0442\u043e\u0440\u044b\u0435 \u0437\u0430\u0432\u0438\u0441\u043b\u0438 \u0432 enqueued > 5 \u043c\u0438\u043d\u0443\u0442.",
+          "local_bindings": {
+            "limit": "int",
+            "session": "SessionLocal"
+          }
+        }
+      ],
+      "edges": [
+        {
+          "source": "core/publisher.py",
+          "target": "logging",
           "relation": "imports",
           "import_map": {
-            "httpx": "httpx"
+            "logging": "logging"
           }
         },
         {
-          "source": "core/bitrix_batch.py",
+          "source": "core/publisher.py",
+          "target": "datetime",
+          "relation": "imports",
+          "import_map": {
+            "datetime": "datetime",
+            "timezone": "timezone",
+            "timedelta": "timedelta"
+          }
+        },
+        {
+          "source": "core/publisher.py",
+          "target": "sqlalchemy",
+          "relation": "imports",
+          "import_map": {
+            "select": "select",
+            "update": "update"
+          }
+        },
+        {
+          "source": "core/publisher.py",
+          "target": "arq",
+          "relation": "imports",
+          "import_map": {
+            "create_pool": "create_pool"
+          }
+        },
+        {
+          "source": "core/publisher.py",
+          "target": "arq.connections",
+          "relation": "imports",
+          "import_map": {
+            "RedisSettings": "RedisSettings"
+          }
+        },
+        {
+          "source": "core/publisher.py",
           "target": "app.config",
           "relation": "imports",
           "import_map": {
@@ -3120,323 +1667,158 @@
           }
         },
         {
-          "source": "core/bitrix_batch.py",
+          "source": "core/publisher.py",
+          "target": "app.db",
+          "relation": "imports",
+          "import_map": {
+            "SessionLocal": "SessionLocal"
+          }
+        },
+        {
+          "source": "core/publisher.py",
+          "target": "app.models.outbox",
+          "relation": "imports",
+          "import_map": {
+            "TaskOutbox": "TaskOutbox"
+          }
+        },
+        {
+          "source": "core/publisher.py",
+          "target": "core",
+          "relation": "imports",
+          "import_map": {
+            "outbox": "outbox"
+          }
+        },
+        {
+          "source": "core/publisher.py",
           "target": "logging.getLogger",
           "relation": "calls",
           "import_map": {}
         },
         {
-          "source": "core/bitrix_batch.py",
-          "target": "core/bitrix_batch.py::execute_batch",
+          "source": "core/publisher.py",
+          "target": "core/publisher.py::publish_pending",
           "relation": "contains",
           "import_map": {}
         },
         {
-          "source": "core/bitrix_batch.py::execute_batch",
+          "source": "core/publisher.py::publish_pending",
+          "target": "datetime.now",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "core/publisher.py::publish_pending",
+          "target": "timedelta",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "core/publisher.py::publish_pending",
+          "target": "SessionLocal",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "core/publisher.py::publish_pending",
+          "target": "session.execute",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "core/publisher.py::publish_pending",
+          "target": "update(TaskOutbox)\n            .where(\n                TaskOutbox.status == \"enqueued\",\n                TaskOutbox.updated_at < stale_threshold,\n            )\n            .values",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "core/publisher.py::publish_pending",
+          "target": "update(TaskOutbox)\n            .where",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "core/publisher.py::publish_pending",
+          "target": "update",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "core/publisher.py::publish_pending",
+          "target": "datetime.now",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "core/publisher.py::publish_pending",
           "target": "logger.warning",
           "relation": "calls",
           "import_map": {}
         },
         {
-          "source": "core/bitrix_batch.py::execute_batch",
-          "target": "len",
+          "source": "core/publisher.py::publish_pending",
+          "target": "session.commit",
           "relation": "calls",
           "import_map": {}
         },
         {
-          "source": "core/bitrix_batch.py::execute_batch",
-          "target": "ValueError",
+          "source": "core/publisher.py::publish_pending",
+          "target": "outbox.fetch_pending",
           "relation": "calls",
           "import_map": {}
         },
         {
-          "source": "core/bitrix_batch.py::execute_batch",
-          "target": "httpx.AsyncClient",
+          "source": "core/publisher.py::publish_pending",
+          "target": "create_pool",
           "relation": "calls",
           "import_map": {}
         },
         {
-          "source": "core/bitrix_batch.py::execute_batch",
-          "target": "client.post",
+          "source": "core/publisher.py::publish_pending",
+          "target": "RedisSettings.from_dsn",
           "relation": "calls",
           "import_map": {}
         },
         {
-          "source": "core/bitrix_batch.py::execute_batch",
-          "target": "response.raise_for_status",
+          "source": "core/publisher.py::publish_pending",
+          "target": "redis.enqueue_job",
           "relation": "calls",
           "import_map": {}
         },
         {
-          "source": "core/bitrix_batch.py::execute_batch",
-          "target": "response.json",
+          "source": "core/publisher.py::publish_pending",
+          "target": "str",
           "relation": "calls",
           "import_map": {}
         },
         {
-          "source": "core/bitrix_batch.py::execute_batch",
-          "target": "data.get",
+          "source": "core/publisher.py::publish_pending",
+          "target": "str",
           "relation": "calls",
           "import_map": {}
         },
         {
-          "source": "core/bitrix_batch.py::execute_batch",
-          "target": "logger.error",
+          "source": "core/publisher.py::publish_pending",
+          "target": "outbox.mark_enqueued",
           "relation": "calls",
           "import_map": {}
         },
         {
-          "source": "core/bitrix_batch.py::execute_batch",
-          "target": "data.get(\"time\", {}).get",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/bitrix_batch.py::execute_batch",
-          "target": "data.get",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/bitrix_batch.py::execute_batch",
-          "target": "RuntimeError",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/bitrix_batch.py::execute_batch",
-          "target": "data.get",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/bitrix_batch.py::execute_batch",
-          "target": "data.get",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/bitrix_batch.py::execute_batch",
-          "target": "data.get",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/bitrix_batch.py::execute_batch",
-          "target": "result_time.get",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/bitrix_batch.py::execute_batch",
-          "target": "result_time.get",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/bitrix_batch.py::execute_batch",
+          "source": "core/publisher.py::publish_pending",
           "target": "logger.info",
           "relation": "calls",
           "import_map": {}
         },
         {
-          "source": "core/bitrix_batch.py::execute_batch",
-          "target": "result_time.get",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/bitrix_batch.py::execute_batch",
+          "source": "core/publisher.py::publish_pending",
           "target": "logger.warning",
           "relation": "calls",
           "import_map": {}
         },
         {
-          "source": "core/bitrix_batch.py::execute_batch",
-          "target": "list",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/bitrix_batch.py::execute_batch",
-          "target": "result_error.keys",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/bitrix_batch.py::execute_batch",
-          "target": "logger.error",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/bitrix_batch.py::execute_batch",
-          "target": "RuntimeError",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/bitrix_batch.py::execute_batch",
-          "target": "e.response.json",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/bitrix_batch.py::execute_batch",
-          "target": "data.get(\"time\", {}).get",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/bitrix_batch.py::execute_batch",
-          "target": "data.get",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/bitrix_batch.py::execute_batch",
-          "target": "logger.error",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/bitrix_batch.py::execute_batch",
-          "target": "RuntimeError",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/bitrix_batch.py::execute_batch",
-          "target": "e.response.headers.get",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/bitrix_batch.py::execute_batch",
-          "target": "logger.error",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/bitrix_batch.py::execute_batch",
-          "target": "RuntimeError",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/bitrix_batch.py::execute_batch",
-          "target": "logger.error",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "core/bitrix_batch.py::execute_batch",
-          "target": "logger.error",
-          "relation": "calls",
-          "import_map": {}
-        }
-      ]
-    }
-  },
-  "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py": {
-    "mtime": 1794157107.3166409,
-    "size": 946,
-    "hash": "84daf2bf1e0ae00dd5d9955fa6868268",
-    "result": {
-      "nodes": [
-        {
-          "id": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py",
-          "label": "b567e79a02bb_add_processing_started_at_to_tasks_.py",
-          "type": "file",
-          "source_file": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py",
-          "line_start": 1,
-          "line_end": 32,
-          "signature": "module b567e79a02bb_add_processing_started_at_to_tasks_.py",
-          "docstring": "add processing_started_at to tasks_outbox\n\nRevision ID: b567e79a02bb\nRevises: dc3cd7a06e30\nCreate Date: 2026-11-08 19:58:27.314935",
-          "local_bindings": {}
-        },
-        {
-          "id": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py::upgrade",
-          "label": "upgrade",
-          "type": "function",
-          "source_file": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py",
-          "line_start": 21,
-          "line_end": 25,
-          "signature": "def upgrade() -> None",
-          "docstring": "Upgrade schema.",
-          "local_bindings": {}
-        },
-        {
-          "id": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py::downgrade",
-          "label": "downgrade",
-          "type": "function",
-          "source_file": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py",
-          "line_start": 28,
-          "line_end": 32,
-          "signature": "def downgrade() -> None",
-          "docstring": "Downgrade schema.",
-          "local_bindings": {}
-        }
-      ],
-      "edges": [
-        {
-          "source": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py",
-          "target": "typing",
-          "relation": "imports",
-          "import_map": {
-            "Sequence": "Sequence",
-            "Union": "Union"
-          }
-        },
-        {
-          "source": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py",
-          "target": "alembic",
-          "relation": "imports",
-          "import_map": {
-            "op": "op"
-          }
-        },
-        {
-          "source": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py",
-          "target": "sqlalchemy",
-          "relation": "imports",
-          "import_map": {
-            "sa": "sqlalchemy"
-          }
-        },
-        {
-          "source": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py",
-          "target": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py::upgrade",
-          "relation": "contains",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py::upgrade",
-          "target": "op.add_column",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py::upgrade",
-          "target": "sa.Column",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py::upgrade",
-          "target": "sa.DateTime",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py",
-          "target": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py::downgrade",
-          "relation": "contains",
-          "import_map": {}
-        },
-        {
-          "source": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py::downgrade",
-          "target": "op.drop_column",
+          "source": "core/publisher.py::publish_pending",
+          "target": "redis.close",
           "relation": "calls",
           "import_map": {}
         }
@@ -4016,6 +2398,999 @@
       ]
     }
   },
+  "migrations/env.py": {
+    "mtime": 1793905296.712124,
+    "size": 1590,
+    "hash": "c581b2c4cfd1905cbe4ba843a8650eb5",
+    "result": {
+      "nodes": [
+        {
+          "id": "migrations/env.py",
+          "label": "env.py",
+          "type": "file",
+          "source_file": "migrations/env.py",
+          "line_start": 1,
+          "line_end": 64,
+          "signature": "module env.py",
+          "docstring": "",
+          "local_bindings": {}
+        },
+        {
+          "id": "migrations/env.py::run_migrations_offline",
+          "label": "run_migrations_offline",
+          "type": "function",
+          "source_file": "migrations/env.py",
+          "line_start": 24,
+          "line_end": 34,
+          "signature": "def run_migrations_offline() -> None",
+          "docstring": "",
+          "local_bindings": {
+            "url": "config.get_main_option"
+          }
+        },
+        {
+          "id": "migrations/env.py::do_run_migrations",
+          "label": "do_run_migrations",
+          "type": "function",
+          "source_file": "migrations/env.py",
+          "line_start": 37,
+          "line_end": 41,
+          "signature": "def do_run_migrations(connection: Connection) -> None",
+          "docstring": "",
+          "local_bindings": {
+            "connection": "Connection"
+          }
+        },
+        {
+          "id": "migrations/env.py::run_async_migrations",
+          "label": "run_async_migrations",
+          "type": "function",
+          "source_file": "migrations/env.py",
+          "line_start": 44,
+          "line_end": 54,
+          "signature": "async def run_async_migrations() -> None",
+          "docstring": "",
+          "local_bindings": {
+            "connectable": "async_engine_from_config",
+            "connection": "connectable.connect"
+          }
+        },
+        {
+          "id": "migrations/env.py::run_migrations_online",
+          "label": "run_migrations_online",
+          "type": "function",
+          "source_file": "migrations/env.py",
+          "line_start": 57,
+          "line_end": 58,
+          "signature": "def run_migrations_online() -> None",
+          "docstring": "",
+          "local_bindings": {}
+        }
+      ],
+      "edges": [
+        {
+          "source": "migrations/env.py",
+          "target": "asyncio",
+          "relation": "imports",
+          "import_map": {
+            "asyncio": "asyncio"
+          }
+        },
+        {
+          "source": "migrations/env.py",
+          "target": "logging.config",
+          "relation": "imports",
+          "import_map": {
+            "fileConfig": "fileConfig"
+          }
+        },
+        {
+          "source": "migrations/env.py",
+          "target": "sqlalchemy",
+          "relation": "imports",
+          "import_map": {
+            "pool": "pool"
+          }
+        },
+        {
+          "source": "migrations/env.py",
+          "target": "sqlalchemy.engine",
+          "relation": "imports",
+          "import_map": {
+            "Connection": "Connection"
+          }
+        },
+        {
+          "source": "migrations/env.py",
+          "target": "sqlalchemy.ext.asyncio",
+          "relation": "imports",
+          "import_map": {
+            "async_engine_from_config": "async_engine_from_config"
+          }
+        },
+        {
+          "source": "migrations/env.py",
+          "target": "alembic",
+          "relation": "imports",
+          "import_map": {
+            "context": "context"
+          }
+        },
+        {
+          "source": "migrations/env.py",
+          "target": "app.config",
+          "relation": "imports",
+          "import_map": {
+            "settings": "settings"
+          }
+        },
+        {
+          "source": "migrations/env.py",
+          "target": "app.db",
+          "relation": "imports",
+          "import_map": {
+            "Base": "Base"
+          }
+        },
+        {
+          "source": "migrations/env.py",
+          "target": "app.models",
+          "relation": "imports",
+          "import_map": {
+            "outbox": "outbox",
+            "idempotency": "idempotency"
+          }
+        },
+        {
+          "source": "migrations/env.py",
+          "target": "fileConfig",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/env.py",
+          "target": "config.set_main_option",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/env.py",
+          "target": "migrations/env.py::run_migrations_offline",
+          "relation": "contains",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/env.py::run_migrations_offline",
+          "target": "config.get_main_option",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/env.py::run_migrations_offline",
+          "target": "context.configure",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/env.py::run_migrations_offline",
+          "target": "context.begin_transaction",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/env.py::run_migrations_offline",
+          "target": "context.run_migrations",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/env.py",
+          "target": "migrations/env.py::do_run_migrations",
+          "relation": "contains",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/env.py::do_run_migrations",
+          "target": "context.configure",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/env.py::do_run_migrations",
+          "target": "context.begin_transaction",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/env.py::do_run_migrations",
+          "target": "context.run_migrations",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/env.py",
+          "target": "migrations/env.py::run_async_migrations",
+          "relation": "contains",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/env.py::run_async_migrations",
+          "target": "async_engine_from_config",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/env.py::run_async_migrations",
+          "target": "config.get_section",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/env.py::run_async_migrations",
+          "target": "connectable.connect",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/env.py::run_async_migrations",
+          "target": "connection.run_sync",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/env.py::run_async_migrations",
+          "target": "connectable.dispose",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/env.py",
+          "target": "migrations/env.py::run_migrations_online",
+          "relation": "contains",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/env.py::run_migrations_online",
+          "target": "asyncio.run",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/env.py::run_migrations_online",
+          "target": "run_async_migrations",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/env.py",
+          "target": "context.is_offline_mode",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/env.py",
+          "target": "run_migrations_offline",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/env.py",
+          "target": "run_migrations_online",
+          "relation": "calls",
+          "import_map": {}
+        }
+      ]
+    }
+  },
+  "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py": {
+    "mtime": 1794044400.567029,
+    "size": 1078,
+    "hash": "1fd8bb21834246757537b0f73bcd0881",
+    "result": {
+      "nodes": [
+        {
+          "id": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py",
+          "label": "dc3cd7a06e30_add_trace_id_to_tasks_outbox.py",
+          "type": "file",
+          "source_file": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py",
+          "line_start": 1,
+          "line_end": 34,
+          "signature": "module dc3cd7a06e30_add_trace_id_to_tasks_outbox.py",
+          "docstring": "add trace_id to tasks_outbox\n\nRevision ID: dc3cd7a06e30\nRevises: 8818bdcf3760\nCreate Date: 2026-11-07 12:40:00.567665",
+          "local_bindings": {}
+        },
+        {
+          "id": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py::upgrade",
+          "label": "upgrade",
+          "type": "function",
+          "source_file": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py",
+          "line_start": 21,
+          "line_end": 26,
+          "signature": "def upgrade() -> None",
+          "docstring": "Upgrade schema.",
+          "local_bindings": {}
+        },
+        {
+          "id": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py::downgrade",
+          "label": "downgrade",
+          "type": "function",
+          "source_file": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py",
+          "line_start": 29,
+          "line_end": 34,
+          "signature": "def downgrade() -> None",
+          "docstring": "Downgrade schema.",
+          "local_bindings": {}
+        }
+      ],
+      "edges": [
+        {
+          "source": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py",
+          "target": "typing",
+          "relation": "imports",
+          "import_map": {
+            "Sequence": "Sequence",
+            "Union": "Union"
+          }
+        },
+        {
+          "source": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py",
+          "target": "alembic",
+          "relation": "imports",
+          "import_map": {
+            "op": "op"
+          }
+        },
+        {
+          "source": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py",
+          "target": "sqlalchemy",
+          "relation": "imports",
+          "import_map": {
+            "sa": "sqlalchemy"
+          }
+        },
+        {
+          "source": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py",
+          "target": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py::upgrade",
+          "relation": "contains",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py::upgrade",
+          "target": "op.add_column",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py::upgrade",
+          "target": "sa.Column",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py::upgrade",
+          "target": "sa.String",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py::upgrade",
+          "target": "op.create_index",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py::upgrade",
+          "target": "op.f",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py",
+          "target": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py::downgrade",
+          "relation": "contains",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py::downgrade",
+          "target": "op.drop_index",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py::downgrade",
+          "target": "op.f",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py::downgrade",
+          "target": "op.drop_column",
+          "relation": "calls",
+          "import_map": {}
+        }
+      ]
+    }
+  },
+  "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py": {
+    "mtime": 1794157107.3166409,
+    "size": 946,
+    "hash": "84daf2bf1e0ae00dd5d9955fa6868268",
+    "result": {
+      "nodes": [
+        {
+          "id": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py",
+          "label": "b567e79a02bb_add_processing_started_at_to_tasks_.py",
+          "type": "file",
+          "source_file": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py",
+          "line_start": 1,
+          "line_end": 32,
+          "signature": "module b567e79a02bb_add_processing_started_at_to_tasks_.py",
+          "docstring": "add processing_started_at to tasks_outbox\n\nRevision ID: b567e79a02bb\nRevises: dc3cd7a06e30\nCreate Date: 2026-11-08 19:58:27.314935",
+          "local_bindings": {}
+        },
+        {
+          "id": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py::upgrade",
+          "label": "upgrade",
+          "type": "function",
+          "source_file": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py",
+          "line_start": 21,
+          "line_end": 25,
+          "signature": "def upgrade() -> None",
+          "docstring": "Upgrade schema.",
+          "local_bindings": {}
+        },
+        {
+          "id": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py::downgrade",
+          "label": "downgrade",
+          "type": "function",
+          "source_file": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py",
+          "line_start": 28,
+          "line_end": 32,
+          "signature": "def downgrade() -> None",
+          "docstring": "Downgrade schema.",
+          "local_bindings": {}
+        }
+      ],
+      "edges": [
+        {
+          "source": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py",
+          "target": "typing",
+          "relation": "imports",
+          "import_map": {
+            "Sequence": "Sequence",
+            "Union": "Union"
+          }
+        },
+        {
+          "source": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py",
+          "target": "alembic",
+          "relation": "imports",
+          "import_map": {
+            "op": "op"
+          }
+        },
+        {
+          "source": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py",
+          "target": "sqlalchemy",
+          "relation": "imports",
+          "import_map": {
+            "sa": "sqlalchemy"
+          }
+        },
+        {
+          "source": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py",
+          "target": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py::upgrade",
+          "relation": "contains",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py::upgrade",
+          "target": "op.add_column",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py::upgrade",
+          "target": "sa.Column",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py::upgrade",
+          "target": "sa.DateTime",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py",
+          "target": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py::downgrade",
+          "relation": "contains",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py::downgrade",
+          "target": "op.drop_column",
+          "relation": "calls",
+          "import_map": {}
+        }
+      ]
+    }
+  },
+  "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py": {
+    "mtime": 1793905345.2191443,
+    "size": 1985,
+    "hash": "f1fe19a234d838c03233767290106953",
+    "result": {
+      "nodes": [
+        {
+          "id": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py",
+          "label": "7ed6f6d1f417_create_outbox_and_idempotency_tables.py",
+          "type": "file",
+          "source_file": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py",
+          "line_start": 1,
+          "line_end": 50,
+          "signature": "module 7ed6f6d1f417_create_outbox_and_idempotency_tables.py",
+          "docstring": "create outbox and idempotency tables\n\nRevision ID: 7ed6f6d1f417\nRevises: \nCreate Date: 2026-11-05 22:02:25.215107",
+          "local_bindings": {}
+        },
+        {
+          "id": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
+          "label": "upgrade",
+          "type": "function",
+          "source_file": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py",
+          "line_start": 21,
+          "line_end": 40,
+          "signature": "def upgrade() -> None",
+          "docstring": "Upgrade schema.",
+          "local_bindings": {}
+        },
+        {
+          "id": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::downgrade",
+          "label": "downgrade",
+          "type": "function",
+          "source_file": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py",
+          "line_start": 43,
+          "line_end": 50,
+          "signature": "def downgrade() -> None",
+          "docstring": "Downgrade schema.",
+          "local_bindings": {}
+        }
+      ],
+      "edges": [
+        {
+          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py",
+          "target": "typing",
+          "relation": "imports",
+          "import_map": {
+            "Sequence": "Sequence",
+            "Union": "Union"
+          }
+        },
+        {
+          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py",
+          "target": "alembic",
+          "relation": "imports",
+          "import_map": {
+            "op": "op"
+          }
+        },
+        {
+          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py",
+          "target": "sqlalchemy",
+          "relation": "imports",
+          "import_map": {
+            "sa": "sqlalchemy"
+          }
+        },
+        {
+          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py",
+          "target": "sqlalchemy.dialects",
+          "relation": "imports",
+          "import_map": {
+            "postgresql": "postgresql"
+          }
+        },
+        {
+          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py",
+          "target": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
+          "relation": "contains",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
+          "target": "op.create_table",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
+          "target": "sa.Column",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
+          "target": "sa.UUID",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
+          "target": "sa.Column",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
+          "target": "sa.String",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
+          "target": "sa.Column",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
+          "target": "sa.DateTime",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
+          "target": "sa.text",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
+          "target": "sa.PrimaryKeyConstraint",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
+          "target": "op.create_index",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
+          "target": "op.f",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
+          "target": "op.create_table",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
+          "target": "sa.Column",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
+          "target": "sa.UUID",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
+          "target": "sa.Column",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
+          "target": "postgresql.JSONB",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
+          "target": "sa.Text",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
+          "target": "sa.Column",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
+          "target": "sa.String",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
+          "target": "sa.Column",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
+          "target": "sa.DateTime",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
+          "target": "sa.text",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
+          "target": "sa.Column",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
+          "target": "sa.DateTime",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
+          "target": "sa.text",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
+          "target": "sa.PrimaryKeyConstraint",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
+          "target": "op.create_index",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
+          "target": "op.f",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py",
+          "target": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::downgrade",
+          "relation": "contains",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::downgrade",
+          "target": "op.drop_index",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::downgrade",
+          "target": "op.f",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::downgrade",
+          "target": "op.drop_table",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::downgrade",
+          "target": "op.drop_index",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::downgrade",
+          "target": "op.f",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::downgrade",
+          "target": "op.drop_table",
+          "relation": "calls",
+          "import_map": {}
+        }
+      ]
+    }
+  },
+  "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py": {
+    "mtime": 1793910147.5131433,
+    "size": 896,
+    "hash": "2476c23640bf1352f70a0d13c76d0b46",
+    "result": {
+      "nodes": [
+        {
+          "id": "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py",
+          "label": "8818bdcf3760_add_last_error_to_tasks_outbox.py",
+          "type": "file",
+          "source_file": "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py",
+          "line_start": 1,
+          "line_end": 32,
+          "signature": "module 8818bdcf3760_add_last_error_to_tasks_outbox.py",
+          "docstring": "add last_error to tasks_outbox\n\nRevision ID: 8818bdcf3760\nRevises: 7ed6f6d1f417\nCreate Date: 2026-11-05 23:22:27.513384",
+          "local_bindings": {}
+        },
+        {
+          "id": "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py::upgrade",
+          "label": "upgrade",
+          "type": "function",
+          "source_file": "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py",
+          "line_start": 21,
+          "line_end": 25,
+          "signature": "def upgrade() -> None",
+          "docstring": "Upgrade schema.",
+          "local_bindings": {}
+        },
+        {
+          "id": "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py::downgrade",
+          "label": "downgrade",
+          "type": "function",
+          "source_file": "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py",
+          "line_start": 28,
+          "line_end": 32,
+          "signature": "def downgrade() -> None",
+          "docstring": "Downgrade schema.",
+          "local_bindings": {}
+        }
+      ],
+      "edges": [
+        {
+          "source": "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py",
+          "target": "typing",
+          "relation": "imports",
+          "import_map": {
+            "Sequence": "Sequence",
+            "Union": "Union"
+          }
+        },
+        {
+          "source": "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py",
+          "target": "alembic",
+          "relation": "imports",
+          "import_map": {
+            "op": "op"
+          }
+        },
+        {
+          "source": "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py",
+          "target": "sqlalchemy",
+          "relation": "imports",
+          "import_map": {
+            "sa": "sqlalchemy"
+          }
+        },
+        {
+          "source": "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py",
+          "target": "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py::upgrade",
+          "relation": "contains",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py::upgrade",
+          "target": "op.add_column",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py::upgrade",
+          "target": "sa.Column",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py::upgrade",
+          "target": "sa.Text",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py",
+          "target": "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py::downgrade",
+          "relation": "contains",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py::downgrade",
+          "target": "op.drop_column",
+          "relation": "calls",
+          "import_map": {}
+        }
+      ]
+    }
+  },
+  "load_test.js": {
+    "mtime": 1794071266.6976972,
+    "size": 1213,
+    "hash": "76ba46fa30521596106f93cfe5c511e6",
+    "result": {
+      "nodes": [
+        {
+          "id": "load_test.js",
+          "label": "load_test.js",
+          "type": "file",
+          "source_file": "load_test.js",
+          "line_start": 1,
+          "line_end": 32,
+          "signature": "module load_test.js",
+          "docstring": "",
+          "local_bindings": {}
+        }
+      ],
+      "edges": [
+        {
+          "source": "load_test.js",
+          "target": "k6/http",
+          "relation": "imports",
+          "import_map": {
+            "http": "default"
+          }
+        },
+        {
+          "source": "load_test.js",
+          "target": "k6",
+          "relation": "imports",
+          "import_map": {
+            "check": "check",
+            "sleep": "sleep"
+          }
+        },
+        {
+          "source": "load_test.js",
+          "target": "https://jslib.k6.io/k6-utils/1.2.0/index.js",
+          "relation": "imports",
+          "import_map": {
+            "randomString": "randomString"
+          }
+        },
+        {
+          "source": "load_test.js",
+          "target": "randomString",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "load_test.js",
+          "target": "http.post",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "load_test.js",
+          "target": "check",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "load_test.js",
+          "target": "r.json",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "load_test.js",
+          "target": "sleep",
+          "relation": "calls",
+          "import_map": {}
+        }
+      ]
+    }
+  },
   "load_test_batch.js": {
     "mtime": 1794164452.8212523,
     "size": 2617,
@@ -4229,10 +3604,738 @@
       ]
     }
   },
+  "app/models/outbox.py": {
+    "mtime": 1794175822.5303357,
+    "size": 1208,
+    "hash": "54a4dbe518d922bd35cacf9eae505ff7",
+    "result": {
+      "nodes": [
+        {
+          "id": "app/models/outbox.py",
+          "label": "outbox.py",
+          "type": "file",
+          "source_file": "app/models/outbox.py",
+          "line_start": 1,
+          "line_end": 39,
+          "signature": "module outbox.py",
+          "docstring": "",
+          "local_bindings": {}
+        },
+        {
+          "id": "app/models/outbox.py::TaskOutbox",
+          "label": "TaskOutbox",
+          "type": "class",
+          "source_file": "app/models/outbox.py",
+          "line_start": 11,
+          "line_end": 32,
+          "signature": "class TaskOutbox(Base)",
+          "docstring": "",
+          "local_bindings": {}
+        }
+      ],
+      "edges": [
+        {
+          "source": "app/models/outbox.py",
+          "target": "uuid",
+          "relation": "imports",
+          "import_map": {
+            "uuid": "uuid"
+          }
+        },
+        {
+          "source": "app/models/outbox.py",
+          "target": "datetime",
+          "relation": "imports",
+          "import_map": {
+            "datetime": "datetime"
+          }
+        },
+        {
+          "source": "app/models/outbox.py",
+          "target": "sqlalchemy",
+          "relation": "imports",
+          "import_map": {
+            "String": "String",
+            "Text": "Text",
+            "DateTime": "DateTime",
+            "Integer": "Integer",
+            "func": "func"
+          }
+        },
+        {
+          "source": "app/models/outbox.py",
+          "target": "sqlalchemy.dialects.postgresql",
+          "relation": "imports",
+          "import_map": {
+            "JSONB": "JSONB",
+            "UUID": "UUID"
+          }
+        },
+        {
+          "source": "app/models/outbox.py",
+          "target": "sqlalchemy.orm",
+          "relation": "imports",
+          "import_map": {
+            "Mapped": "Mapped",
+            "mapped_column": "mapped_column"
+          }
+        },
+        {
+          "source": "app/models/outbox.py",
+          "target": "app.db",
+          "relation": "imports",
+          "import_map": {
+            "Base": "Base"
+          }
+        },
+        {
+          "source": "app/models/outbox.py",
+          "target": "app/models/outbox.py::TaskOutbox",
+          "relation": "contains",
+          "import_map": {}
+        },
+        {
+          "source": "app/models/outbox.py::TaskOutbox",
+          "target": "Base",
+          "relation": "inherits",
+          "import_map": {}
+        },
+        {
+          "source": "app/models/outbox.py::TaskOutbox",
+          "target": "mapped_column",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "app/models/outbox.py::TaskOutbox",
+          "target": "UUID",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "app/models/outbox.py::TaskOutbox",
+          "target": "mapped_column",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "app/models/outbox.py::TaskOutbox",
+          "target": "mapped_column",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "app/models/outbox.py::TaskOutbox",
+          "target": "String",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "app/models/outbox.py::TaskOutbox",
+          "target": "mapped_column",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "app/models/outbox.py::TaskOutbox",
+          "target": "String",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "app/models/outbox.py::TaskOutbox",
+          "target": "mapped_column",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "app/models/outbox.py::TaskOutbox",
+          "target": "mapped_column",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "app/models/outbox.py::TaskOutbox",
+          "target": "DateTime",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "app/models/outbox.py::TaskOutbox",
+          "target": "func.now",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "app/models/outbox.py::TaskOutbox",
+          "target": "mapped_column",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "app/models/outbox.py::TaskOutbox",
+          "target": "DateTime",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "app/models/outbox.py::TaskOutbox",
+          "target": "func.now",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "app/models/outbox.py::TaskOutbox",
+          "target": "func.now",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "app/models/outbox.py::TaskOutbox",
+          "target": "mapped_column",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "app/models/outbox.py::TaskOutbox",
+          "target": "DateTime",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "app/models/outbox.py::TaskOutbox",
+          "target": "mapped_column",
+          "relation": "calls",
+          "import_map": {}
+        }
+      ]
+    }
+  },
+  "worker/settings.py": {
+    "mtime": 1794177717.4905884,
+    "size": 1542,
+    "hash": "15623ab645d5c665273f620c2e6d9521",
+    "result": {
+      "nodes": [
+        {
+          "id": "worker/settings.py",
+          "label": "settings.py",
+          "type": "file",
+          "source_file": "worker/settings.py",
+          "line_start": 1,
+          "line_end": 37,
+          "signature": "module settings.py",
+          "docstring": "",
+          "local_bindings": {}
+        },
+        {
+          "id": "worker/settings.py::WorkerSettings",
+          "label": "WorkerSettings",
+          "type": "class",
+          "source_file": "worker/settings.py",
+          "line_start": 15,
+          "line_end": 37,
+          "signature": "class WorkerSettings",
+          "docstring": "",
+          "local_bindings": {}
+        }
+      ],
+      "edges": [
+        {
+          "source": "worker/settings.py",
+          "target": "arq",
+          "relation": "imports",
+          "import_map": {
+            "cron": "cron"
+          }
+        },
+        {
+          "source": "worker/settings.py",
+          "target": "arq.connections",
+          "relation": "imports",
+          "import_map": {
+            "RedisSettings": "RedisSettings"
+          }
+        },
+        {
+          "source": "worker/settings.py",
+          "target": "app.config",
+          "relation": "imports",
+          "import_map": {
+            "settings": "settings"
+          }
+        },
+        {
+          "source": "worker/settings.py",
+          "target": "app.logging_config",
+          "relation": "imports",
+          "import_map": {
+            "setup_logging": "setup_logging"
+          }
+        },
+        {
+          "source": "worker/settings.py",
+          "target": "setup_logging",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "worker/settings.py",
+          "target": "worker.tasks",
+          "relation": "imports",
+          "import_map": {
+            "ping": "ping",
+            "process_outbox_task": "process_outbox_task",
+            "requeue_stale_tasks": "requeue_stale_tasks",
+            "retry_failed_tasks": "retry_failed_tasks"
+          }
+        },
+        {
+          "source": "worker/settings.py",
+          "target": "core.publisher",
+          "relation": "imports",
+          "import_map": {
+            "publish_pending": "publish_pending"
+          }
+        },
+        {
+          "source": "worker/settings.py",
+          "target": "app.telemetry",
+          "relation": "imports",
+          "import_map": {
+            "setup_tracing": "setup_tracing"
+          }
+        },
+        {
+          "source": "worker/settings.py",
+          "target": "setup_logging",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "worker/settings.py",
+          "target": "setup_tracing",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "worker/settings.py",
+          "target": "worker/settings.py::WorkerSettings",
+          "relation": "contains",
+          "import_map": {}
+        },
+        {
+          "source": "worker/settings.py::WorkerSettings",
+          "target": "RedisSettings.from_dsn",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "worker/settings.py::WorkerSettings",
+          "target": "cron",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "worker/settings.py::WorkerSettings",
+          "target": "cron",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "worker/settings.py::WorkerSettings",
+          "target": "cron",
+          "relation": "calls",
+          "import_map": {}
+        }
+      ]
+    }
+  },
+  "core/bitrix_batch.py": {
+    "mtime": 1794169054.2819152,
+    "size": 3449,
+    "hash": "07bf483f8e835aec2a985b8748d6b6a7",
+    "result": {
+      "nodes": [
+        {
+          "id": "core/bitrix_batch.py",
+          "label": "bitrix_batch.py",
+          "type": "file",
+          "source_file": "core/bitrix_batch.py",
+          "line_start": 1,
+          "line_end": 65,
+          "signature": "module bitrix_batch.py",
+          "docstring": "",
+          "local_bindings": {}
+        },
+        {
+          "id": "core/bitrix_batch.py::execute_batch",
+          "label": "execute_batch",
+          "type": "function",
+          "source_file": "core/bitrix_batch.py",
+          "line_start": 14,
+          "line_end": 65,
+          "signature": "async def execute_batch(commands)",
+          "docstring": "",
+          "local_bindings": {
+            "now": "time.time",
+            "current_op": "bitrix_state[\"operating_time\"].get"
+          }
+        }
+      ],
+      "edges": [
+        {
+          "source": "core/bitrix_batch.py",
+          "target": "asyncio",
+          "relation": "imports",
+          "import_map": {
+            "asyncio": "asyncio"
+          }
+        },
+        {
+          "source": "core/bitrix_batch.py",
+          "target": "time",
+          "relation": "imports",
+          "import_map": {
+            "time": "time"
+          }
+        },
+        {
+          "source": "core/bitrix_batch.py",
+          "target": "random",
+          "relation": "imports",
+          "import_map": {
+            "random": "random"
+          }
+        },
+        {
+          "source": "core/bitrix_batch.py",
+          "target": "time.time",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "core/bitrix_batch.py",
+          "target": "core/bitrix_batch.py::execute_batch",
+          "relation": "contains",
+          "import_map": {}
+        },
+        {
+          "source": "core/bitrix_batch.py::execute_batch",
+          "target": "time.time",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "core/bitrix_batch.py::execute_batch",
+          "target": "min",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "core/bitrix_batch.py::execute_batch",
+          "target": "Exception",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "core/bitrix_batch.py::execute_batch",
+          "target": "random.uniform",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "core/bitrix_batch.py::execute_batch",
+          "target": "len",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "core/bitrix_batch.py::execute_batch",
+          "target": "print",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "core/bitrix_batch.py::execute_batch",
+          "target": "asyncio.sleep",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "core/bitrix_batch.py::execute_batch",
+          "target": "Exception",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "core/bitrix_batch.py::execute_batch",
+          "target": "bitrix_state[\"operating_time\"].get",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "core/bitrix_batch.py::execute_batch",
+          "target": "print",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "core/bitrix_batch.py::execute_batch",
+          "target": "Exception",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "core/bitrix_batch.py::execute_batch",
+          "target": "str",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "core/bitrix_batch.py::execute_batch",
+          "target": "int",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "core/bitrix_batch.py::execute_batch",
+          "target": "time.time",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "core/bitrix_batch.py::execute_batch",
+          "target": "random.random",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "core/bitrix_batch.py::execute_batch",
+          "target": "Exception",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "core/bitrix_batch.py::execute_batch",
+          "target": "range",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "core/bitrix_batch.py::execute_batch",
+          "target": "len",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "core/bitrix_batch.py::execute_batch",
+          "target": "int",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "core/bitrix_batch.py::execute_batch",
+          "target": "time.time",
+          "relation": "calls",
+          "import_map": {}
+        }
+      ]
+    }
+  },
+  "migrations/versions/c6ad716e90cd_add_retry_count_to_tasks_outbox.py": {
+    "mtime": 1794175942.409009,
+    "size": 786,
+    "hash": "aa64d63d826c5b3057c39e7833a5a767",
+    "result": {
+      "nodes": [
+        {
+          "id": "migrations/versions/c6ad716e90cd_add_retry_count_to_tasks_outbox.py",
+          "label": "c6ad716e90cd_add_retry_count_to_tasks_outbox.py",
+          "type": "file",
+          "source_file": "migrations/versions/c6ad716e90cd_add_retry_count_to_tasks_outbox.py",
+          "line_start": 1,
+          "line_end": 32,
+          "signature": "module c6ad716e90cd_add_retry_count_to_tasks_outbox.py",
+          "docstring": "add retry_count to tasks_outbox\n\nRevision ID: c6ad716e90cd\nRevises: \nCreate Date: ...",
+          "local_bindings": {}
+        },
+        {
+          "id": "migrations/versions/c6ad716e90cd_add_retry_count_to_tasks_outbox.py::upgrade",
+          "label": "upgrade",
+          "type": "function",
+          "source_file": "migrations/versions/c6ad716e90cd_add_retry_count_to_tasks_outbox.py",
+          "line_start": 18,
+          "line_end": 27,
+          "signature": "def upgrade() -> None",
+          "docstring": "",
+          "local_bindings": {}
+        },
+        {
+          "id": "migrations/versions/c6ad716e90cd_add_retry_count_to_tasks_outbox.py::downgrade",
+          "label": "downgrade",
+          "type": "function",
+          "source_file": "migrations/versions/c6ad716e90cd_add_retry_count_to_tasks_outbox.py",
+          "line_start": 30,
+          "line_end": 32,
+          "signature": "def downgrade() -> None",
+          "docstring": "",
+          "local_bindings": {}
+        }
+      ],
+      "edges": [
+        {
+          "source": "migrations/versions/c6ad716e90cd_add_retry_count_to_tasks_outbox.py",
+          "target": "alembic",
+          "relation": "imports",
+          "import_map": {
+            "op": "op"
+          }
+        },
+        {
+          "source": "migrations/versions/c6ad716e90cd_add_retry_count_to_tasks_outbox.py",
+          "target": "sqlalchemy",
+          "relation": "imports",
+          "import_map": {
+            "sa": "sqlalchemy"
+          }
+        },
+        {
+          "source": "migrations/versions/c6ad716e90cd_add_retry_count_to_tasks_outbox.py",
+          "target": "migrations/versions/c6ad716e90cd_add_retry_count_to_tasks_outbox.py::upgrade",
+          "relation": "contains",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/c6ad716e90cd_add_retry_count_to_tasks_outbox.py::upgrade",
+          "target": "op.add_column",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/c6ad716e90cd_add_retry_count_to_tasks_outbox.py::upgrade",
+          "target": "sa.Column",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/c6ad716e90cd_add_retry_count_to_tasks_outbox.py::upgrade",
+          "target": "sa.Integer",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/c6ad716e90cd_add_retry_count_to_tasks_outbox.py::upgrade",
+          "target": "op.create_index",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/c6ad716e90cd_add_retry_count_to_tasks_outbox.py",
+          "target": "migrations/versions/c6ad716e90cd_add_retry_count_to_tasks_outbox.py::downgrade",
+          "relation": "contains",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/c6ad716e90cd_add_retry_count_to_tasks_outbox.py::downgrade",
+          "target": "op.drop_index",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/c6ad716e90cd_add_retry_count_to_tasks_outbox.py::downgrade",
+          "target": "op.drop_column",
+          "relation": "calls",
+          "import_map": {}
+        }
+      ]
+    }
+  },
+  "migrations/versions/bdc2e7f27245_add_retry_count_to_tasks_outbox.py": {
+    "mtime": 1794174945.1290643,
+    "size": 579,
+    "hash": "b0b2d0f705e2b3bef4af76646c81920e",
+    "result": {
+      "nodes": [
+        {
+          "id": "migrations/versions/bdc2e7f27245_add_retry_count_to_tasks_outbox.py",
+          "label": "bdc2e7f27245_add_retry_count_to_tasks_outbox.py",
+          "type": "file",
+          "source_file": "migrations/versions/bdc2e7f27245_add_retry_count_to_tasks_outbox.py",
+          "line_start": 1,
+          "line_end": 28,
+          "signature": "module bdc2e7f27245_add_retry_count_to_tasks_outbox.py",
+          "docstring": "add retry_count to tasks_outbox\n\nRevision ID: bdc2e7f27245\nRevises: b567e79a02bb\nCreate Date: 2026-11-09 00:55:45.124076",
+          "local_bindings": {}
+        },
+        {
+          "id": "migrations/versions/bdc2e7f27245_add_retry_count_to_tasks_outbox.py::upgrade",
+          "label": "upgrade",
+          "type": "function",
+          "source_file": "migrations/versions/bdc2e7f27245_add_retry_count_to_tasks_outbox.py",
+          "line_start": 21,
+          "line_end": 23,
+          "signature": "def upgrade() -> None",
+          "docstring": "Upgrade schema.",
+          "local_bindings": {}
+        },
+        {
+          "id": "migrations/versions/bdc2e7f27245_add_retry_count_to_tasks_outbox.py::downgrade",
+          "label": "downgrade",
+          "type": "function",
+          "source_file": "migrations/versions/bdc2e7f27245_add_retry_count_to_tasks_outbox.py",
+          "line_start": 26,
+          "line_end": 28,
+          "signature": "def downgrade() -> None",
+          "docstring": "Downgrade schema.",
+          "local_bindings": {}
+        }
+      ],
+      "edges": [
+        {
+          "source": "migrations/versions/bdc2e7f27245_add_retry_count_to_tasks_outbox.py",
+          "target": "typing",
+          "relation": "imports",
+          "import_map": {
+            "Sequence": "Sequence",
+            "Union": "Union"
+          }
+        },
+        {
+          "source": "migrations/versions/bdc2e7f27245_add_retry_count_to_tasks_outbox.py",
+          "target": "alembic",
+          "relation": "imports",
+          "import_map": {
+            "op": "op"
+          }
+        },
+        {
+          "source": "migrations/versions/bdc2e7f27245_add_retry_count_to_tasks_outbox.py",
+          "target": "sqlalchemy",
+          "relation": "imports",
+          "import_map": {
+            "sa": "sqlalchemy"
+          }
+        },
+        {
+          "source": "migrations/versions/bdc2e7f27245_add_retry_count_to_tasks_outbox.py",
+          "target": "migrations/versions/bdc2e7f27245_add_retry_count_to_tasks_outbox.py::upgrade",
+          "relation": "contains",
+          "import_map": {}
+        },
+        {
+          "source": "migrations/versions/bdc2e7f27245_add_retry_count_to_tasks_outbox.py",
+          "target": "migrations/versions/bdc2e7f27245_add_retry_count_to_tasks_outbox.py::downgrade",
+          "relation": "contains",
+          "import_map": {}
+        }
+      ]
+    }
+  },
   "worker/tasks.py": {
-    "mtime": 1794162722.2838776,
-    "size": 9595,
-    "hash": "05b0a53a772bb3b15b23839421bdae83",
+    "mtime": 1794172726.0931437,
+    "size": 12886,
+    "hash": "240c3a2363df10ad4d5f65d43aba1755",
     "result": {
       "nodes": [
         {
@@ -4241,7 +4344,7 @@
           "type": "file",
           "source_file": "worker/tasks.py",
           "line_start": 1,
-          "line_end": 250,
+          "line_end": 337,
           "signature": "module tasks.py",
           "docstring": "",
           "local_bindings": {}
@@ -4282,9 +4385,9 @@
           "type": "function",
           "source_file": "worker/tasks.py",
           "line_start": 66,
-          "line_end": 92,
+          "line_end": 100,
           "signature": "async def requeue_stale_tasks(ctx)",
-          "docstring": "Watchdog: \u0432\u043e\u0437\u0432\u0440\u0430\u0449\u0430\u0435\u0442 \u0437\u0430\u0432\u0438\u0441\u0448\u0438\u0435 processing-\u0437\u0430\u0434\u0430\u0447\u0438 \u0432 pending.",
+          "docstring": "Watchdog: \u0432\u043e\u0437\u0432\u0440\u0430\u0449\u0430\u0435\u0442 \u0437\u0430\u0432\u0438\u0441\u0448\u0438\u0435 processing-\u0437\u0430\u0434\u0430\u0447\u0438 \u0432 pending.\n\n    \u041b\u043e\u0432\u0438\u0442 \u0434\u0432\u0430 \u0441\u043b\u0443\u0447\u0430\u044f:\n    1. processing_started_at < now() - 5 min (\u0441\u0442\u0430\u0440\u044b\u0435 \u0437\u0430\u0434\u0430\u0447\u0438)\n    2. processing_started_at IS NULL (\u0441\u0438\u0440\u043e\u0442\u044b \u2014 \u0437\u0430\u0434\u0430\u0447\u0438 \u0431\u0435\u0437 \u0442\u0430\u0439\u043c\u0441\u0442\u0430\u043c\u043f\u0430)",
           "local_bindings": {
             "session": "SessionLocal"
           }
@@ -4294,8 +4397,8 @@
           "label": "process_outbox_task",
           "type": "function",
           "source_file": "worker/tasks.py",
-          "line_start": 101,
-          "line_end": 250,
+          "line_start": 109,
+          "line_end": 272,
           "signature": "async def process_outbox_task(ctx, task_id: str, payload: dict) -> dict",
           "docstring": "\u041e\u0431\u0440\u0430\u0431\u043e\u0442\u0447\u0438\u043a \u0437\u0430\u0434\u0430\u0447\u0438 \u0438\u0437 outbox \u0441 batch-\u043e\u043f\u0442\u0438\u043c\u0438\u0437\u0430\u0446\u0438\u0435\u0439.\n\n    \u0411\u0435\u0440\u0435\u0442 \u0434\u043e 25 pending-\u0437\u0430\u0434\u0430\u0447, \u043e\u0442\u043f\u0440\u0430\u0432\u043b\u044f\u0435\u0442 \u043e\u0434\u043d\u0438\u043c batch-\u0437\u0430\u043f\u0440\u043e\u0441\u043e\u043c.\n    \u0422\u0440\u0430\u043d\u0437\u0430\u043a\u0446\u0438\u0438 \u043a\u043e\u0440\u043e\u0442\u043a\u0438\u0435 (\u0442\u043e\u043b\u044c\u043a\u043e \u0411\u0414), \u0432\u043d\u0435\u0448\u043d\u0438\u0435 \u0432\u044b\u0437\u043e\u0432\u044b \u0432\u043d\u0435 \u0442\u0440\u0430\u043d\u0437\u0430\u043a\u0446\u0438\u0439.",
           "local_bindings": {
@@ -4307,8 +4410,21 @@
             "limiter": "BitrixRateLimiter",
             "operating": "batch_result.get(\"time\", {}).get",
             "reset_at": "batch_result.get(\"time\", {}).get",
-            "wait_sec": "min",
             "error_msg": "batch_result[\"result_error\"][cmd_id].get"
+          }
+        },
+        {
+          "id": "worker/tasks.py::retry_failed_tasks",
+          "label": "retry_failed_tasks",
+          "type": "function",
+          "source_file": "worker/tasks.py",
+          "line_start": 273,
+          "line_end": 337,
+          "signature": "async def retry_failed_tasks(ctx)",
+          "docstring": "\u0410\u0432\u0442\u043e\u043c\u0430\u0442\u0438\u0447\u0435\u0441\u043a\u0438\u0439 retry \u0434\u043b\u044f \u0443\u043f\u0430\u0432\u0448\u0438\u0445 \u0437\u0430\u0434\u0430\u0447.\n    \n    \u041b\u043e\u0433\u0438\u043a\u0430:\n    - \u041f\u0435\u0440\u0432\u044b\u0435 5 \u043f\u043e\u043f\u044b\u0442\u043e\u043a: retry \u043a\u0430\u0436\u0434\u044b\u0435 5 \u043c\u0438\u043d\u0443\u0442 (\u0431\u044b\u0441\u0442\u0440\u044b\u0435 \u0441\u0431\u043e\u0438).\n    - \u0421\u043b\u0435\u0434\u0443\u044e\u0449\u0438\u0435 20 \u043f\u043e\u043f\u044b\u0442\u043e\u043a: retry \u043a\u0430\u0436\u0434\u044b\u0435 30 \u043c\u0438\u043d\u0443\u0442 (\u043c\u0435\u0434\u043b\u0435\u043d\u043d\u044b\u0435 \u0441\u0431\u043e\u0438).\n    - \u041f\u043e\u0441\u043b\u0435 25 \u043f\u043e\u043f\u044b\u0442\u043e\u043a: \u0437\u0430\u0434\u0430\u0447\u0430 \u0443\u0445\u043e\u0434\u0438\u0442 \u0432 'dead' (\u043d\u0435 \u0443\u0434\u0430\u043b\u044f\u0435\u0442\u0441\u044f, \u043d\u043e \u043d\u0435 \u043c\u0435\u0448\u0430\u0435\u0442).",
+          "local_bindings": {
+            "now": "datetime.now",
+            "session": "SessionLocal"
           }
         }
       ],
@@ -4393,7 +4509,8 @@
           "relation": "imports",
           "import_map": {
             "select": "select",
-            "update": "update"
+            "update": "update",
+            "or_": "or_"
           }
         },
         {
@@ -4625,7 +4742,7 @@
         },
         {
           "source": "worker/tasks.py::requeue_stale_tasks",
-          "target": "update(TaskOutbox)\n            .where(\n                TaskOutbox.status == \"processing\",\n                TaskOutbox.processing_started_at < stale_threshold,\n            )\n            .values",
+          "target": "update(TaskOutbox)\n            .where(\n                TaskOutbox.status == \"processing\",\n                or_(\n                    TaskOutbox.processing_started_at < stale_threshold,\n                    TaskOutbox.processing_started_at.is_(None),\n                ),\n            )\n            .values",
           "relation": "calls",
           "import_map": {}
         },
@@ -4638,6 +4755,18 @@
         {
           "source": "worker/tasks.py::requeue_stale_tasks",
           "target": "update",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "worker/tasks.py::requeue_stale_tasks",
+          "target": "or_",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "worker/tasks.py::requeue_stale_tasks",
+          "target": "TaskOutbox.processing_started_at.is_",
           "relation": "calls",
           "import_map": {}
         },
@@ -4709,7 +4838,7 @@
         },
         {
           "source": "worker/tasks.py::process_outbox_task",
-          "target": "select(TaskOutbox)\n            .where(TaskOutbox.status.in_([\"pending\", \"enqueued\"]))\n            .order_by(TaskOutbox.created_at)\n            .limit(25)  # \u0431\u044b\u043b\u043e 50 \u2014 \u0443\u043c\u0435\u043d\u044c\u0448\u0435\u043d\u043e \u0434\u043b\u044f \u0438\u0437\u0431\u0435\u0436\u0430\u043d\u0438\u044f \u0442\u0430\u0439\u043c\u0430\u0443\u0442\u0430 60\u0441\n            .with_for_update",
+          "target": "select(TaskOutbox)\n            .where(TaskOutbox.status.in_([\"pending\", \"enqueued\"]))\n            .order_by(TaskOutbox.created_at)\n            .limit(25)\n            .with_for_update",
           "relation": "calls",
           "import_map": {}
         },
@@ -4949,25 +5078,67 @@
         },
         {
           "source": "worker/tasks.py::process_outbox_task",
-          "target": "min",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "worker/tasks.py::process_outbox_task",
-          "target": "time.time",
-          "relation": "calls",
-          "import_map": {}
-        },
-        {
-          "source": "worker/tasks.py::process_outbox_task",
           "target": "logger.warning",
           "relation": "calls",
           "import_map": {}
         },
         {
           "source": "worker/tasks.py::process_outbox_task",
-          "target": "asyncio.sleep",
+          "target": "len",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "worker/tasks.py::process_outbox_task",
+          "target": "SessionLocal",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "worker/tasks.py::process_outbox_task",
+          "target": "session.execute",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "worker/tasks.py::process_outbox_task",
+          "target": "update(TaskOutbox)\n                        .where(TaskOutbox.id.in_(task_ids))\n                        .values",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "worker/tasks.py::process_outbox_task",
+          "target": "update(TaskOutbox)\n                        .where",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "worker/tasks.py::process_outbox_task",
+          "target": "update",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "worker/tasks.py::process_outbox_task",
+          "target": "TaskOutbox.id.in_",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "worker/tasks.py::process_outbox_task",
+          "target": "datetime.now",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "worker/tasks.py::process_outbox_task",
+          "target": "session.commit",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "worker/tasks.py::process_outbox_task",
+          "target": "len",
           "relation": "calls",
           "import_map": {}
         },
@@ -5160,6 +5331,142 @@
         {
           "source": "worker/tasks.py::process_outbox_task",
           "target": "redis.close",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "worker/tasks.py",
+          "target": "worker/tasks.py::retry_failed_tasks",
+          "relation": "contains",
+          "import_map": {}
+        },
+        {
+          "source": "worker/tasks.py",
+          "target": "app.db",
+          "relation": "imports",
+          "import_map": {
+            "SessionLocal": "SessionLocal"
+          }
+        },
+        {
+          "source": "worker/tasks.py",
+          "target": "app.models.outbox",
+          "relation": "imports",
+          "import_map": {
+            "TaskOutbox": "TaskOutbox"
+          }
+        },
+        {
+          "source": "worker/tasks.py",
+          "target": "datetime",
+          "relation": "imports",
+          "import_map": {
+            "datetime": "datetime",
+            "timezone": "timezone",
+            "timedelta": "timedelta"
+          }
+        },
+        {
+          "source": "worker/tasks.py",
+          "target": "sqlalchemy",
+          "relation": "imports",
+          "import_map": {
+            "or_": "or_"
+          }
+        },
+        {
+          "source": "worker/tasks.py::retry_failed_tasks",
+          "target": "datetime.now",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "worker/tasks.py::retry_failed_tasks",
+          "target": "SessionLocal",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "worker/tasks.py::retry_failed_tasks",
+          "target": "timedelta",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "worker/tasks.py::retry_failed_tasks",
+          "target": "timedelta",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "worker/tasks.py::retry_failed_tasks",
+          "target": "session.execute",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "worker/tasks.py::retry_failed_tasks",
+          "target": "update(TaskOutbox)\n            .where(\n                TaskOutbox.status == \"failed\",\n                or_(\n                    # \u0411\u044b\u0441\u0442\u0440\u044b\u0439 retry\n                    (TaskOutbox.retry_count < 5) & (TaskOutbox.updated_at < fast_retry_threshold),\n                    # \u041c\u0435\u0434\u043b\u0435\u043d\u043d\u044b\u0439 retry\n                    (TaskOutbox.retry_count >= 5) & (TaskOutbox.retry_count < 25) & (TaskOutbox.updated_at < slow_retry_threshold),\n                )\n            )\n            .values",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "worker/tasks.py::retry_failed_tasks",
+          "target": "update(TaskOutbox)\n            .where",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "worker/tasks.py::retry_failed_tasks",
+          "target": "update",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "worker/tasks.py::retry_failed_tasks",
+          "target": "or_",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "worker/tasks.py::retry_failed_tasks",
+          "target": "session.execute",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "worker/tasks.py::retry_failed_tasks",
+          "target": "update(TaskOutbox)\n            .where(\n                TaskOutbox.status == \"failed\",\n                TaskOutbox.retry_count >= 25,\n            )\n            .values",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "worker/tasks.py::retry_failed_tasks",
+          "target": "update(TaskOutbox)\n            .where",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "worker/tasks.py::retry_failed_tasks",
+          "target": "update",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "worker/tasks.py::retry_failed_tasks",
+          "target": "session.commit",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "worker/tasks.py::retry_failed_tasks",
+          "target": "logger.warning",
+          "relation": "calls",
+          "import_map": {}
+        },
+        {
+          "source": "worker/tasks.py::retry_failed_tasks",
+          "target": "logger.error",
           "relation": "calls",
           "import_map": {}
         }

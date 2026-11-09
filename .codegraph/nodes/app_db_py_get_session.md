@@ -5,14 +5,14 @@ type: "function"
 source_file: "app/db.py"
 line_start: 33
 line_end: 35
-component: "app (Base)"
+component: "TaskOutbox"
 ---
 
 # get_session
 
 **Type:** `function`  
 **Defined in:** [app/db.py](../nodes/app_db_py.md) (Lines 33-35)  
-**Component:** app (Base)  
+**Component:** TaskOutbox  
 
 ## Definition
 ```python

@@ -5,14 +5,14 @@ type: "function"
 source_file: "load_test_batch.js"
 line_start: 69
 line_end: 92
-component: "e2eCheck (Component 9)"
+component: "e2eCheck (Component 8)"
 ---
 
 # e2eCheck
 
 **Type:** `function`  
 **Defined in:** [load_test_batch.js](../nodes/load_test_batch_js.md) (Lines 69-92)  
-**Component:** e2eCheck (Component 9)  
+**Component:** e2eCheck (Component 8)  
 
 ## Definition
 ```javascript

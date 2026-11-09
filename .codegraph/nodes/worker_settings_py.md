@@ -4,7 +4,7 @@ label: "settings.py"
 type: "file"
 source_file: "worker/settings.py"
 line_start: 1
-line_end: 32
+line_end: 37
 component: "instrument_app"
 ---
 
@@ -25,8 +25,8 @@ module settings.py
 ## Imports
 - [config.py](app_config_py.md)
 - [logging_config.py](app_logging_config_py.md)
-- [publisher.py](core_publisher_py.md)
 - [tasks.py](worker_tasks_py.md)
+- [publisher.py](core_publisher_py.md)
 - [telemetry.py](app_telemetry_py.md)
 
 ## Call Graph

@@ -5,14 +5,14 @@ type: "class"
 source_file: "app/models/idempotency.py"
 line_start: 11
 line_end: 20
-component: "app (Base)"
+component: "app/models (IdempotencyKey)"
 ---
 
 # IdempotencyKey
 
 **Type:** `class`  
 **Defined in:** [app/models/idempotency.py](../nodes/app_models_idempotency_py.md) (Lines 11-20)  
-**Component:** app (Base)  
+**Component:** app/models (IdempotencyKey)  
 
 ## Definition
 ```python

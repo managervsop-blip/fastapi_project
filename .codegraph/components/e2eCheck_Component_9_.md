@@ -10,6 +10,6 @@ members_count: 3
 **Members count:** 3 nodes  
 
 ## Members
-- [e2eCheck](../nodes/load_test_batch_js_e2eCheck.md) (`function` in `load_test_batch.js`)
-- [loadTest](../nodes/load_test_batch_js_loadTest.md) (`function` in `load_test_batch.js`)
-- [load_test_batch.js](../nodes/load_test_batch_js.md) (`file` in `load_test_batch.js`)
+- [e2eCheck](../nodes/load_test_max_js_e2eCheck.md) (`function` in `load_test_max.js`)
+- [loadTest](../nodes/load_test_max_js_loadTest.md) (`function` in `load_test_max.js`)
+- [load_test_max.js](../nodes/load_test_max_js.md) (`file` in `load_test_max.js`)

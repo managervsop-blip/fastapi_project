@@ -1,9 +1,9 @@
 {
   "statistics": {
-    "nodes": 69,
-    "edges": 96,
-    "files": 22,
-    "symbols": 47
+    "nodes": 76,
+    "edges": 101,
+    "files": 24,
+    "symbols": 52
   },
   "nodes": [
     {
@@ -97,6 +97,123 @@
       "signature": "module __init__.py"
     },
     {
+      "id": "app/db.py",
+      "label": "db.py",
+      "type": "file",
+      "source_file": "app/db.py",
+      "line_start": 1,
+      "line_end": 35,
+      "signature": "module db.py"
+    },
+    {
+      "id": "app/db.py::Base",
+      "label": "Base",
+      "type": "class",
+      "source_file": "app/db.py",
+      "line_start": 29,
+      "line_end": 30,
+      "signature": "class Base(DeclarativeBase)"
+    },
+    {
+      "id": "app/db.py::get_session",
+      "label": "get_session",
+      "type": "function",
+      "source_file": "app/db.py",
+      "line_start": 33,
+      "line_end": 35,
+      "signature": "async def get_session() -> AsyncGenerator[AsyncSession, None]"
+    },
+    {
+      "id": "app/main.py",
+      "label": "main.py",
+      "type": "file",
+      "source_file": "app/main.py",
+      "line_start": 1,
+      "line_end": 130,
+      "signature": "module main.py"
+    },
+    {
+      "id": "app/main.py::health",
+      "label": "health",
+      "type": "function",
+      "source_file": "app/main.py",
+      "line_start": 33,
+      "line_end": 34,
+      "signature": "def health()"
+    },
+    {
+      "id": "app/main.py::health_db",
+      "label": "health_db",
+      "type": "function",
+      "source_file": "app/main.py",
+      "line_start": 38,
+      "line_end": 44,
+      "signature": "async def health_db()"
+    },
+    {
+      "id": "app/main.py::root",
+      "label": "root",
+      "type": "function",
+      "source_file": "app/main.py",
+      "line_start": 48,
+      "line_end": 49,
+      "signature": "def root()"
+    },
+    {
+      "id": "app/main.py::enqueue_test",
+      "label": "enqueue_test",
+      "type": "function",
+      "source_file": "app/main.py",
+      "line_start": 57,
+      "line_end": 64,
+      "signature": "async def enqueue_test(key: str | None = None)"
+    },
+    {
+      "id": "app/main.py::get_task_status",
+      "label": "get_task_status",
+      "type": "function",
+      "source_file": "app/main.py",
+      "line_start": 68,
+      "line_end": 94,
+      "signature": "async def get_task_status(task_id: str)"
+    },
+    {
+      "id": "app/main.py::queue_metrics",
+      "label": "queue_metrics",
+      "type": "function",
+      "source_file": "app/main.py",
+      "line_start": 102,
+      "line_end": 130,
+      "signature": "async def queue_metrics()"
+    },
+    {
+      "id": "load_test_max.js",
+      "label": "load_test_max.js",
+      "type": "file",
+      "source_file": "load_test_max.js",
+      "line_start": 1,
+      "line_end": 91,
+      "signature": "module load_test_max.js"
+    },
+    {
+      "id": "load_test_max.js::loadTest",
+      "label": "loadTest",
+      "type": "function",
+      "source_file": "load_test_max.js",
+      "line_start": 35,
+      "line_end": 65,
+      "signature": "function loadTest()"
+    },
+    {
+      "id": "load_test_max.js::e2eCheck",
+      "label": "e2eCheck",
+      "type": "function",
+      "source_file": "load_test_max.js",
+      "line_start": 67,
+      "line_end": 91,
+      "signature": "function e2eCheck()"
+    },
+    {
       "id": "core/rate_limiter.py",
       "label": "rate_limiter.py",
       "type": "file",
@@ -158,6 +275,69 @@
       "line_start": 15,
       "line_end": 57,
       "signature": "async def publish_pending(ctx=None, limit: int = 100) -> int"
+    },
+    {
+      "id": "core/outbox.py",
+      "label": "outbox.py",
+      "type": "file",
+      "source_file": "core/outbox.py",
+      "line_start": 1,
+      "line_end": 111,
+      "signature": "module outbox.py"
+    },
+    {
+      "id": "core/outbox.py::create_task",
+      "label": "create_task",
+      "type": "function",
+      "source_file": "core/outbox.py",
+      "line_start": 14,
+      "line_end": 45,
+      "signature": "async def create_task(payload: dict, key: str | None = None) -> uuid.UUID | None"
+    },
+    {
+      "id": "core/outbox.py::fetch_pending",
+      "label": "fetch_pending",
+      "type": "function",
+      "source_file": "core/outbox.py",
+      "line_start": 48,
+      "line_end": 57,
+      "signature": "async def fetch_pending(limit: int = 100) -> list[TaskOutbox]"
+    },
+    {
+      "id": "core/outbox.py::mark_enqueued",
+      "label": "mark_enqueued",
+      "type": "function",
+      "source_file": "core/outbox.py",
+      "line_start": 60,
+      "line_end": 68,
+      "signature": "async def mark_enqueued(task_id: uuid.UUID) -> None"
+    },
+    {
+      "id": "core/outbox.py::mark_processing",
+      "label": "mark_processing",
+      "type": "function",
+      "source_file": "core/outbox.py",
+      "line_start": 71,
+      "line_end": 85,
+      "signature": "async def mark_processing(task_ids: list[uuid.UUID]) -> None"
+    },
+    {
+      "id": "core/outbox.py::mark_done",
+      "label": "mark_done",
+      "type": "function",
+      "source_file": "core/outbox.py",
+      "line_start": 87,
+      "line_end": 95,
+      "signature": "async def mark_done(task_id: uuid.UUID) -> None"
+    },
+    {
+      "id": "core/outbox.py::mark_failed",
+      "label": "mark_failed",
+      "type": "function",
+      "source_file": "core/outbox.py",
+      "line_start": 98,
+      "line_end": 111,
+      "signature": "async def mark_failed(task_id: uuid.UUID, error: str) -> None"
     },
     {
       "id": "migrations/env.py",
@@ -232,6 +412,33 @@
       "signature": "def downgrade() -> None"
     },
     {
+      "id": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py",
+      "label": "b567e79a02bb_add_processing_started_at_to_tasks_.py",
+      "type": "file",
+      "source_file": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py",
+      "line_start": 1,
+      "line_end": 32,
+      "signature": "module b567e79a02bb_add_processing_started_at_to_tasks_.py"
+    },
+    {
+      "id": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py::upgrade",
+      "label": "upgrade",
+      "type": "function",
+      "source_file": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py",
+      "line_start": 21,
+      "line_end": 25,
+      "signature": "def upgrade() -> None"
+    },
+    {
+      "id": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py::downgrade",
+      "label": "downgrade",
+      "type": "function",
+      "source_file": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py",
+      "line_start": 28,
+      "line_end": 32,
+      "signature": "def downgrade() -> None"
+    },
+    {
       "id": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py",
       "label": "7ed6f6d1f417_create_outbox_and_idempotency_tables.py",
       "type": "file",
@@ -295,267 +502,6 @@
       "signature": "module load_test.js"
     },
     {
-      "id": "app/models/outbox.py",
-      "label": "outbox.py",
-      "type": "file",
-      "source_file": "app/models/outbox.py",
-      "line_start": 1,
-      "line_end": 29,
-      "signature": "module outbox.py"
-    },
-    {
-      "id": "app/models/outbox.py::TaskOutbox",
-      "label": "TaskOutbox",
-      "type": "class",
-      "source_file": "app/models/outbox.py",
-      "line_start": 11,
-      "line_end": 29,
-      "signature": "class TaskOutbox(Base)"
-    },
-    {
-      "id": "app/db.py",
-      "label": "db.py",
-      "type": "file",
-      "source_file": "app/db.py",
-      "line_start": 1,
-      "line_end": 35,
-      "signature": "module db.py"
-    },
-    {
-      "id": "app/db.py::Base",
-      "label": "Base",
-      "type": "class",
-      "source_file": "app/db.py",
-      "line_start": 29,
-      "line_end": 30,
-      "signature": "class Base(DeclarativeBase)"
-    },
-    {
-      "id": "app/db.py::get_session",
-      "label": "get_session",
-      "type": "function",
-      "source_file": "app/db.py",
-      "line_start": 33,
-      "line_end": 35,
-      "signature": "async def get_session() -> AsyncGenerator[AsyncSession, None]"
-    },
-    {
-      "id": "load_test_max.js",
-      "label": "load_test_max.js",
-      "type": "file",
-      "source_file": "load_test_max.js",
-      "line_start": 1,
-      "line_end": 91,
-      "signature": "module load_test_max.js"
-    },
-    {
-      "id": "load_test_max.js::loadTest",
-      "label": "loadTest",
-      "type": "function",
-      "source_file": "load_test_max.js",
-      "line_start": 35,
-      "line_end": 65,
-      "signature": "function loadTest()"
-    },
-    {
-      "id": "load_test_max.js::e2eCheck",
-      "label": "e2eCheck",
-      "type": "function",
-      "source_file": "load_test_max.js",
-      "line_start": 67,
-      "line_end": 91,
-      "signature": "function e2eCheck()"
-    },
-    {
-      "id": "worker/settings.py",
-      "label": "settings.py",
-      "type": "file",
-      "source_file": "worker/settings.py",
-      "line_start": 1,
-      "line_end": 32,
-      "signature": "module settings.py"
-    },
-    {
-      "id": "worker/settings.py::WorkerSettings",
-      "label": "WorkerSettings",
-      "type": "class",
-      "source_file": "worker/settings.py",
-      "line_start": 15,
-      "line_end": 32,
-      "signature": "class WorkerSettings"
-    },
-    {
-      "id": "app/main.py",
-      "label": "main.py",
-      "type": "file",
-      "source_file": "app/main.py",
-      "line_start": 1,
-      "line_end": 130,
-      "signature": "module main.py"
-    },
-    {
-      "id": "app/main.py::health",
-      "label": "health",
-      "type": "function",
-      "source_file": "app/main.py",
-      "line_start": 33,
-      "line_end": 34,
-      "signature": "def health()"
-    },
-    {
-      "id": "app/main.py::health_db",
-      "label": "health_db",
-      "type": "function",
-      "source_file": "app/main.py",
-      "line_start": 38,
-      "line_end": 44,
-      "signature": "async def health_db()"
-    },
-    {
-      "id": "app/main.py::root",
-      "label": "root",
-      "type": "function",
-      "source_file": "app/main.py",
-      "line_start": 48,
-      "line_end": 49,
-      "signature": "def root()"
-    },
-    {
-      "id": "app/main.py::enqueue_test",
-      "label": "enqueue_test",
-      "type": "function",
-      "source_file": "app/main.py",
-      "line_start": 57,
-      "line_end": 64,
-      "signature": "async def enqueue_test(key: str | None = None)"
-    },
-    {
-      "id": "app/main.py::get_task_status",
-      "label": "get_task_status",
-      "type": "function",
-      "source_file": "app/main.py",
-      "line_start": 68,
-      "line_end": 94,
-      "signature": "async def get_task_status(task_id: str)"
-    },
-    {
-      "id": "app/main.py::queue_metrics",
-      "label": "queue_metrics",
-      "type": "function",
-      "source_file": "app/main.py",
-      "line_start": 102,
-      "line_end": 130,
-      "signature": "async def queue_metrics()"
-    },
-    {
-      "id": "core/bitrix_batch.py",
-      "label": "bitrix_batch.py",
-      "type": "file",
-      "source_file": "core/bitrix_batch.py",
-      "line_start": 1,
-      "line_end": 96,
-      "signature": "module bitrix_batch.py"
-    },
-    {
-      "id": "core/bitrix_batch.py::execute_batch",
-      "label": "execute_batch",
-      "type": "function",
-      "source_file": "core/bitrix_batch.py",
-      "line_start": 11,
-      "line_end": 96,
-      "signature": "async def execute_batch(commands: dict[str, str]) -> dict[str, Any]"
-    },
-    {
-      "id": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py",
-      "label": "b567e79a02bb_add_processing_started_at_to_tasks_.py",
-      "type": "file",
-      "source_file": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py",
-      "line_start": 1,
-      "line_end": 32,
-      "signature": "module b567e79a02bb_add_processing_started_at_to_tasks_.py"
-    },
-    {
-      "id": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py::upgrade",
-      "label": "upgrade",
-      "type": "function",
-      "source_file": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py",
-      "line_start": 21,
-      "line_end": 25,
-      "signature": "def upgrade() -> None"
-    },
-    {
-      "id": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py::downgrade",
-      "label": "downgrade",
-      "type": "function",
-      "source_file": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py",
-      "line_start": 28,
-      "line_end": 32,
-      "signature": "def downgrade() -> None"
-    },
-    {
-      "id": "core/outbox.py",
-      "label": "outbox.py",
-      "type": "file",
-      "source_file": "core/outbox.py",
-      "line_start": 1,
-      "line_end": 111,
-      "signature": "module outbox.py"
-    },
-    {
-      "id": "core/outbox.py::create_task",
-      "label": "create_task",
-      "type": "function",
-      "source_file": "core/outbox.py",
-      "line_start": 14,
-      "line_end": 45,
-      "signature": "async def create_task(payload: dict, key: str | None = None) -> uuid.UUID | None"
-    },
-    {
-      "id": "core/outbox.py::fetch_pending",
-      "label": "fetch_pending",
-      "type": "function",
-      "source_file": "core/outbox.py",
-      "line_start": 48,
-      "line_end": 57,
-      "signature": "async def fetch_pending(limit: int = 100) -> list[TaskOutbox]"
-    },
-    {
-      "id": "core/outbox.py::mark_enqueued",
-      "label": "mark_enqueued",
-      "type": "function",
-      "source_file": "core/outbox.py",
-      "line_start": 60,
-      "line_end": 68,
-      "signature": "async def mark_enqueued(task_id: uuid.UUID) -> None"
-    },
-    {
-      "id": "core/outbox.py::mark_processing",
-      "label": "mark_processing",
-      "type": "function",
-      "source_file": "core/outbox.py",
-      "line_start": 71,
-      "line_end": 85,
-      "signature": "async def mark_processing(task_ids: list[uuid.UUID]) -> None"
-    },
-    {
-      "id": "core/outbox.py::mark_done",
-      "label": "mark_done",
-      "type": "function",
-      "source_file": "core/outbox.py",
-      "line_start": 87,
-      "line_end": 95,
-      "signature": "async def mark_done(task_id: uuid.UUID) -> None"
-    },
-    {
-      "id": "core/outbox.py::mark_failed",
-      "label": "mark_failed",
-      "type": "function",
-      "source_file": "core/outbox.py",
-      "line_start": 98,
-      "line_end": 111,
-      "signature": "async def mark_failed(task_id: uuid.UUID, error: str) -> None"
-    },
-    {
       "id": "load_test_batch.js",
       "label": "load_test_batch.js",
       "type": "file",
@@ -583,12 +529,120 @@
       "signature": "function e2eCheck()"
     },
     {
+      "id": "app/models/outbox.py",
+      "label": "outbox.py",
+      "type": "file",
+      "source_file": "app/models/outbox.py",
+      "line_start": 1,
+      "line_end": 39,
+      "signature": "module outbox.py"
+    },
+    {
+      "id": "app/models/outbox.py::TaskOutbox",
+      "label": "TaskOutbox",
+      "type": "class",
+      "source_file": "app/models/outbox.py",
+      "line_start": 11,
+      "line_end": 32,
+      "signature": "class TaskOutbox(Base)"
+    },
+    {
+      "id": "worker/settings.py",
+      "label": "settings.py",
+      "type": "file",
+      "source_file": "worker/settings.py",
+      "line_start": 1,
+      "line_end": 37,
+      "signature": "module settings.py"
+    },
+    {
+      "id": "worker/settings.py::WorkerSettings",
+      "label": "WorkerSettings",
+      "type": "class",
+      "source_file": "worker/settings.py",
+      "line_start": 15,
+      "line_end": 37,
+      "signature": "class WorkerSettings"
+    },
+    {
+      "id": "core/bitrix_batch.py",
+      "label": "bitrix_batch.py",
+      "type": "file",
+      "source_file": "core/bitrix_batch.py",
+      "line_start": 1,
+      "line_end": 65,
+      "signature": "module bitrix_batch.py"
+    },
+    {
+      "id": "core/bitrix_batch.py::execute_batch",
+      "label": "execute_batch",
+      "type": "function",
+      "source_file": "core/bitrix_batch.py",
+      "line_start": 14,
+      "line_end": 65,
+      "signature": "async def execute_batch(commands)"
+    },
+    {
+      "id": "migrations/versions/c6ad716e90cd_add_retry_count_to_tasks_outbox.py",
+      "label": "c6ad716e90cd_add_retry_count_to_tasks_outbox.py",
+      "type": "file",
+      "source_file": "migrations/versions/c6ad716e90cd_add_retry_count_to_tasks_outbox.py",
+      "line_start": 1,
+      "line_end": 32,
+      "signature": "module c6ad716e90cd_add_retry_count_to_tasks_outbox.py"
+    },
+    {
+      "id": "migrations/versions/c6ad716e90cd_add_retry_count_to_tasks_outbox.py::upgrade",
+      "label": "upgrade",
+      "type": "function",
+      "source_file": "migrations/versions/c6ad716e90cd_add_retry_count_to_tasks_outbox.py",
+      "line_start": 18,
+      "line_end": 27,
+      "signature": "def upgrade() -> None"
+    },
+    {
+      "id": "migrations/versions/c6ad716e90cd_add_retry_count_to_tasks_outbox.py::downgrade",
+      "label": "downgrade",
+      "type": "function",
+      "source_file": "migrations/versions/c6ad716e90cd_add_retry_count_to_tasks_outbox.py",
+      "line_start": 30,
+      "line_end": 32,
+      "signature": "def downgrade() -> None"
+    },
+    {
+      "id": "migrations/versions/bdc2e7f27245_add_retry_count_to_tasks_outbox.py",
+      "label": "bdc2e7f27245_add_retry_count_to_tasks_outbox.py",
+      "type": "file",
+      "source_file": "migrations/versions/bdc2e7f27245_add_retry_count_to_tasks_outbox.py",
+      "line_start": 1,
+      "line_end": 28,
+      "signature": "module bdc2e7f27245_add_retry_count_to_tasks_outbox.py"
+    },
+    {
+      "id": "migrations/versions/bdc2e7f27245_add_retry_count_to_tasks_outbox.py::upgrade",
+      "label": "upgrade",
+      "type": "function",
+      "source_file": "migrations/versions/bdc2e7f27245_add_retry_count_to_tasks_outbox.py",
+      "line_start": 21,
+      "line_end": 23,
+      "signature": "def upgrade() -> None"
+    },
+    {
+      "id": "migrations/versions/bdc2e7f27245_add_retry_count_to_tasks_outbox.py::downgrade",
+      "label": "downgrade",
+      "type": "function",
+      "source_file": "migrations/versions/bdc2e7f27245_add_retry_count_to_tasks_outbox.py",
+      "line_start": 26,
+      "line_end": 28,
+      "signature": "def downgrade() -> None"
+    },
+    {
       "id": "worker/tasks.py",
       "label": "tasks.py",
       "type": "file",
       "source_file": "worker/tasks.py",
       "line_start": 1,
-      "line_end": 250,
+      "line_end": 337,
       "signature": "module tasks.py"
     },
     {
@@ -615,7 +669,7 @@
       "type": "function",
       "source_file": "worker/tasks.py",
       "line_start": 66,
-      "line_end": 92,
+      "line_end": 100,
       "signature": "async def requeue_stale_tasks(ctx)"
     },
     {
@@ -623,9 +677,18 @@
       "label": "process_outbox_task",
       "type": "function",
       "source_file": "worker/tasks.py",
-      "line_start": 101,
-      "line_end": 250,
+      "line_start": 109,
+      "line_end": 272,
       "signature": "async def process_outbox_task(ctx, task_id: str, payload: dict) -> dict"
+    },
+    {
+      "id": "worker/tasks.py::retry_failed_tasks",
+      "label": "retry_failed_tasks",
+      "type": "function",
+      "source_file": "worker/tasks.py",
+      "line_start": 273,
+      "line_end": 337,
+      "signature": "async def retry_failed_tasks(ctx)"
     }
   ],
   "edges": [
@@ -675,146 +738,6 @@
       "relation": "inherits"
     },
     {
-      "source": "core/rate_limiter.py",
-      "target": "core/rate_limiter.py::BitrixRateLimiter",
-      "relation": "contains"
-    },
-    {
-      "source": "core/rate_limiter.py::BitrixRateLimiter",
-      "target": "core/rate_limiter.py::BitrixRateLimiter.__init__",
-      "relation": "contains"
-    },
-    {
-      "source": "core/rate_limiter.py::BitrixRateLimiter",
-      "target": "core/rate_limiter.py::BitrixRateLimiter.acquire",
-      "relation": "contains"
-    },
-    {
-      "source": "core/rate_limiter.py::BitrixRateLimiter",
-      "target": "core/rate_limiter.py::BitrixRateLimiter.wait_and_acquire",
-      "relation": "contains"
-    },
-    {
-      "source": "core/rate_limiter.py::BitrixRateLimiter.wait_and_acquire",
-      "target": "core/rate_limiter.py::BitrixRateLimiter.acquire",
-      "relation": "calls"
-    },
-    {
-      "source": "core/publisher.py",
-      "target": "app/config.py",
-      "relation": "imports"
-    },
-    {
-      "source": "core/publisher.py",
-      "target": "app/db.py",
-      "relation": "imports"
-    },
-    {
-      "source": "core/publisher.py",
-      "target": "app/models/outbox.py",
-      "relation": "imports"
-    },
-    {
-      "source": "core/publisher.py",
-      "target": "core/publisher.py::publish_pending",
-      "relation": "contains"
-    },
-    {
-      "source": "core/publisher.py::publish_pending",
-      "target": "core/outbox.py::fetch_pending",
-      "relation": "calls"
-    },
-    {
-      "source": "core/publisher.py::publish_pending",
-      "target": "core/outbox.py::mark_enqueued",
-      "relation": "calls"
-    },
-    {
-      "source": "migrations/env.py",
-      "target": "app/config.py",
-      "relation": "imports"
-    },
-    {
-      "source": "migrations/env.py",
-      "target": "app/db.py",
-      "relation": "imports"
-    },
-    {
-      "source": "migrations/env.py",
-      "target": "app/models/__init__.py",
-      "relation": "imports"
-    },
-    {
-      "source": "migrations/env.py",
-      "target": "migrations/env.py::run_migrations_offline",
-      "relation": "calls"
-    },
-    {
-      "source": "migrations/env.py",
-      "target": "migrations/env.py::do_run_migrations",
-      "relation": "contains"
-    },
-    {
-      "source": "migrations/env.py",
-      "target": "migrations/env.py::run_async_migrations",
-      "relation": "contains"
-    },
-    {
-      "source": "migrations/env.py",
-      "target": "migrations/env.py::run_migrations_online",
-      "relation": "calls"
-    },
-    {
-      "source": "migrations/env.py::run_migrations_online",
-      "target": "migrations/env.py::run_async_migrations",
-      "relation": "calls"
-    },
-    {
-      "source": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py",
-      "target": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py::upgrade",
-      "relation": "contains"
-    },
-    {
-      "source": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py",
-      "target": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py::downgrade",
-      "relation": "contains"
-    },
-    {
-      "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py",
-      "target": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
-      "relation": "contains"
-    },
-    {
-      "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py",
-      "target": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::downgrade",
-      "relation": "contains"
-    },
-    {
-      "source": "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py",
-      "target": "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py::upgrade",
-      "relation": "contains"
-    },
-    {
-      "source": "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py",
-      "target": "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py::downgrade",
-      "relation": "contains"
-    },
-    {
-      "source": "app/models/outbox.py",
-      "target": "app/db.py",
-      "relation": "imports"
-    },
-    {
-      "source": "app/models/outbox.py",
-      "target": "app/models/outbox.py::TaskOutbox",
-      "relation": "contains"
-    },
-    {
-      "source": "app/models/outbox.py::TaskOutbox",
-      "target": "app/db.py::Base",
-      "relation": "inherits"
-    },
-    {
       "source": "app/db.py",
       "target": "app/config.py",
       "relation": "imports"
@@ -827,56 +750,6 @@
     {
       "source": "app/db.py",
       "target": "app/db.py::get_session",
-      "relation": "contains"
-    },
-    {
-      "source": "load_test_max.js",
-      "target": "load_test_max.js::loadTest",
-      "relation": "contains"
-    },
-    {
-      "source": "load_test_max.js",
-      "target": "load_test_max.js::e2eCheck",
-      "relation": "contains"
-    },
-    {
-      "source": "worker/settings.py",
-      "target": "app/config.py",
-      "relation": "imports"
-    },
-    {
-      "source": "worker/settings.py",
-      "target": "app/logging_config.py",
-      "relation": "imports"
-    },
-    {
-      "source": "worker/settings.py",
-      "target": "app/logging_config.py::setup_logging",
-      "relation": "calls"
-    },
-    {
-      "source": "worker/settings.py",
-      "target": "core/publisher.py",
-      "relation": "imports"
-    },
-    {
-      "source": "worker/settings.py",
-      "target": "worker/tasks.py",
-      "relation": "imports"
-    },
-    {
-      "source": "worker/settings.py",
-      "target": "app/telemetry.py",
-      "relation": "imports"
-    },
-    {
-      "source": "worker/settings.py",
-      "target": "app/telemetry.py::setup_tracing",
-      "relation": "calls"
-    },
-    {
-      "source": "worker/settings.py",
-      "target": "worker/settings.py::WorkerSettings",
       "relation": "contains"
     },
     {
@@ -950,24 +823,69 @@
       "relation": "calls"
     },
     {
-      "source": "core/bitrix_batch.py",
+      "source": "load_test_max.js",
+      "target": "load_test_max.js::loadTest",
+      "relation": "contains"
+    },
+    {
+      "source": "load_test_max.js",
+      "target": "load_test_max.js::e2eCheck",
+      "relation": "contains"
+    },
+    {
+      "source": "core/rate_limiter.py",
+      "target": "core/rate_limiter.py::BitrixRateLimiter",
+      "relation": "contains"
+    },
+    {
+      "source": "core/rate_limiter.py::BitrixRateLimiter",
+      "target": "core/rate_limiter.py::BitrixRateLimiter.__init__",
+      "relation": "contains"
+    },
+    {
+      "source": "core/rate_limiter.py::BitrixRateLimiter",
+      "target": "core/rate_limiter.py::BitrixRateLimiter.acquire",
+      "relation": "contains"
+    },
+    {
+      "source": "core/rate_limiter.py::BitrixRateLimiter",
+      "target": "core/rate_limiter.py::BitrixRateLimiter.wait_and_acquire",
+      "relation": "contains"
+    },
+    {
+      "source": "core/rate_limiter.py::BitrixRateLimiter.wait_and_acquire",
+      "target": "core/rate_limiter.py::BitrixRateLimiter.acquire",
+      "relation": "calls"
+    },
+    {
+      "source": "core/publisher.py",
       "target": "app/config.py",
       "relation": "imports"
     },
     {
-      "source": "core/bitrix_batch.py",
-      "target": "core/bitrix_batch.py::execute_batch",
+      "source": "core/publisher.py",
+      "target": "app/db.py",
+      "relation": "imports"
+    },
+    {
+      "source": "core/publisher.py",
+      "target": "app/models/outbox.py",
+      "relation": "imports"
+    },
+    {
+      "source": "core/publisher.py",
+      "target": "core/publisher.py::publish_pending",
       "relation": "contains"
     },
     {
-      "source": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py",
-      "target": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py::upgrade",
-      "relation": "contains"
+      "source": "core/publisher.py::publish_pending",
+      "target": "core/outbox.py::fetch_pending",
+      "relation": "calls"
     },
     {
-      "source": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py",
-      "target": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py::downgrade",
-      "relation": "contains"
+      "source": "core/publisher.py::publish_pending",
+      "target": "core/outbox.py::mark_enqueued",
+      "relation": "calls"
     },
     {
       "source": "core/outbox.py",
@@ -1030,6 +948,86 @@
       "relation": "calls"
     },
     {
+      "source": "migrations/env.py",
+      "target": "app/config.py",
+      "relation": "imports"
+    },
+    {
+      "source": "migrations/env.py",
+      "target": "app/db.py",
+      "relation": "imports"
+    },
+    {
+      "source": "migrations/env.py",
+      "target": "app/models/__init__.py",
+      "relation": "imports"
+    },
+    {
+      "source": "migrations/env.py",
+      "target": "migrations/env.py::run_migrations_offline",
+      "relation": "calls"
+    },
+    {
+      "source": "migrations/env.py",
+      "target": "migrations/env.py::do_run_migrations",
+      "relation": "contains"
+    },
+    {
+      "source": "migrations/env.py",
+      "target": "migrations/env.py::run_async_migrations",
+      "relation": "contains"
+    },
+    {
+      "source": "migrations/env.py",
+      "target": "migrations/env.py::run_migrations_online",
+      "relation": "calls"
+    },
+    {
+      "source": "migrations/env.py::run_migrations_online",
+      "target": "migrations/env.py::run_async_migrations",
+      "relation": "calls"
+    },
+    {
+      "source": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py",
+      "target": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py::upgrade",
+      "relation": "contains"
+    },
+    {
+      "source": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py",
+      "target": "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py::downgrade",
+      "relation": "contains"
+    },
+    {
+      "source": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py",
+      "target": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py::upgrade",
+      "relation": "contains"
+    },
+    {
+      "source": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py",
+      "target": "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py::downgrade",
+      "relation": "contains"
+    },
+    {
+      "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py",
+      "target": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::upgrade",
+      "relation": "contains"
+    },
+    {
+      "source": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py",
+      "target": "migrations/versions/7ed6f6d1f417_create_outbox_and_idempotency_tables.py::downgrade",
+      "relation": "contains"
+    },
+    {
+      "source": "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py",
+      "target": "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py::upgrade",
+      "relation": "contains"
+    },
+    {
+      "source": "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py",
+      "target": "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py::downgrade",
+      "relation": "contains"
+    },
+    {
       "source": "load_test_batch.js",
       "target": "load_test_batch.js::loadTest",
       "relation": "contains"
@@ -1037,6 +1035,86 @@
     {
       "source": "load_test_batch.js",
       "target": "load_test_batch.js::e2eCheck",
+      "relation": "contains"
+    },
+    {
+      "source": "app/models/outbox.py",
+      "target": "app/db.py",
+      "relation": "imports"
+    },
+    {
+      "source": "app/models/outbox.py",
+      "target": "app/models/outbox.py::TaskOutbox",
+      "relation": "contains"
+    },
+    {
+      "source": "app/models/outbox.py::TaskOutbox",
+      "target": "app/db.py::Base",
+      "relation": "inherits"
+    },
+    {
+      "source": "worker/settings.py",
+      "target": "app/config.py",
+      "relation": "imports"
+    },
+    {
+      "source": "worker/settings.py",
+      "target": "app/logging_config.py",
+      "relation": "imports"
+    },
+    {
+      "source": "worker/settings.py",
+      "target": "app/logging_config.py::setup_logging",
+      "relation": "calls"
+    },
+    {
+      "source": "worker/settings.py",
+      "target": "worker/tasks.py",
+      "relation": "imports"
+    },
+    {
+      "source": "worker/settings.py",
+      "target": "core/publisher.py",
+      "relation": "imports"
+    },
+    {
+      "source": "worker/settings.py",
+      "target": "app/telemetry.py",
+      "relation": "imports"
+    },
+    {
+      "source": "worker/settings.py",
+      "target": "app/telemetry.py::setup_tracing",
+      "relation": "calls"
+    },
+    {
+      "source": "worker/settings.py",
+      "target": "worker/settings.py::WorkerSettings",
+      "relation": "contains"
+    },
+    {
+      "source": "core/bitrix_batch.py",
+      "target": "core/bitrix_batch.py::execute_batch",
+      "relation": "contains"
+    },
+    {
+      "source": "migrations/versions/c6ad716e90cd_add_retry_count_to_tasks_outbox.py",
+      "target": "migrations/versions/c6ad716e90cd_add_retry_count_to_tasks_outbox.py::upgrade",
+      "relation": "contains"
+    },
+    {
+      "source": "migrations/versions/c6ad716e90cd_add_retry_count_to_tasks_outbox.py",
+      "target": "migrations/versions/c6ad716e90cd_add_retry_count_to_tasks_outbox.py::downgrade",
+      "relation": "contains"
+    },
+    {
+      "source": "migrations/versions/bdc2e7f27245_add_retry_count_to_tasks_outbox.py",
+      "target": "migrations/versions/bdc2e7f27245_add_retry_count_to_tasks_outbox.py::upgrade",
+      "relation": "contains"
+    },
+    {
+      "source": "migrations/versions/bdc2e7f27245_add_retry_count_to_tasks_outbox.py",
+      "target": "migrations/versions/bdc2e7f27245_add_retry_count_to_tasks_outbox.py::downgrade",
       "relation": "contains"
     },
     {
@@ -1085,6 +1163,16 @@
       "relation": "imports"
     },
     {
+      "source": "worker/tasks.py",
+      "target": "worker/tasks.py::retry_failed_tasks",
+      "relation": "contains"
+    },
+    {
+      "source": "worker/tasks.py::requeue_stale_tasks",
+      "target": "app/models/outbox.py::TaskOutbox",
+      "relation": "calls"
+    },
+    {
       "source": "worker/tasks.py::process_outbox_task",
       "target": "worker/tasks.py::requeue_stale_tasks",
       "relation": "calls"
@@ -1113,112 +1201,116 @@
   "components": [
     {
       "id": 1,
+      "name": "TaskOutbox",
+      "cohesion": 0.15,
+      "size": 9,
+      "members": [
+        "app/db.py::Base",
+        "app/config.py",
+        "core/publisher.py",
+        "core/publisher.py::publish_pending",
+        "app/config.py::Settings",
+        "app/db.py::get_session",
+        "app/models/outbox.py",
+        "app/db.py",
+        "app/models/outbox.py::TaskOutbox"
+      ]
+    },
+    {
+      "id": 2,
       "name": "instrument_app",
       "cohesion": 0.21,
       "size": 7,
       "members": [
         "app/telemetry.py::instrument_app",
-        "app/config.py::Settings",
-        "app/config.py",
+        "app/logging_config.py::setup_logging",
         "app/telemetry.py::setup_tracing",
-        "app/telemetry.py",
+        "worker/settings.py",
         "worker/settings.py::WorkerSettings",
-        "worker/settings.py"
-      ]
-    },
-    {
-      "id": 2,
-      "name": "app (enqueue_test)",
-      "cohesion": 0.14,
-      "size": 7,
-      "members": [
-        "app/main.py",
-        "app/main.py::health",
-        "app/main.py::queue_metrics",
-        "app/main.py::health_db",
-        "app/main.py::get_task_status",
-        "app/main.py::enqueue_test",
-        "app/main.py::root"
+        "app/logging_config.py",
+        "app/telemetry.py"
       ]
     },
     {
       "id": 3,
-      "name": "core (create_task)",
+      "name": "app (enqueue_test)",
       "cohesion": 0.14,
       "size": 7,
       "members": [
-        "core/outbox.py::create_task",
-        "core/outbox.py::fetch_pending",
-        "core/outbox.py::mark_enqueued",
-        "core/outbox.py",
-        "core/outbox.py::mark_failed",
-        "core/outbox.py::mark_processing",
-        "core/outbox.py::mark_done"
+        "app/main.py::queue_metrics",
+        "app/main.py::health",
+        "app/main.py::get_task_status",
+        "app/main.py",
+        "app/main.py::root",
+        "app/main.py::health_db",
+        "app/main.py::enqueue_test"
       ]
     },
     {
       "id": 4,
-      "name": "run_async_migrations",
-      "cohesion": 0.2,
-      "size": 6,
+      "name": "core (create_task)",
+      "cohesion": 0.14,
+      "size": 7,
       "members": [
-        "migrations/env.py",
-        "migrations/env.py::run_migrations_online",
-        "app/models/__init__.py",
-        "migrations/env.py::run_async_migrations",
-        "migrations/env.py::do_run_migrations",
-        "migrations/env.py::run_migrations_offline"
+        "core/outbox.py::mark_enqueued",
+        "core/outbox.py::mark_failed",
+        "core/outbox.py::fetch_pending",
+        "core/outbox.py",
+        "core/outbox.py::mark_done",
+        "core/outbox.py::mark_processing",
+        "core/outbox.py::create_task"
       ]
     },
     {
       "id": 5,
-      "name": "app (Base)",
-      "cohesion": 0.25,
-      "size": 5,
+      "name": "run_async_migrations",
+      "cohesion": 0.2,
+      "size": 6,
       "members": [
-        "app/models/idempotency.py::IdempotencyKey",
-        "app/db.py::Base",
-        "app/db.py::get_session",
-        "app/models/idempotency.py",
-        "app/db.py"
+        "migrations/env.py::run_migrations_online",
+        "migrations/env.py::run_migrations_offline",
+        "migrations/env.py::run_async_migrations",
+        "app/models/__init__.py",
+        "migrations/env.py",
+        "migrations/env.py::do_run_migrations"
       ]
     },
     {
       "id": 6,
-      "name": "core (BitrixRateLimiter)",
-      "cohesion": 0.25,
-      "size": 5,
+      "name": "worker (process_outbox_task)",
+      "cohesion": 0.2,
+      "size": 6,
       "members": [
-        "core/rate_limiter.py::BitrixRateLimiter.__init__",
-        "core/rate_limiter.py::BitrixRateLimiter.wait_and_acquire",
-        "core/rate_limiter.py",
-        "core/rate_limiter.py::BitrixRateLimiter.acquire",
-        "core/rate_limiter.py::BitrixRateLimiter"
+        "worker/tasks.py::ping",
+        "worker/tasks.py::retry_failed_tasks",
+        "worker/tasks.py::requeue_stale_tasks",
+        "worker/tasks.py",
+        "worker/tasks.py::process_outbox_task",
+        "worker/tasks.py::wait_operating_reset"
       ]
     },
     {
       "id": 7,
-      "name": "worker (process_outbox_task)",
+      "name": "core (BitrixRateLimiter)",
       "cohesion": 0.25,
       "size": 5,
       "members": [
-        "worker/tasks.py::ping",
-        "worker/tasks.py::process_outbox_task",
-        "worker/tasks.py::requeue_stale_tasks",
-        "worker/tasks.py::wait_operating_reset",
-        "worker/tasks.py"
+        "core/rate_limiter.py",
+        "core/rate_limiter.py::BitrixRateLimiter.acquire",
+        "core/rate_limiter.py::BitrixRateLimiter.wait_and_acquire",
+        "core/rate_limiter.py::BitrixRateLimiter.__init__",
+        "core/rate_limiter.py::BitrixRateLimiter"
       ]
     },
     {
       "id": 8,
-      "name": "TaskOutbox",
-      "cohesion": 0.25,
-      "size": 4,
+      "name": "e2eCheck (Component 8)",
+      "cohesion": 0.33,
+      "size": 3,
       "members": [
-        "app/models/outbox.py",
-        "core/publisher.py",
-        "app/models/outbox.py::TaskOutbox",
-        "core/publisher.py::publish_pending"
+        "load_test_batch.js::e2eCheck",
+        "load_test_batch.js",
+        "load_test_batch.js::loadTest"
       ]
     },
     {
@@ -1227,24 +1319,13 @@
       "cohesion": 0.33,
       "size": 3,
       "members": [
-        "load_test_batch.js::loadTest",
-        "load_test_batch.js::e2eCheck",
-        "load_test_batch.js"
+        "load_test_max.js::e2eCheck",
+        "load_test_max.js::loadTest",
+        "load_test_max.js"
       ]
     },
     {
       "id": 10,
-      "name": "e2eCheck (Component 10)",
-      "cohesion": 0.33,
-      "size": 3,
-      "members": [
-        "load_test_max.js",
-        "load_test_max.js::loadTest",
-        "load_test_max.js::e2eCheck"
-      ]
-    },
-    {
-      "id": 11,
       "name": "migrations/versions (downgrade) (downgrade)",
       "cohesion": 0.33,
       "size": 3,
@@ -1255,14 +1336,25 @@
       ]
     },
     {
+      "id": 11,
+      "name": "migrations/versions (downgrade) (downgrade)",
+      "cohesion": 0.33,
+      "size": 3,
+      "members": [
+        "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py::downgrade",
+        "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py::upgrade",
+        "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py"
+      ]
+    },
+    {
       "id": 12,
       "name": "migrations/versions (downgrade) (downgrade)",
       "cohesion": 0.33,
       "size": 3,
       "members": [
-        "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py",
-        "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py::upgrade",
-        "migrations/versions/8818bdcf3760_add_last_error_to_tasks_outbox.py::downgrade"
+        "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py::upgrade",
+        "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py::downgrade",
+        "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py"
       ]
     },
     {
@@ -1271,9 +1363,9 @@
       "cohesion": 0.33,
       "size": 3,
       "members": [
-        "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py::upgrade",
-        "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py",
-        "migrations/versions/b567e79a02bb_add_processing_started_at_to_tasks_.py::downgrade"
+        "migrations/versions/bdc2e7f27245_add_retry_count_to_tasks_outbox.py::upgrade",
+        "migrations/versions/bdc2e7f27245_add_retry_count_to_tasks_outbox.py::downgrade",
+        "migrations/versions/bdc2e7f27245_add_retry_count_to_tasks_outbox.py"
       ]
     },
     {
@@ -1282,23 +1374,34 @@
       "cohesion": 0.33,
       "size": 3,
       "members": [
-        "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py::upgrade",
-        "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py::downgrade",
-        "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py"
+        "migrations/versions/c6ad716e90cd_add_retry_count_to_tasks_outbox.py::upgrade",
+        "migrations/versions/c6ad716e90cd_add_retry_count_to_tasks_outbox.py",
+        "migrations/versions/c6ad716e90cd_add_retry_count_to_tasks_outbox.py::downgrade"
       ]
     },
     {
       "id": 15,
-      "name": "app (setup_logging)",
-      "cohesion": 0.5,
-      "size": 2,
+      "name": "migrations/versions (downgrade) (downgrade)",
+      "cohesion": 0.33,
+      "size": 3,
       "members": [
-        "app/logging_config.py::setup_logging",
-        "app/logging_config.py"
+        "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py::upgrade",
+        "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py",
+        "migrations/versions/dc3cd7a06e30_add_trace_id_to_tasks_outbox.py::downgrade"
       ]
     },
     {
       "id": 16,
+      "name": "app/models (IdempotencyKey)",
+      "cohesion": 0.5,
+      "size": 2,
+      "members": [
+        "app/models/idempotency.py::IdempotencyKey",
+        "app/models/idempotency.py"
+      ]
+    },
+    {
+      "id": 17,
       "name": "core (execute_batch)",
       "cohesion": 0.5,
       "size": 2,
@@ -1308,7 +1411,7 @@
       ]
     },
     {
-      "id": 17,
+      "id": 18,
       "name": "tests",
       "cohesion": 0,
       "size": 1,
@@ -1327,20 +1430,20 @@
       "out_degree": 13
     },
     {
+      "id": "worker/tasks.py",
+      "label": "tasks.py",
+      "type": "file",
+      "degree": 11,
+      "in_degree": 1,
+      "out_degree": 10
+    },
+    {
       "id": "app/db.py",
       "label": "db.py",
       "type": "file",
       "degree": 10,
       "in_degree": 7,
       "out_degree": 3
-    },
-    {
-      "id": "worker/tasks.py",
-      "label": "tasks.py",
-      "type": "file",
-      "degree": 10,
-      "in_degree": 1,
-      "out_degree": 9
     },
     {
       "id": "core/outbox.py",
@@ -1351,20 +1454,20 @@
       "out_degree": 9
     },
     {
-      "id": "app/config.py",
-      "label": "config.py",
-      "type": "file",
-      "degree": 8,
-      "in_degree": 7,
-      "out_degree": 1
-    },
-    {
       "id": "worker/settings.py",
       "label": "settings.py",
       "type": "file",
       "degree": 8,
       "in_degree": 0,
       "out_degree": 8
+    },
+    {
+      "id": "app/config.py",
+      "label": "config.py",
+      "type": "file",
+      "degree": 7,
+      "in_degree": 6,
+      "out_degree": 1
     },
     {
       "id": "migrations/env.py",
@@ -1383,37 +1486,37 @@
       "out_degree": 2
     },
     {
+      "id": "app/models/outbox.py::TaskOutbox",
+      "label": "TaskOutbox",
+      "type": "class",
+      "degree": 6,
+      "in_degree": 5,
+      "out_degree": 1
+    },
+    {
       "id": "worker/tasks.py::process_outbox_task",
       "label": "process_outbox_task",
       "type": "function",
       "degree": 6,
       "in_degree": 1,
       "out_degree": 5
-    },
-    {
-      "id": "app/telemetry.py",
-      "label": "telemetry.py",
-      "type": "file",
-      "degree": 5,
-      "in_degree": 2,
-      "out_degree": 3
     }
   ],
   "import_cycles": [],
   "call_cycles": [],
   "resolution": {
-    "attempted": 632,
-    "resolved": 106,
-    "unresolved": 526,
+    "attempted": 664,
+    "resolved": 114,
+    "unresolved": 550,
     "by_relation": {
       "imports": {
-        "attempted": 121,
-        "resolved": 30,
-        "unresolved": 91
+        "attempted": 129,
+        "resolved": 31,
+        "unresolved": 98
       },
       "contains": {
-        "attempted": 47,
-        "resolved": 47,
+        "attempted": 52,
+        "resolved": 52,
         "unresolved": 0
       },
       "inherits": {
@@ -1422,31 +1525,31 @@
         "unresolved": 2
       },
       "calls": {
-        "attempted": 460,
-        "resolved": 27,
-        "unresolved": 433
+        "attempted": 479,
+        "resolved": 29,
+        "unresolved": 450
       }
     },
     "by_category": {
       "internal": {
-        "attempted": 112,
-        "resolved": 106,
+        "attempted": 120,
+        "resolved": 114,
         "unresolved": 6
       },
       "external": {
-        "attempted": 241,
+        "attempted": 253,
         "resolved": 0,
-        "unresolved": 241
+        "unresolved": 253
       },
       "builtin": {
-        "attempted": 84,
+        "attempted": 83,
         "resolved": 0,
-        "unresolved": 84
+        "unresolved": 83
       },
       "attribute": {
-        "attempted": 195,
+        "attempted": 208,
         "resolved": 0,
-        "unresolved": 195
+        "unresolved": 208
       }
     },
     "unresolved_samples": [
@@ -1553,82 +1656,94 @@
         "category": "attribute"
       },
       {
-        "source": "core/rate_limiter.py::BitrixRateLimiter.acquire",
-        "target": "self.redis.script_load",
+        "source": "app/main.py",
+        "target": "Instrumentator().instrument(app).expose",
         "relation": "calls",
         "category": "attribute"
       },
       {
-        "source": "core/rate_limiter.py::BitrixRateLimiter.acquire",
-        "target": "self.redis.evalsha",
+        "source": "app/main.py",
+        "target": "Instrumentator().instrument",
         "relation": "calls",
         "category": "attribute"
       },
       {
-        "source": "core/rate_limiter.py::BitrixRateLimiter.acquire",
-        "target": "self.redis.script_load",
-        "relation": "calls",
-        "category": "attribute"
-      },
-      {
-        "source": "core/rate_limiter.py::BitrixRateLimiter.acquire",
-        "target": "self.redis.evalsha",
-        "relation": "calls",
-        "category": "attribute"
-      },
-      {
-        "source": "core/rate_limiter.py::BitrixRateLimiter.wait_and_acquire",
-        "target": "asyncio.sleep",
-        "relation": "calls",
-        "category": "attribute"
-      },
-      {
-        "source": "core/publisher.py::publish_pending",
-        "target": "datetime.now",
-        "relation": "calls",
-        "category": "attribute"
-      },
-      {
-        "source": "core/publisher.py::publish_pending",
+        "source": "app/main.py::health_db",
         "target": "session.execute",
         "relation": "calls",
         "category": "attribute"
       },
       {
-        "source": "core/publisher.py::publish_pending",
-        "target": "update(TaskOutbox)\n            .where(\n                TaskOutbox.status == \"enqueued\",\n                TaskOutbox.updated_at < stale_threshold,\n            )\n            .values",
-        "relation": "calls",
-        "category": "builtin"
-      },
-      {
-        "source": "core/publisher.py::publish_pending",
+        "source": "app/main.py::enqueue_test",
         "target": "str",
         "relation": "calls",
         "category": "builtin"
       },
       {
-        "source": "core/publisher.py::publish_pending",
+        "source": "app/main.py::get_task_status",
+        "target": "uuid.UUID",
+        "relation": "calls",
+        "category": "attribute"
+      },
+      {
+        "source": "app/main.py::get_task_status",
+        "target": "session.execute",
+        "relation": "calls",
+        "category": "attribute"
+      },
+      {
+        "source": "app/main.py::get_task_status",
+        "target": "select(TaskOutbox).where",
+        "relation": "calls",
+        "category": "attribute"
+      },
+      {
+        "source": "app/main.py::get_task_status",
+        "target": "result.scalar_one_or_none",
+        "relation": "calls",
+        "category": "attribute"
+      },
+      {
+        "source": "app/main.py::get_task_status",
         "target": "str",
         "relation": "calls",
         "category": "builtin"
       },
       {
-        "source": "core/publisher.py::publish_pending",
-        "target": "redis.close",
+        "source": "app/main.py::queue_metrics",
+        "target": "func.count",
         "relation": "calls",
         "category": "builtin"
       },
       {
-        "source": "load_test.js",
-        "target": "k6/http",
-        "relation": "imports",
-        "category": "internal"
+        "source": "app/main.py::queue_metrics",
+        "target": "func.count",
+        "relation": "calls",
+        "category": "builtin"
       },
       {
-        "source": "load_test.js",
-        "target": "https://jslib.k6.io/k6-utils/1.2.0/index.js",
-        "relation": "imports",
-        "category": "internal"
+        "source": "app/main.py::queue_metrics",
+        "target": "func.count",
+        "relation": "calls",
+        "category": "builtin"
+      },
+      {
+        "source": "app/main.py::queue_metrics",
+        "target": "func.count",
+        "relation": "calls",
+        "category": "builtin"
+      },
+      {
+        "source": "app/main.py::queue_metrics",
+        "target": "func.count",
+        "relation": "calls",
+        "category": "builtin"
+      },
+      {
+        "source": "app/main.py::queue_metrics",
+        "target": "\"\\n\".join",
+        "relation": "calls",
+        "category": "builtin"
       },
       {
         "source": "load_test_max.js",
@@ -1667,80 +1782,58 @@
         "category": "builtin"
       },
       {
-        "source": "load_test_max.js::e2eCheck",
-        "target": "http.get",
-        "relation": "calls",
-        "category": "builtin"
+        "source": "load_test.js",
+        "target": "k6/http",
+        "relation": "imports",
+        "category": "internal"
       },
       {
-        "source": "load_test_max.js::e2eCheck",
-        "target": "console.error",
-        "relation": "calls",
-        "category": "builtin"
-      },
-      {
-        "source": "load_test_max.js::e2eCheck",
-        "target": "parseInt",
-        "relation": "calls",
-        "category": "builtin"
-      },
-      {
-        "source": "load_test_max.js::e2eCheck",
-        "target": "parseInt",
-        "relation": "calls",
-        "category": "builtin"
+        "source": "load_test.js",
+        "target": "https://jslib.k6.io/k6-utils/1.2.0/index.js",
+        "relation": "imports",
+        "category": "internal"
       }
     ]
   },
   "metrics": {
-    "file_count": 22,
-    "symbol_count": 47,
-    "edge_count": 96,
+    "file_count": 24,
+    "symbol_count": 52,
+    "edge_count": 101,
     "relation_counts": {
-      "calls": 22,
-      "contains": 44,
-      "imports": 28,
+      "calls": 23,
+      "contains": 49,
+      "imports": 27,
       "inherits": 2
     },
     "test_file_count": 1
   },
   "inter_component_dependencies": {
     "1": {
-      "15": 2,
-      "8": 1,
-      "7": 1
+      "4": 2
     },
     "2": {
-      "5": 1,
-      "8": 1,
       "1": 3,
-      "15": 2,
-      "3": 1
+      "6": 1
     },
     "3": {
-      "5": 3,
-      "8": 3
+      "1": 2,
+      "2": 5,
+      "4": 1
     },
     "4": {
-      "1": 1,
-      "5": 1
+      "1": 4,
+      "16": 2
     },
     "5": {
-      "1": 1
+      "1": 2
     },
-    "6": {},
-    "7": {
-      "6": 3,
-      "16": 2,
-      "5": 1,
-      "8": 2,
-      "1": 1
+    "6": {
+      "7": 3,
+      "17": 2,
+      "1": 5
     },
-    "8": {
-      "1": 1,
-      "5": 3,
-      "3": 2
-    },
+    "7": {},
+    "8": {},
     "9": {},
     "10": {},
     "11": {},
@@ -1749,8 +1842,9 @@
     "14": {},
     "15": {},
     "16": {
-      "1": 1
+      "1": 2
     },
-    "17": {}
+    "17": {},
+    "18": {}
   }
 }

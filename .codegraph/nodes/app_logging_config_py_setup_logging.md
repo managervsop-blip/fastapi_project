@@ -5,14 +5,14 @@ type: "function"
 source_file: "app/logging_config.py"
 line_start: 5
 line_end: 12
-component: "app (setup_logging)"
+component: "instrument_app"
 ---
 
 # setup_logging
 
 **Type:** `function`  
 **Defined in:** [app/logging_config.py](../nodes/app_logging_config_py.md) (Lines 5-12)  
-**Component:** app (setup_logging)  
+**Component:** instrument_app  
 
 ## Definition
 ```python
@@ -32,5 +32,5 @@ flowchart TD
 ```
 
 ### Incoming Calls (Backlinks)
-- Called by [settings.py](worker_settings_py.md) (`file`)
 - Called by [main.py](app_main_py.md) (`file`)
+- Called by [settings.py](worker_settings_py.md) (`file`)

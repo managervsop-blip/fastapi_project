@@ -4,14 +4,14 @@ label: "WorkerSettings"
 type: "class"
 source_file: "worker/settings.py"
 line_start: 15
-line_end: 32
+line_end: 37
 component: "instrument_app"
 ---
 
 # WorkerSettings
 
 **Type:** `class`  
-**Defined in:** [worker/settings.py](../nodes/worker_settings_py.md) (Lines 15-32)  
+**Defined in:** [worker/settings.py](../nodes/worker_settings_py.md) (Lines 15-37)  
 **Component:** instrument_app  
 
 ## Definition

@@ -3,24 +3,21 @@ id: "core/bitrix_batch.py::execute_batch"
 label: "execute_batch"
 type: "function"
 source_file: "core/bitrix_batch.py"
-line_start: 11
-line_end: 96
+line_start: 14
+line_end: 65
 component: "core (execute_batch)"
 ---
 
 # execute_batch
 
 **Type:** `function`  
-**Defined in:** [core/bitrix_batch.py](../nodes/core_bitrix_batch_py.md) (Lines 11-96)  
+**Defined in:** [core/bitrix_batch.py](../nodes/core_bitrix_batch_py.md) (Lines 14-65)  
 **Component:** core (execute_batch)  
 
 ## Definition
 ```python
-async def execute_batch(commands: dict[str, str]) -> dict[str, Any]
+async def execute_batch(commands)
 ```
-
-## Description
-Выполняет batch-запрос к Битрикс24.
 
 **Contained in parent:** [bitrix_batch.py](core_bitrix_batch_py.md) (`file`)
 

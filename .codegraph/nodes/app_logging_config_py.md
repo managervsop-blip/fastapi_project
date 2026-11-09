@@ -5,14 +5,14 @@ type: "file"
 source_file: "app/logging_config.py"
 line_start: 1
 line_end: 12
-component: "app (setup_logging)"
+component: "instrument_app"
 ---
 
 # logging_config.py
 
 **Type:** `file`  
 **File path:** `app/logging_config.py`  
-**Component:** app (setup_logging)  
+**Component:** instrument_app  
 
 ## Definition
 ```python
@@ -23,5 +23,5 @@ module logging_config.py
 - [setup_logging](app_logging_config_py_setup_logging.md) (`function`)
 
 ## Imported By
-- [settings.py](worker_settings_py.md)
 - [main.py](app_main_py.md)
+- [settings.py](worker_settings_py.md)

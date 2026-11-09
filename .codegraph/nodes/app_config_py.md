@@ -5,14 +5,14 @@ type: "file"
 source_file: "app/config.py"
 line_start: 1
 line_end: 28
-component: "instrument_app"
+component: "TaskOutbox"
 ---
 
 # config.py
 
 **Type:** `file`  
 **File path:** `app/config.py`  
-**Component:** instrument_app  
+**Component:** TaskOutbox  
 
 ## Definition
 ```python
@@ -21,11 +21,10 @@ module config.py
 
 ## Imported By
 - [telemetry.py](app_telemetry_py.md)
+- [db.py](app_db_py.md)
 - [publisher.py](core_publisher_py.md)
 - [env.py](migrations_env_py.md)
-- [db.py](app_db_py.md)
 - [settings.py](worker_settings_py.md)
-- [bitrix_batch.py](core_bitrix_batch_py.md)
 - [tasks.py](worker_tasks_py.md)
 
 ## Call Graph
